@@ -1,0 +1,41 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  &.text-color-primary {
+    color: var(--color-text-primary);
+  }
+
+  &.text-color-secondary {
+    color: var(--color-text-secondary);
+  }
+
+  &.dark {
+    &.text-color-primary {
+      color: var(--color-text-primary-dark);
+    }
+
+    &.text-color-secondary {
+      color: var(--color-text-secondary-dark);
+    }
+  }
+
+  &.bold {
+    font-weight: 800;
+  }
+
+  @each $name, $font-size in variables.$font-sizes-map {
+    &.font-size-#{$name} {
+      font-size: $font-size;
+    }
+  }
+}
+
+div[data-color-scheme="dark"] {
+  .text-color-primary {
+    color: var(--color-text-primary-dark);
+  }
+
+  .text-color-secondary {
+    color: var(--color-text-secondary-dark);
+  }
+}

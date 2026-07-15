@@ -1,0 +1,100 @@
+$padding-body-xl: 200px;
+$padding-body-lg: 100px;
+$padding-body-sm: 10px;
+
+$padding-lg: 20px;
+$padding-md: 16px;
+$padding-sm: 14px;
+$padding-xs: 8px;
+$padding-xxs: 4px;
+
+$paddings-map: (
+  lg: $padding-lg,
+  md: $padding-md,
+  sm: $padding-sm,
+  xs: $padding-xs,
+  xxs: $padding-xxs,
+);
+
+$border-radius-md: 22px;
+$border-radius-sm: 12px;
+
+$border-radius-circle: 100%;
+$border-radius-rounded: 999px;
+
+$font-size-xxl: 32px;
+$font-size-xl: 24px;
+$font-size-lg: 18px;
+$font-size-md: 16px;
+$font-size-sm: 14px;
+$font-size-xs: 12px;
+
+$font-sizes-map: (
+  xxl: $font-size-xxl,
+  xl: $font-size-xl,
+  lg: $font-size-lg,
+  md: $font-size-md,
+  sm: $font-size-sm,
+  xs: $font-size-xs,
+);
+
+$icon-size-xl: 36px;
+$icon-size-lg: 28px;
+$icon-size-md: 24px;
+$icon-size-sm: 20px;
+
+$icon-sizes-map: (
+  xl: $icon-size-xl,
+  lg: $icon-size-lg,
+  md: $icon-size-md,
+  sm: $icon-size-sm,
+);
+
+$gap-xl: 30px;
+$gap-lg: 24px;
+$gap-md: 20px;
+$gap-sm: 16px;
+$gap-xs: 8px;
+$gap-xxs: 4px;
+
+$gaps-map: (
+  xl: $gap-xl,
+  lg: $gap-lg,
+  md: $gap-md,
+  sm: $gap-sm,
+  xs: $gap-xs,
+  xxs: $gap-xxs,
+);
+
+$breakpoint-xl: 1440px;
+$breakpoint-lg: 1280px;
+$breakpoint-md: 1024px;
+$breakpoint-sm: 768px;
+$breakpoint-xs: 425px;
+$breakpoint-xxs: 375px;
+
+$breakpoints-map: (
+  xl: $breakpoint-xl,
+  lg: $breakpoint-lg,
+  md: $breakpoint-md,
+  sm: $breakpoint-sm,
+  xs: $breakpoint-xs,
+  xxs: $breakpoint-xxs,
+);
+
+$colors-map: (
+  "purple": var(--color-purple-tint),
+  "yellow": var(--color-yellow-tint),
+  "orange": var(--color-orange-tint),
+  "red": var(--color-red-tint),
+  "green": var(--color-green-tint),
+  "blue": var(--color-blue-tint),
+  "teal": var(--color-teal-tint),
+  "pink": var(--color-pink-tint),
+);
+
+$control-height-default: 40px;
+$control-padding-default: $padding-xs;
+$control-border-radius-sm: $border-radius-sm;
+
+$card-stack-height: 60px;

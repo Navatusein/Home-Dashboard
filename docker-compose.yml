@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  home-dashboard:
+    image: ghcr.io/navatusein/home-dashboard:dev-latest
+    container_name: home-dashboard
+    ports:
+      - 3000:3000
+    environment:
+      - HOME_ASSISTANT_URL=https://www.home-assistant.io/
+    restart: unless-stopped

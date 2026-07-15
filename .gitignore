@@ -39,3 +39,26 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# webstorm
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/dictionaries/project.xml
+/.idea/fileTemplates/FSD Segment (Part).tsx
+/.idea/fileTemplates/FSD Slice (Full).tsx
+/.idea/fileTemplates/FSD Slice (Full).tsx.child.0.tsx
+/.idea/fileTemplates/FSD View.tsx
+/.idea/fileTemplates/FSD View.tsx.child.0.tsx
+/.idea/fileTemplates/NEXT Page.tsx
+/.idea/fileTemplates/UI Kit Segment (Part).tsx
+/.idea/fileTemplates/UI Kit Segment (Part).tsx.child.0.scss
+/.idea/fileTemplates/UI Kit Slice (Full).tsx
+/.idea/fileTemplates/UI Kit Slice (Full).tsx.child.0.tsx
+/.idea/fileTemplates/UI Kit Slice (Full).tsx.child.1.scss
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/.gitignore
+/.idea/file.template.settings.xml
+/.idea/Home-Dashboard.iml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/watcherTasks.xml
+/.idea/webResources.xml

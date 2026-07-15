@@ -1,0 +1,27 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  display: flex;
+  justify-content: space-between;
+  text-align: start;
+  line-height: variables.$icon-size-md;
+  height: variables.$icon-size-md;
+}
+
+.title {
+  color: var(--color-text-primary);
+}
+
+.icon {
+  color: var(--color-text-primary);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+
+  &[data-has-link="false"] {
+    cursor: default !important;
+  }
+}

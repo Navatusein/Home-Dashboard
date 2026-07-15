@@ -1,0 +1,51 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  --slider-button-base-color: #191919;
+
+  --slider-button-modifier-color: #ffffff;
+  --slider-button-intensity-modifier: 2;
+
+  height: 100%;
+  padding: 0;
+  position: relative;
+  border-radius: 12px;
+  border: 5px solid var(--slider-button-base-color);
+  background-color: color-mix(in srgb, var(--slider-button-base-color), white 20%);
+
+  // Без этого long press на мобильных выделяет текст вместо жеста
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+
+  &.color-green {
+    --slider-button-track-color: #336633;
+  }
+
+  &.color-blue {
+    --slider-button-track-color: #384db3;
+  }
+
+  .slider {
+    --slider-range-border-radius: 7px !important;
+    --slider-track-border-radius: 7px !important;
+
+    --slider-range-background: color-mix(in srgb, var(--slider-button-track-color), white 20%);
+    --slider-track-background: color-mix(in srgb, var(--slider-button-base-color), white 20%);
+  }
+
+  &.disabled {
+    --slider-button-base-color: #191919;
+
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      background-color: color-mix(in srgb, transparent, black 30%);
+      content: '';
+    }
+  }
+}

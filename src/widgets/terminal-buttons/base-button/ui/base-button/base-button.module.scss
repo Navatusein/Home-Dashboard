@@ -1,0 +1,85 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/clickable" as clickable;
+
+.base {
+  --base-button-color: #191919;
+
+  --base-button-modifier-color: #ffffff;
+  --base-button-intensity-modifier: 2;
+
+  height: 100%;
+  padding: 0;
+  position: relative;
+  border-radius: 12px;
+  border: 5px solid var(--base-button-color);
+  background-color: color-mix(in srgb, var(--base-button-color), white 20%);
+  overflow: hidden;
+
+  // Без этого long press на мобильных выделяет текст вместо жеста
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+
+  &.color-green {
+    --base-button-color: #336633;
+  }
+
+  &.color-blue {
+    --base-button-color: #384db3;
+  }
+
+  &.color-red {
+    --base-button-color: #b31a1a;
+  }
+
+  &[data-has-text=false] .icon {
+    height: 48px;
+    width: 48px;
+  }
+
+  &.text-wrap .title {
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.disabled {
+    --base-button-color: #191919;
+
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      background-color: color-mix(in srgb, transparent, black 30%);
+      content: '';
+    }
+  }
+
+  &:not([data-disabled=true]) {
+    @include clickable.clickable(var(--base-button-color), var(--base-button-intensity-modifier));
+  }
+}
+
+.title {
+  white-space: pre-wrap;
+  text-align: center;
+  font-weight: bold;
+  font-size: variables.$font-size-lg;
+}
+
+.container {
+  height: 100%;
+}
+
+.icon {
+  height: 38px;
+  width: 38px;
+  fill: white;
+}

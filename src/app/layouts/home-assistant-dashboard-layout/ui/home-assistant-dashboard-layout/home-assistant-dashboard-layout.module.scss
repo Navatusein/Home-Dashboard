@@ -1,0 +1,21 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/media" as media;
+
+.page-container {
+  padding: variables.$padding-md;
+  width: 100svw;
+  min-height: 100svh;
+
+  @include media.respond-below("sm") {
+    padding: variables.$padding-xs;
+  }
+}
+
+.page-content-container {
+  margin-left: calc(#{variables.$padding-md} + 100px);
+
+  @include media.respond-below("sm") {
+    margin-left: unset;
+    margin-bottom: calc(#{variables.$padding-xs} + 75px);;
+  }
+}

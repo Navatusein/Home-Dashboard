@@ -1,0 +1,24 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  --icon-color: inherit;
+
+  color: var(--icon-color);
+
+  @each $name, $size in variables.$icon-sizes-map {
+    &.icon-size-#{$name} {
+      width: $size;
+      height: $size;
+    }
+  }
+
+  @each $name, $color in variables.$colors-map {
+    &.color-#{$name} {
+      --icon-color: #{$color};
+    }
+  }
+
+  &.color-secondary {
+    --icon-color: var(--color-text-secondary);
+  }
+}

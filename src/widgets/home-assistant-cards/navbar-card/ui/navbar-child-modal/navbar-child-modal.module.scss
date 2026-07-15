@@ -1,0 +1,15 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/media" as media;
+
+.base {
+  position: absolute;
+  left: 100px;
+  z-index: 2;
+
+  @include media.respond-below("sm") {
+    bottom: 70px;
+    right: 0;
+    left: 0;
+    flex-direction: column-reverse;
+  }
+}

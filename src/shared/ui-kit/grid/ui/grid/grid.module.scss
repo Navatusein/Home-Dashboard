@@ -1,0 +1,17 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-template-rows: repeat(var(--grid-rows), 1fr);
+
+  @each $name, $value in variables.$gaps-map {
+    &.column-gap-#{$name} {
+      column-gap: $value;
+    }
+
+    &.row-gap-#{$name} {
+      row-gap: $value;
+    }
+  }
+}

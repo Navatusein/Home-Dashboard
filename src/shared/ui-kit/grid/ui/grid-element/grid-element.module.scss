@@ -1,0 +1,7 @@
+.base {
+  grid-row: span var(--grid-element-row-span, 1) / span var(--grid-element-row-span, 1);
+  grid-column: span var(--grid-element-col-span, 1) / span var(--grid-element-col-span, 1);
+
+  grid-row-start: var(--grid-element-row-start, auto);
+  grid-column-start: var(--grid-element-col-start, auto);
+}

@@ -1,0 +1,38 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  display: flex;
+  gap: 8px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: variables.$control-height-default;
+
+  background-color: var(--color-primary);
+  border-radius: variables.$border-radius-circle;
+  padding: 8px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: variables.$control-height-default;
+
+  background-color: var(--color-primary);
+  border-radius: variables.$border-radius-rounded;
+  padding-left: 12px;
+}

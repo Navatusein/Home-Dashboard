@@ -1,0 +1,77 @@
+:root {
+  --color-transparent: rgba(0, 0, 0, 0);
+
+  --color-accent: #1677FF;
+  --color-danger: #FF4D4F;
+
+  --color-purple: #EFB1FF;
+  --color-yellow: #FFDA78;
+  --color-orange: #FFB581;
+  --color-red: #FF918A;
+  --color-green: #CEF595;
+  --color-blue: #90BFFF;
+  --color-teal: #7DDDD2;
+  --color-pink: #FFC8DC;
+
+  --color-purple-tint: color-mix(in srgb, var(--modifier-color-tint) var(--modifier-color-tint-percent), var(--color-purple));
+  --color-yellow-tint: color-mix(in srgb, var(--modifier-color-tint) var(--modifier-color-tint-percent), var(--color-yellow));
+  --color-orange-tint: color-mix(in srgb, var(--modifier-color-tint) var(--modifier-color-tint-percent), var(--color-orange));
+  --color-red-tint: color-mix(in srgb, var(--modifier-color-tint) var(--modifier-color-tint-percent), var(--color-red));
+  --color-green-tint: color-mix(in srgb, var(--modifier-color-tint) var(--modifier-color-tint-percent), var(--color-green));
+  --color-blue-tint: color-mix(in srgb, var(--modifier-color-tint) var(--modifier-color-tint-percent), var(--color-blue));
+  --color-teal-tint: color-mix(in srgb, var(--modifier-color-tint) var(--modifier-color-tint-percent), var(--color-teal));
+  --color-pink-tint: color-mix(in srgb, var(--modifier-color-tint) var(--modifier-color-tint-percent), var(--color-pink));
+}
+
+:root[data-color-theme="dark"] {
+  --color-text-primary-light: #ffffff;
+  --color-text-secondary-light: #787a83;
+
+  --color-text-primary-dark: #000000;
+  --color-text-secondary-dark: #44454a;
+
+  --color-text-primary: var(--color-text-primary-light);
+  --color-text-secondary: var(--color-text-secondary-light);
+
+  --color-background: #000000;
+  --color-primary: #1b1d21;
+  --color-secondary: #111318;
+
+  --modifier-color-tint: #000000;
+  --modifier-color-tint-percent: 20%;
+
+  --modifier-clickable-color: #ffffff;
+  --modifier-clickable-intensity: 1;
+
+  .leaflet-layer,
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out,
+  .leaflet-control-attribution {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+  }
+
+  .leaflet-container {
+      background: #000
+  }
+}
+
+:root[data-color-theme="light"] {
+  --color-text-primary-light: #ffffff;
+  --color-text-secondary-light: #787a83;
+
+  --color-text-primary-dark: #000000;
+  --color-text-secondary-dark: #44454a;
+
+  --color-text-primary: var(--color-text-primary-dark);
+  --color-text-secondary: var(--color-text-secondary-dark);
+
+  --color-background: #ffffff;
+  --color-primary: #e9ebef;
+  --color-secondary: #f4f6fa;
+
+  --modifier-color-tint: #ffffff;
+  --modifier-color-tint-percent: 20%;
+
+  --modifier-clickable-color: #000000;
+  --modifier-clickable-intensity: 0.4;
+}

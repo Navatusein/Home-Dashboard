@@ -1,0 +1,12 @@
+@use "@/shared/styles/variables" as variables;
+
+.container {
+  width: 100%;
+}
+
+.action-container {
+  min-width: 28px;
+  height: 120px;
+  background-color: var(--color-primary);
+  border-radius: variables.$control-border-radius-sm
+}

@@ -1,0 +1,32 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/media" as media;
+
+@mixin count-classes($prefix) {
+  @for $item from 1 through 24 {
+    &.span-#{$prefix}-#{$item} {
+      flex: 0 0 calc(100% / 24 * $item);
+      max-width: calc(100% / 24 * $item);
+    }
+
+    &.offset-#{$prefix}-#{$item} {
+      margin-inline-start: calc(100% / 24 * $item);
+    }
+
+    &.order-#{$prefix}-#{$item} {
+      order: $item;
+    }
+  }
+}
+
+.base {
+  display: block;
+
+  @include count-classes("default");
+
+  @each $breakpoint, $value in variables.$breakpoints-map {
+    @include media.respond-below($breakpoint) {
+      @include count-classes($breakpoint);
+    }
+  }
+}
+

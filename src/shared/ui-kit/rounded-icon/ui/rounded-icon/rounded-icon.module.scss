@@ -1,0 +1,26 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/clickable" as clickable;
+
+.base {
+  --rounded-icon-color: var(--color-text-primary);
+  --rounded-icon-background-color: var(--color-primary);
+  --rounded-icon-intensity-modifier: 1;
+
+  color: var(--rounded-icon-color);
+  background-color: var(--rounded-icon-background-color);
+  height: variables.$control-height-default;
+  width: variables.$control-height-default;
+  border-radius: variables.$border-radius-circle;
+
+  @each $name, $color in variables.$colors-map {
+    &.color-#{$name} {
+      --rounded-icon-color: var(--color-text-primary-dark);
+      --rounded-icon-background-color: #{$color};
+      --rounded-icon-intensity-modifier: 4;
+    }
+  }
+
+  &.clickable {
+    @include clickable.clickable(var(--rounded-icon-background-color), var(--rounded-icon-intensity-modifier));
+  }
+}

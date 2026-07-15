@@ -1,0 +1,35 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/media" as media;
+
+.nav-bar-card {
+  width: 100px;
+
+  position: fixed;
+  left: variables.$padding-md;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  height: min-content;
+  z-index: 2;
+
+  @include media.respond-below("sm") {
+    position: fixed;
+    top: unset;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 75px;
+    padding: variables.$padding-xs;
+    transform: unset;
+    border-radius: 0;
+  }
+}
+
+.nav-bar-container {
+  @include media.respond-below("sm") {
+    flex-direction: row !important;
+    justify-content: space-around;
+    gap: variables.$gap-xs !important;
+  }
+}

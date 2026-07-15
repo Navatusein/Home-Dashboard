@@ -1,0 +1,19 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/clickable" as clickable;
+
+.base {
+  --chips-background-color: var(--color-primary);
+  --chips-intensity-modifier: 1;
+
+  display: flex;
+  align-items: center;
+  gap: variables.$gap-xxs;
+
+  background-color: var(--chips-background-color);
+  padding: variables.$padding-xs;
+  border-radius: variables.$border-radius-rounded;
+
+  &.clickable {
+    @include clickable.clickable(var(--chips-background-color), var(--chips-intensity-modifier));
+  }
+}

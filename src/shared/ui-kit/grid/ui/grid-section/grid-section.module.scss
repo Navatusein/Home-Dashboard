@@ -1,0 +1,6 @@
+.base {
+  // The section itself must not become a grid item — its children
+  // participate in the parent grid directly, only inheriting the
+  // --grid-element-* custom properties declared here.
+  display: contents;
+}

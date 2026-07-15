@@ -1,0 +1,9 @@
+export type EntityNamePerson = `person.${string}`;
+export type EntityNameClimate = `climate.${string}`;
+export type EntityNameLight = `light.${string}`;
+export type EntityNameSensor = `sensor.${string}`;
+export type EntityNameSwitch = `switch.${string}`;
+export type EntityNameNumber = `number.${string}`;
+export type EntityNameButton = `button.${string}`;
+export type EntityNameSelect = `select.${string}`;
+export type EntityNameBinarySensor = `binary_sensor.${string}`;

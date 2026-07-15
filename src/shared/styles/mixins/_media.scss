@@ -1,0 +1,53 @@
+@use "@/shared/styles/variables" as variables;
+@use "sass:map" as map;
+
+@mixin respond-above($breakpoint) {
+  @if map.has-key(variables.$breakpoints-map, $breakpoint) {
+    $breakpoint-value: map.get(variables.$breakpoints-map, $breakpoint);
+
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+  }
+  @else {
+    @media (min-width: $breakpoint) {
+      @content;
+    }
+  }
+}
+
+@mixin respond-below($breakpoint) {
+  @if map.has-key(variables.$breakpoints-map, $breakpoint) {
+    $breakpoint-value: map.get(variables.$breakpoints-map, $breakpoint);
+
+    @media (max-width: ($breakpoint-value - 1)) {
+      @content;
+    }
+  }
+  @else {
+    @media (max-width: ($breakpoint - 1)) {
+      @content;
+    }
+  }
+}
+
+@mixin hover {
+  @media(hover: hover) and (pointer: fine)  {
+    &:hover:is([aria-disabled=false], :not([aria-disabled])) {
+      @content;
+    }
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}

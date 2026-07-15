@@ -1,0 +1,55 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  display: flex;
+
+  &.vertical {
+    flex-direction: column;
+  }
+
+  &.align-start {
+    align-items: start;
+  }
+
+  &.align-end {
+    align-items: end;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.justify-start{
+    justify-content: start;
+  }
+
+  &.justify-end{
+    justify-content: end;
+  }
+
+  &.justify-center{
+    justify-content: center;
+  }
+
+  &.justify-space-between {
+    justify-content: space-between;
+  }
+
+   &.justify-space-around{
+    justify-content: space-around;
+  }
+
+  &.warp {
+    flex-wrap: wrap;
+  }
+
+  &.grow {
+    flex-grow: 1;
+  }
+
+  @each $name, $value in variables.$gaps-map {
+    &.gap-#{$name} {
+      gap: $value;
+    }
+  }
+}

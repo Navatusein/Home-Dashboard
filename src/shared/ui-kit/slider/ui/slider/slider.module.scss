@@ -1,0 +1,75 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  --slider-track-border-radius: #{variables.$border-radius-sm};
+  --slider-track-background: var(--color-primary);
+  --slider-range-background: var(--color-accent);
+  --slider-range-border-radius: #{variables.$border-radius-sm};
+  --slider-range-min-size: 10px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  touch-action: none;
+  border-radius: var(--slider-track-border-radius);
+  overflow: hidden;
+  height: variables.$control-height-default;
+
+  &.rounded {
+    --slider-range-border-radius: #{variables.$border-radius-md};
+    --slider-track-border-radius: #{variables.$border-radius-rounded};
+  }
+
+  &.vertical {
+    height: 100%;
+    flex-direction: column;
+
+    .track {
+      height: 100%;
+      width: 100%;
+
+      &::after {
+        border-radius: var(--slider-range-border-radius) var(--slider-range-border-radius) 0 0;
+        top: unset;
+        width: unset;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: var(--slider-range-min-size);
+      }
+    }
+
+    .range {
+      width: 100%;
+      border-radius: var(--slider-range-border-radius) var(--slider-range-border-radius) 0 0;
+    }
+  }
+
+}
+
+.track {
+  background-color: var(--slider-track-background);
+  position: relative;
+  flex-grow: 1;
+  height: 100%;
+
+  &::after {
+    content: "";
+    position: absolute;
+    background-color: var(--slider-range-background);
+    border-radius: 0 var(--slider-range-border-radius) var(--slider-range-border-radius) 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--slider-range-min-size);
+    z-index: 1;
+  }
+}
+
+.range {
+  background-color: var(--slider-range-background);
+  position: absolute;
+  border-radius: 0 var(--slider-range-border-radius) var(--slider-range-border-radius) 0;
+  height: 100%;
+}

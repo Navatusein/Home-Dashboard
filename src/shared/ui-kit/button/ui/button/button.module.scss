@@ -1,0 +1,96 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/clickable" as clickable;
+
+.base {
+  --button-color: var(--color-text-primary);
+  --button-background-color: var(--color-primary);
+  --button-intensity-modifier: 1;
+
+  --button-border-radius: #{variables.$control-border-radius-sm};
+  --button-height: #{variables.$control-height-default};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: variables.$control-padding-default;
+
+  position: relative;
+  height: var(--button-height);
+  width: fit-content;
+  padding: 0 variables.$control-padding-default 0 variables.$control-padding-default;
+  border: none;
+  background-color: var(--button-background-color);
+  color: var(--button-color);
+  border-radius: var(--button-border-radius);
+  font-size: variables.$font-size-sm;
+
+  &.shape-round {
+    --button-border-radius: #{variables.$border-radius-rounded};
+  }
+
+  @each $name, $color in variables.$colors-map {
+    &.color-#{$name} {
+      --button-color: var(--color-text-primary-dark);
+      --button-background-color: #{$color};
+      --button-intensity-modifier: 4;
+    }
+  }
+
+  @include clickable.clickable(var(--button-background-color), var(--button-intensity-modifier));
+}
+
+.icon {
+  color: var(--button-color) !important;
+}
+
+div[space-compact="horizontal"] > div[data-slot="space-wrapper"] {
+  &:first-child .base {
+    border-radius: var(--button-border-radius) 0 0 var(--button-border-radius);
+  }
+
+  &:not(:first-child):not(:last-child) .base {
+    border-radius: 0
+  }
+
+  &:last-child .base {
+    border-radius: 0 var(--button-border-radius) var(--button-border-radius) 0;
+  }
+}
+
+@mixin button-click-fixer {
+  content: '';
+  position: absolute;
+  top: -0.5px;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--button-height) - 0.5px);
+  z-index: -1;
+  background-color: inherit;
+}
+
+div[space-compact="vertical"] > div[data-slot="space-wrapper"] {
+  .base {
+    width: 100%;
+  }
+
+  &:first-child .base {
+    border-radius: var(--button-border-radius) var(--button-border-radius) 0 0;
+  }
+
+  &:not(:first-child):not(:last-child) .base {
+    border-radius: 0;
+
+    &::after {
+      @include button-click-fixer;
+    }
+  }
+
+  &:last-child .base {
+    border-radius: 0 0 var(--button-border-radius) var(--button-border-radius);
+
+    &::after {
+      @include button-click-fixer;
+    }
+  }
+}

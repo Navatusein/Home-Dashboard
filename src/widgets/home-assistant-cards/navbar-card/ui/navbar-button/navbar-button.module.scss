@@ -1,0 +1,80 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/clickable" as clickable;
+@use "@/shared/styles/mixins/media" as media;
+
+.item-container {
+  width: 68px;
+}
+
+.item {
+  --nav-button-color: var(--color-text-secondary-light);
+  --nav-button-background-color: var(--color-secondary);
+  --nav-button-intensity-modifier: 1;
+
+  width: 100%;
+  font-size: variables.$font-size-sm;
+  border-radius: variables.$control-border-radius-sm;
+
+  .icon-container {
+    width: 100%;
+    padding: 5px 0 5px 0;
+    border-radius: variables.$control-border-radius-sm;
+    background-color: var(--nav-button-background-color);
+
+    .icon {
+      color: var(--nav-button-color);
+    }
+  }
+
+  &[data-is-active=true] {
+    --nav-button-background-color: var(--color-primary);
+    --nav-button-color: var(--color-text-primary-light);
+
+    @each $name, $color in variables.$colors-map {
+      &[data-color="#{$name}"] {
+        --nav-button-background-color: #{$color};
+        --nav-button-intensity-modifier: 4;
+      }
+    }
+  }
+
+  &[data-is-child=true] {
+    text-align: center;
+
+    .icon-container {
+      min-width: 48px;
+      max-width: 48px;
+      min-height: 48px;
+      margin-bottom: variables.$padding-xs;
+    }
+
+    @include media.respond-below("sm") {
+      flex-direction: row !important;
+      align-items: center;
+
+      .icon-container {
+        margin-bottom: unset;
+        margin-right: variables.$padding-xs;
+      }
+
+      &[data-is-text-left=true] {
+        flex-direction: row-reverse !important;
+
+        .icon-container {
+          margin-right: unset;
+          margin-left: variables.$padding-xs;
+        }
+      }
+    }
+  }
+
+  @include media.respond-below("xs") {
+    .icon-container {
+      width: 40px;
+    }
+
+    font-size: variables.$font-size-xs;
+  }
+
+  @include clickable.clickable(var(--nav-button-background-color), var(--nav-button-intensity-modifier), $target: ".icon-container");
+}

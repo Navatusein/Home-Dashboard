@@ -1,0 +1,31 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  display: flex;
+
+  &.vertical {
+    flex-direction: column;
+  }
+
+  &.align-start {
+    align-items: start;
+  }
+
+  &.align-end {
+    align-items: end;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.warp {
+    flex-wrap: wrap;
+  }
+
+  @each $name, $value in variables.$gaps-map {
+    &.gap-#{$name} {
+      gap: $value;
+    }
+  }
+}

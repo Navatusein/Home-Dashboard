@@ -1,0 +1,21 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  display: flex;
+  flex-flow: row wrap;
+  min-width: 0;
+
+  @each $name, $value in variables.$gaps-map {
+    &.vertical-gutter-#{$name} {
+      row-gap: $value;
+    }
+
+    &.horizontal-gutter-#{$name} {
+      margin-inline: calc(-1 * $value / 2);
+
+      > [data-slot="bootstrap-column"] {
+        padding-inline: calc($value / 2);
+      }
+    }
+  }
+}

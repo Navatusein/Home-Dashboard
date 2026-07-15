@@ -1,0 +1,20 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/media" as media;
+
+.base {
+  @each $breakpoint, $value in variables.$breakpoints-map {
+    &.breakpoint-#{$breakpoint} {
+      @include media.respond-below($breakpoint) {
+        &.hide {
+          @include media.visually-hidden;
+        }
+      }
+
+      @include media.respond-above($breakpoint) {
+        &.show {
+          @include media.visually-hidden;
+        }
+      }
+    }
+  }
+}
