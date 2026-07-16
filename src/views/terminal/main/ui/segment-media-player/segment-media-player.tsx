@@ -11,7 +11,7 @@ import BrandWindowsIcon from "@public/icons/brands/brand-windows.svg";
 import {isOffState, useEntity} from "@hakit/core";
 import useLocalStorage from "@/shared/hooks/use-local-storage";
 import {FC, SVGProps} from "react";
-import {DisabledContext} from "@/shared/contexts/disabled-context";
+import {AgentDisabledProvider} from "@/features/agent-disabled-provider";
 
 type Option = {
   title: string;
@@ -31,13 +31,18 @@ const OPTIONS_BY_MODE: {[key: string]: Option} = {
 
 const MODES = [SPOTIFY_MODE, WINDOWS_MODE] as const;
 
+const windowsPlayerState = (stete: string) => {
+  if (stete == "unavailable" || stete == "Nothing playing") {
+    return '-'
+  }
+
+  return stete
+}
+
 type Props = {}
 
 export default function MediaPlayerSegment(props: Props) {
   const [mode, setMode] = useLocalStorage<(typeof MODES)[number]>(LOCALSTORAGE_KEYS, SPOTIFY_MODE)
-
-  const agentRunningBinarySensor = useEntity("binary_sensor.navatusein_pc_agent_running");
-  const isAgentOff = isOffState(agentRunningBinarySensor.state);
 
   const spotifyMediaEntity = useEntity("media_player.spotify_navatusein");
 
@@ -102,11 +107,11 @@ export default function MediaPlayerSegment(props: Props) {
       )}
       {mode === WINDOWS_MODE && (
         <>
-          <DisabledContext.Provider value={isAgentOff}>
+          <AgentDisabledProvider>
             <Grid.Section rowStart={6} colStart={1} direction="horizontal">
               <BaseButton
                 colSpan={4}
-                title={isAgentOff ? "-" : `${windowsNowPlayingSensor.state}`}
+                title={windowsPlayerState(windowsNowPlayingSensor.state)}
               />
             </Grid.Section>
             <Grid.Section rowStart={7} colStart={2} direction="horizontal">
@@ -123,7 +128,7 @@ export default function MediaPlayerSegment(props: Props) {
                 onClickAction={() => windowsNextTrackButton.service.press()}
               />
             </Grid.Section>
-          </DisabledContext.Provider>
+          </AgentDisabledProvider>
         </>
       )}
     </>

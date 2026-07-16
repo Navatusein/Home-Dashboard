@@ -23,6 +23,11 @@ export default function Page() {
           PC Terminal
         </Typography.Title>
       </Card>
+      <Card clickable color="green" onClick={() => router.push("https://develop.navatuseinlab.uk/")}>
+        <Typography.Title level={3}>
+          Develop
+        </Typography.Title>
+      </Card>
     </Flex>
   );
 }
