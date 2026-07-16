@@ -7,9 +7,7 @@ import DeviceAirpodsIcon from "@public/icons/devices-and-networks/device-airpods
 import Microphone2Icon from "@public/icons/media/microphone-2.svg";
 import DeviceSpeakerIcon from "@public/icons/media/device-speaker.svg";
 
-type Props = {}
-
-export default function AudioSourceSegment(props: Props) {
+export default function AudioSourceSegment() {
   return (
     <>
       <Grid.Section rowStart={5} colStart={10} direction="horizontal">

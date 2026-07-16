@@ -10,9 +10,7 @@ import MomentActionSegment from "../segment-moment-action/segment-moment-action"
 import MediaPlayerSegment from "../segment-media-player/segment-media-player";
 import {AgentDisabledProvider} from "@/features/agent-disabled-provider";
 
-type Props = {}
-
-export default function MainView(props: Props) {
+export default function MainView() {
   return (
     <>
       <AgentDisabledProvider>

@@ -7,9 +7,7 @@ import DeviceComputerCameraOffIcon from "@public/icons/streaming-and-socials/dev
 import HeadphonesOffIcon from "@public/icons/media/headphones-off.svg";
 import HeadphonesIcon from "@public/icons/media/headphones.svg";
 
-type Props = {}
-
-export default function CommunicationControlSection(props: Props) {
+export default function CommunicationControlSection() {
   return (
     <>
       <Grid.Section rowStart={2} colStart={11} direction="horizontal">

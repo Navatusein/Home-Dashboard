@@ -1,9 +1,7 @@
 import {Grid} from "@/shared/ui-kit";
 import {ButtonButton} from "@/widgets/terminal-buttons/button-button";
 
-type Props = {}
-
-export default function FastLaunchSegment(props: Props) {
+export default function FastLaunchSegment() {
   return (
     <>
       <Grid.Section rowStart={3}>

@@ -2,9 +2,7 @@ import {Card, Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
 import {mdiSecurity} from "@mdi/js";
 import {PersonCard} from "@/widgets/home-assistant-cards/person-card";
 
-type Props = {}
-
-export default function SecuritySegment(props: Props) {
+export default function SecuritySegment() {
   return (
     <Flex gap="xs" vertical>
       <SegmentHeader icon={mdiSecurity} title="Security"/>

@@ -11,9 +11,7 @@ import {
 } from "@mdi/js";
 import {RoomCard} from "@/widgets/home-assistant-cards/room-card";
 
-type Props = {}
-
-export default function RoomsSegment(props: Props) {
+export default function RoomsSegment() {
   return (
     <Flex gap="xs" vertical>
       <SegmentHeader icon={mdiTextureBox} title="Rooms"/>

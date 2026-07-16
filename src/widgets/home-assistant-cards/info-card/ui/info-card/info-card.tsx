@@ -1,9 +1,7 @@
 import {Card, Typography} from "@/shared/ui-kit";
 import {useEffect, useState} from "react";
 
-type Props = {}
-
-export default function InfoCard(props: Props) {
+export default function InfoCard() {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {

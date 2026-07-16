@@ -3,9 +3,7 @@ import Volume2Icon from "@public/icons/media/volume-2.svg";
 import Volume3Icon from "@public/icons/media/volume-3.svg";
 import {SliderButton} from "@/widgets/terminal-buttons/slider-button";
 
-type Props = {}
-
-export default function MediaSegment(props: Props) {
+export default function MediaSegment() {
   return (
     <>
       {/*Toggle speaker mute*/}

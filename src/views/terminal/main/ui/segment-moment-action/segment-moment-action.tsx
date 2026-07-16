@@ -3,9 +3,7 @@ import {ButtonButton} from "@/widgets/terminal-buttons/button-button";
 import CameraIcon from "@public/icons/software-editors-and-uI/camera.svg";
 import MovieActionBoardIcon from "@public/icons/streaming-and-socials/movie-action-board.svg";
 
-type Props = {}
-
-export default function MomentActionSegment(props: Props) {
+export default function MomentActionSegment() {
   return (
     <>
       <Grid.Section rowStart={6} colStart={5} direction="horizontal">

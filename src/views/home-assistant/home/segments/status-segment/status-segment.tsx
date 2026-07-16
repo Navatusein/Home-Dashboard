@@ -4,9 +4,7 @@ import {mdiFlash, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent, mdiWeather
 import {roundTextTransformer, numberFixedTextTransformerProvider} from "@/shared/text-transformers/number-text-transformer";
 import {pascalCaseTextTransformer} from "@/shared/text-transformers/case-text-transformer";
 
-type Props = {}
-
-export default function StatusSegment(props: Props) {
+export default function StatusSegment() {
   return (
     <ResponsiveToggler breakpoint="sm" hide>
       <Flex justify="space-around">

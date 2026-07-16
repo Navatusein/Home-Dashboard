@@ -2,9 +2,7 @@ import {Flex, ResponsiveToggler, SegmentHeader} from "@/shared/ui-kit";
 import {mdiMapMarker} from "@mdi/js";
 import {MapCard} from "@/widgets/home-assistant-cards/map-card";
 
-type Props = {}
-
-export default function MapSegment(props: Props) {
+export default function MapSegment() {
   return (
     <ResponsiveToggler breakpoint="sm" hide>
       <Flex gap="xs" vertical style={{height: "100%"}}>

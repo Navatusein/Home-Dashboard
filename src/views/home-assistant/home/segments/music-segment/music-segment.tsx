@@ -1,9 +1,7 @@
 import {Card, Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
 import {mdiMusic} from "@mdi/js";
 
-type Props = {}
-
-export default function MusicSegment(props: Props) {
+export default function MusicSegment() {
   return (
     <Flex gap="xs" vertical>
       <SegmentHeader icon={mdiMusic} title="Music"/>

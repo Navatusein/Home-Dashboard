@@ -39,9 +39,7 @@ const windowsPlayerState = (stete: string) => {
   return stete
 }
 
-type Props = {}
-
-export default function MediaPlayerSegment(props: Props) {
+export default function MediaPlayerSegment() {
   const [mode, setMode] = useLocalStorage<(typeof MODES)[number]>(LOCALSTORAGE_KEYS, SPOTIFY_MODE)
 
   const spotifyMediaEntity = useEntity("media_player.spotify_navatusein");

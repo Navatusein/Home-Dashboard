@@ -17,9 +17,7 @@ import KitchenModal from "../../modals/kitchen-modal/kitchen-modal";
 import LargeCorridorModal from "../../modals/large-corridor-modal/large-corridor-modal";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
 
-type Props = {}
-
-export default function HomeView(props: Props) {
+export default function HomeView() {
   return (
     <Flex vertical gap="sm">
       <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
