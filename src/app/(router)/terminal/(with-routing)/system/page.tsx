@@ -1,9 +1,9 @@
-type Props = {}
+import {SystemView} from "@/views/terminal/system";
 
-export default function Page(props: Props) {
+export default function Page() {
   return (
     <>
-
+      <SystemView/>
     </>
   )
 }
