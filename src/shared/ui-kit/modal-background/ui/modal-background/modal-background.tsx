@@ -15,17 +15,24 @@ const variants = cva(
 )
 
 type Props = HTMLMotionProps<"div"> & VariantProps<typeof variants> & {
+  fixScroll?: boolean;
+  duration?: number;
+  exitDelay?: number;
+  enterDelay?: number;
+  delay?: number;
 }
 
 export default function ModalBackground(props: Props) {
-  const {className, ...otherProps} = props;
+  const {className, fixScroll, duration = 0.3, exitDelay, enterDelay, delay, ...otherProps} = props;
 
   const modalContext = useContext(ModalContext);
 
   useEffect(() => {
-    document.body.style.overflowY = modalContext.isOpen ? "hidden" : "unset";
-    document.body.style.marginRight = modalContext.isOpen ? "4px" : "unset";
-  }, [modalContext.isOpen]);
+    if (fixScroll) {
+      document.body.style.overflowY = modalContext.isOpen ? "hidden" : "unset";
+      document.body.style.marginRight = modalContext.isOpen ? "4px" : "unset";
+    }
+  }, [fixScroll, modalContext.isOpen]);
 
   return (
     <motion.div
@@ -34,10 +41,10 @@ export default function ModalBackground(props: Props) {
         className: className
       })}
       initial={{backgroundColor: "rgba(0, 0, 0, 0)"}}
-      animate={{backgroundColor: "rgba(0, 0, 0, 0.7)"}}
-      exit={{backgroundColor: "rgba(0, 0, 0, 0)"}}
-      transition={{duration: 0.3}}
-      onMouseUp={() => modalContext.close()}
+      animate={{backgroundColor: "rgba(0, 0, 0, 0.7)", transition: {delay: enterDelay}}}
+      exit={{backgroundColor: "rgba(0, 0, 0, 0)", transition: {delay: exitDelay}}}
+      transition={{duration: duration, delay: delay}}
+      onPointerUp={() => modalContext.close()}
       {...otherProps}
     />
   )

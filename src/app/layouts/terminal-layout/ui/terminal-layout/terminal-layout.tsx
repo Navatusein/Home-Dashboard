@@ -11,7 +11,7 @@ const ROWS = 7;
 export default function TerminalLayout(props: Props) {
   return (
     // backgroundColor: "#282828"
-    <div style={{width: "100%", height: "100svh", padding: "5px", backgroundColor: "#282828"}} >
+    <div style={{width: "100%", height: "100svh", padding: "5px", backgroundColor: "#282828", position: "relative"}} >
       <Grid columns={COLUMNS} rows={ROWS} gap="xxs" style={{height: "100%"}}>
         {props.children}
       </Grid>

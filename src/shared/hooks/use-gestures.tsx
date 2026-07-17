@@ -2,7 +2,7 @@
 
 import {MouseEvent, PointerEvent, useEffect, useRef} from "react";
 
-type GestureCallback<T extends HTMLElement> = (event: PointerEvent<T>) => void;
+export type GestureCallback<T extends HTMLElement> = (event: PointerEvent<T>) => void;
 
 export const stopGestures = {
   onPointerDown: (event: PointerEvent<HTMLElement>) => event.stopPropagation(),

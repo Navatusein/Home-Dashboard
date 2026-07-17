@@ -83,7 +83,7 @@ export default function NavbarChildModal(props: Props) {
 
   return (
     <>
-      <ModalBackground/>
+      <ModalBackground fixScroll/>
       <motion.div
         variants={ContainerVariants}
         initial="hidden"

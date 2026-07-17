@@ -4,7 +4,7 @@ import {Flex, Grid, Typography} from "@/shared/ui-kit"
 import styles from "./base-button.module.scss"
 import {ComponentProps, FC, SVGProps, useContext} from "react";
 import {cva, VariantProps} from "class-variance-authority";
-import useGestures from "@/shared/hooks/use-gestures";
+import useGestures, {GestureCallback} from "@/shared/hooks/use-gestures";
 import Image from "next/image";
 import {BaseButtonSharedProps} from "../../types/type";
 import {DisabledContext} from "@/shared/contexts/disabled-context";
@@ -36,10 +36,10 @@ export type Props = BaseButtonSharedProps & ComponentProps<"div"> & VariantProps
   title?: string;
   icon?: FC<SVGProps<SVGSVGElement>>;
   image?: string;
-  onClickAction?: () => void;
-  onDoubleClickAction?: () => void;
-  onLongPressAction?: () => void;
-  onReleaseAction?: () => void;
+  onClickAction?: GestureCallback<HTMLDivElement>;
+  onDoubleClickAction?: GestureCallback<HTMLDivElement>;
+  onLongPressAction?: GestureCallback<HTMLDivElement>;
+  onReleaseAction?: GestureCallback<HTMLDivElement>;
   suppressHydrationWarning?: boolean;
   longPressDelay?: number;
 }

@@ -27,7 +27,7 @@ export default function ModalPopUp(props: Props) {
     <ModalContext.Provider value={{isOpen: isOpen, close: close}}>
       <AnimatePresence>
         {isOpen && (
-          <ModalBackground>
+          <ModalBackground fixScroll>
             <motion.div
               initial={{translate: "-50% 110%"}}
               animate={{translate: "-50% 0%"}}
@@ -37,7 +37,7 @@ export default function ModalPopUp(props: Props) {
               className={variants({
                 className: className
               })}
-              onMouseUp={(e) => e.stopPropagation()}
+              onPointerUp={(e) => e.stopPropagation()}
               {...otherProps}
             />
           </ModalBackground>
