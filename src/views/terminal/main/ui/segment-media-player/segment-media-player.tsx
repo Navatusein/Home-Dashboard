@@ -31,12 +31,12 @@ const OPTIONS_BY_MODE: {[key: string]: Option} = {
 
 const MODES = [SPOTIFY_MODE, WINDOWS_MODE] as const;
 
-const windowsPlayerState = (stete: string) => {
-  if (stete == "unavailable" || stete == "Nothing playing") {
+const windowsPlayerState = (state: string) => {
+  if (state == "unavailable" || state == "Nothing playing") {
     return '-'
   }
 
-  return stete
+  return state
 }
 
 export default function MediaPlayerSegment() {
@@ -110,6 +110,7 @@ export default function MediaPlayerSegment() {
               <BaseButton
                 colSpan={4}
                 title={windowsPlayerState(windowsNowPlayingSensor.state)}
+                textWrap
               />
             </Grid.Section>
             <Grid.Section rowStart={7} colStart={2} direction="horizontal">
