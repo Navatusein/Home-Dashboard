@@ -3,6 +3,7 @@ import {useState} from "react";
 import TrashIcon from "@public/icons/software-editors-and-uI/trash.svg";
 import ClipboardIcon from "@public/icons/software-editors-and-uI/clipboard.svg";
 import {BaseButton, BaseButtonSharedProps} from "@/widgets/terminal-buttons/base-button";
+import delay from "@/shared/helpers/delay";
 
 type Props = BaseButtonSharedProps & {
   slotIndex: number
@@ -36,10 +37,11 @@ export default function ClipboardSlotButton(props: Props) {
       color={clearFlag ? "red" : undefined}
       onClickAction={() => savePasteEntity.service.press()}
       onLongPressAction={() => setClearFlag(true)}
-      onReleaseAction={() => {
+      onReleaseAction={async () => {
         if (clearFlag) {
+          await clearPasteEntity.service.press();
+          await delay(100);
           setClearFlag(false);
-          clearPasteEntity.service.press();
         }
       }}
     />
