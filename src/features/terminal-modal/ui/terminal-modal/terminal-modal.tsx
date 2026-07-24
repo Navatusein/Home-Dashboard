@@ -17,11 +17,11 @@ export default function TerminalModal(props: Props) {
     <ModalContext.Provider value={{isOpen: props.isOpen, close: props.close}}>
       <AnimatePresence>
         {props.isOpen && (
-          <ModalBackground duration={AMINATION_DURATION} exitDelay={ANIMATION_DELAY}>
+          <ModalBackground duration={AMINATION_DURATION}>
             <motion.div
               initial={{opacity: 0}}
               animate={{opacity: 100}}
-              exit={{opacity: 0, transition: {delay: ANIMATION_DELAY}}}
+              exit={{opacity: 0}}
               transition={{duration: AMINATION_DURATION}}
               style={{height: "100%"}}
             >
