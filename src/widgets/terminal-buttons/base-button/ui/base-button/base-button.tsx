@@ -2,7 +2,7 @@
 
 import {Flex, Grid, Typography} from "@/shared/ui-kit"
 import styles from "./base-button.module.scss"
-import {ComponentProps, FC, SVGProps, useContext} from "react";
+import {ComponentProps, FC, ReactNode, SVGProps, useContext} from "react";
 import {cva, VariantProps} from "class-variance-authority";
 import useGestures, {GestureCallback} from "@/shared/hooks/use-gestures";
 import Image from "next/image";
@@ -33,7 +33,7 @@ const variants = cva(
 )
 
 export type Props = BaseButtonSharedProps & ComponentProps<"div"> & VariantProps<typeof variants> & {
-  title?: string;
+  title?: ReactNode;
   icon?: FC<SVGProps<SVGSVGElement>>;
   image?: string;
   onClickAction?: GestureCallback<HTMLDivElement>;
