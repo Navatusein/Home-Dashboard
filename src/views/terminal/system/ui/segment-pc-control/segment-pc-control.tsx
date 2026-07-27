@@ -43,7 +43,7 @@ export default function SegmentPcControl() {
 
       <AgentDisabledProvider>
         <Grid.Section rowStart={7} colStart={1} direction="horizontal">
-          <ButtonButton entity="button.navatusein_pc_shutdown_pc" icon={LogoutIcon}/>
+          <ButtonButton entity="button.navatusein_pc_lock_pc" icon={LogoutIcon}/>
         </Grid.Section>
       </AgentDisabledProvider>
 
