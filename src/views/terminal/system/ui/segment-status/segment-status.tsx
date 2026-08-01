@@ -1,0 +1,48 @@
+"use client"
+
+import {Grid} from "@/shared/ui-kit";
+import {ChargedButton} from "@/widgets/terminal-buttons/charged-button";
+import {BaseButton} from "@/widgets/terminal-buttons/base-button";
+import {useEntityOff} from "@/shared/hooks/use-entity-off";
+import DeviceDesktopIcon from "@public/icons/devices-and-networks/device-desktop.svg"
+import DeviceDesktopOffIcon from "@public/icons/devices-and-networks/device-desktop-off.svg"
+import RobotIcon from "@public/icons/streaming-and-socials/robot.svg";
+import RobotOffIcon from "@public/icons/streaming-and-socials/robot-off.svg";
+import LockIcon from "@public/icons/home-automation-and-buildings/lock.svg"
+import LockOpenIcon from "@public/icons/home-automation-and-buildings/lock-open.svg"
+
+export default function SegmentStatus() {
+  const isUserSessionUnlocked = !useEntityOff("binary_sensor.navatusein_pc_user_session");
+  const isPcRunning = !useEntityOff("binary_sensor.navatusein_pc_pc_running");
+  const isAgentRunning = !useEntityOff("binary_sensor.navatusein_pc_agent_running");
+  
+  return (
+    <>
+      <Grid.Section rowStart={2} direction="horizontal">
+        <BaseButton
+          title="Session"
+          icon={isUserSessionUnlocked ? LockOpenIcon : LockIcon}
+          color={isUserSessionUnlocked ? "blue" : "default"}
+        />
+        <BaseButton
+          title="Desktop"
+          icon={isPcRunning ? DeviceDesktopIcon : DeviceDesktopOffIcon}
+          color={isPcRunning ? "blue" : "default"}
+        />
+        <BaseButton
+          title="Agent"
+          icon={isAgentRunning ? RobotIcon : RobotOffIcon}
+          color={isAgentRunning ? "blue" : "default"}
+        />
+      </Grid.Section>
+      
+      <Grid.Section rowStart={2} colStart={5} direction="horizontal">
+        <ChargedButton
+          title="Mouse"
+          chargeSensor="sensor.navatusein_pc_g_pro_mouse_battery"
+          isChargingBinarySensor="binary_sensor.navatusein_pc_g_pro_mouse_charging"
+        />
+      </Grid.Section>
+    </>
+  )
+}

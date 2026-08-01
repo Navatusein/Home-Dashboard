@@ -1,3 +1,5 @@
+"use client"
+
 import {EntityNameButton} from "@/shared/types/ha-domains";
 import {FC, SVGProps} from "react";
 import {BaseButton, BaseButtonColors, BaseButtonSharedProps} from "@/widgets/terminal-buttons/base-button";
