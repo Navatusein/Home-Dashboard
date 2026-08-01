@@ -7,7 +7,7 @@ import DeviceComputerCameraOffIcon from "@public/icons/streaming-and-socials/dev
 import HeadphonesOffIcon from "@public/icons/media/headphones-off.svg";
 import HeadphonesIcon from "@public/icons/media/headphones.svg";
 
-export default function CommunicationControlSection() {
+export default function SegmentCommunicationControl() {
   return (
     <>
       <Grid.Section rowStart={2} colStart={11} direction="horizontal">

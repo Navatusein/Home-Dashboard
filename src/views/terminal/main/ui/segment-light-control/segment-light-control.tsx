@@ -6,7 +6,7 @@ import LightCeilingOffType2VIcon from "@public/icons/home-automation-and-buildin
 import Lamp2Icon from "@public/icons/home-automation-and-buildings/lamp-2.svg";
 import LampOffIcon from "@public/icons/home-automation-and-buildings/lamp-off.svg";
 
-export default function LightControlSegment() {
+export default function SegmentLightControl() {
   return (
     <>
       <Grid.Section rowStart={6} colStart={7} direction="horizontal">

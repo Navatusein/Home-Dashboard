@@ -1,7 +1,7 @@
 import {Grid} from "@/shared/ui-kit";
 import {ButtonButton} from "@/widgets/terminal-buttons/button-button";
 
-export default function FastLaunchSegment() {
+export default function SegmentFastLaunch() {
   return (
     <>
       <Grid.Section rowStart={3}>
