@@ -10,6 +10,7 @@ import RobotIcon from "@public/icons/streaming-and-socials/robot.svg";
 import RobotOffIcon from "@public/icons/streaming-and-socials/robot-off.svg";
 import LockIcon from "@public/icons/home-automation-and-buildings/lock.svg"
 import LockOpenIcon from "@public/icons/home-automation-and-buildings/lock-open.svg"
+import {AgentDisabledProvider} from "@/features/agent-disabled-provider";
 
 export default function SegmentStatus() {
   const isUserSessionUnlocked = !useEntityOff("binary_sensor.navatusein_pc_user_session");
@@ -35,14 +36,16 @@ export default function SegmentStatus() {
           color={isAgentRunning ? "blue" : "default"}
         />
       </Grid.Section>
-      
-      <Grid.Section rowStart={2} colStart={5} direction="horizontal">
-        <ChargedButton
-          title="Mouse"
-          chargeSensor="sensor.navatusein_pc_g_pro_mouse_battery"
-          isChargingBinarySensor="binary_sensor.navatusein_pc_g_pro_mouse_charging"
-        />
-      </Grid.Section>
+
+      <AgentDisabledProvider>
+        <Grid.Section rowStart={2} colStart={5} direction="horizontal">
+          <ChargedButton
+            title="Mouse"
+            chargeSensor="sensor.navatusein_pc_g_pro_mouse_battery"
+            isChargingBinarySensor="binary_sensor.navatusein_pc_g_pro_mouse_charging"
+          />
+        </Grid.Section>
+      </AgentDisabledProvider>
     </>
   )
 }
