@@ -48,7 +48,7 @@ export default function ChargedButton(props: Props) {
   
   const isCharging = !useEntityOff(props.isChargingBinarySensor);
   
-  const chargePercent = Math.ceil((parseInt(chargePercentEntity?.state) ?? 0) / 20);
+  const chargePercent = Math.round((parseInt(chargePercentEntity?.state) ?? 0) / 20);
   
   const switchToChargeMode = () => {
     if (isChargePercentEntityUnavailable)
