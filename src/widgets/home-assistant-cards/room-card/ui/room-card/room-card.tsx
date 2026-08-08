@@ -14,7 +14,7 @@ type Props = {
   roomIcon: string;
   roomModalPath: string;
   lightEntity: EntityNameLight;
-  temperatureEntity: EntityNameSensor;
+  temperatureEntity?: EntityNameSensor;
   climateEntity?: EntityNameClimate;
 }
 
@@ -33,7 +33,7 @@ export default function RoomCard(props: Props) {
   const router = useRouter();
 
   const lightEntity = useEntity(props.lightEntity);
-  const temperatureEntity = useEntity(props.temperatureEntity);
+  const temperatureEntity = useEntity(props.temperatureEntity ?? "unknown");
 
   const [mode, setMode] = useState<Mods>(Mods.light);
 
@@ -74,7 +74,11 @@ export default function RoomCard(props: Props) {
             <Flex align="center" gap="xs">
               <Icon path={props.roomIcon}/>
               <Typography.Text>
-                {roundTextTransformer(temperatureEntity.state)}{temperatureEntity.attributes.unit_of_measurement}
+                {(
+                  props.temperatureEntity ?
+                  `${roundTextTransformer(temperatureEntity.state)}${temperatureEntity.attributes.unit_of_measurement}`:
+                  "--"
+                )}
               </Typography.Text>
             </Flex>
             <Typography.Text textColor="secondary" fontSize="sm">

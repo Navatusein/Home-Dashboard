@@ -28,42 +28,37 @@ export default function RoomsSegment() {
           roomIcon={mdiBedKing}
           roomModalPath="large-bedroom"
           lightEntity="light.virtual_large_bedroom_light_master"
-          temperatureEntity="sensor.kitchen_ih_k009_temperature"
+          temperatureEntity="sensor.large_bedroom_ih_k009_temperature"
         />
         <RoomCard
           roomName="Living room"
           roomIcon={mdiSofa}
           roomModalPath="living-room"
           lightEntity="light.virtual_living_room_light_master"
-          temperatureEntity="sensor.small_bedroom_ih_k009_temperature"
         />
         <RoomCard
           roomName="Large Corridor"
           roomIcon={mdiShoePrint}
           roomModalPath="large-corridor"
           lightEntity="light.virtual_large_corridor_light"
-          temperatureEntity="sensor.small_bedroom_ih_k009_temperature"
         />
         <RoomCard
           roomName="Small Corridor"
           roomIcon={mdiShoePrint}
           roomModalPath="small-corridor"
           lightEntity="light.virtual_small_corridor_light"
-          temperatureEntity="sensor.kitchen_ih_k009_temperature"
         />
         <RoomCard
           roomName="Bathroom"
           roomIcon={mdiBathtub}
           roomModalPath="bathroom"
           lightEntity="light.virtual_bathroom_light"
-          temperatureEntity="sensor.kitchen_ih_k009_temperature"
         />
         <RoomCard
           roomName="Restroom"
           roomIcon={mdiPaperRoll}
           roomModalPath="restroom"
           lightEntity="light.virtual_restroom_light"
-          temperatureEntity="sensor.kitchen_ih_k009_temperature"
         />
         <RoomCard
           roomName="Kitchen"

@@ -19,14 +19,14 @@ export default function StatusSegment() {
           icon={mdiThermometer}
           iconColor="green"
           title="Temperature"
-          entity="sensor.kitchen_ih_k009_temperature"
+          entity="sensor.average_temperature"
           textTransformer={numberFixedTextTransformerProvider(1)}
         />
         <StatusCard
           icon={mdiWaterPercent}
           iconColor="blue"
           title="Humidity"
-          entity="sensor.kitchen_ih_k009_humidity"
+          entity="sensor.average_humidity"
           textTransformer={numberFixedTextTransformerProvider(1)}
         />
         <StatusCard
