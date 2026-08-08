@@ -12,7 +12,7 @@ export default function StatusSegment() {
           icon={mdiWeatherSunny}
           iconColor="yellow"
           title="Sunny"
-          entity="sensor.kitchen_ih_k009_temperature"
+          entity="sensor.weather_temperature"
           textTransformer={numberFixedTextTransformerProvider(1)}
         />
         <StatusCard
