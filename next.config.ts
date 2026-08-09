@@ -5,12 +5,12 @@ const nextConfig: NextConfig = {
   output: "standalone",
   reactCompiler: true,
   reactStrictMode: false,
-  allowedDevOrigins: [
-    "localhost:3000",
-    "develop.navatuseinlab.uk"
-  ],
+  allowedDevOrigins: process.env.DEV_ALLOWED_ORIGINS?.split(","),
   sassOptions: {
     includePaths: [path.join(__dirname, "src")],
+  },
+  logging: {
+    browserToTerminal: process.env.NODE_ENV === "development",
   },
   turbopack: {
     rules: {

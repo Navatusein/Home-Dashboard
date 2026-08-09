@@ -3,7 +3,7 @@ declare namespace NodeJS {
     HOME_ASSISTANT_URL: string;
 
     DEV_DISABLE_HOME_ASSISTANT: boolean;
-    DEV_ALLOWED_ORIGINS: boolean;
-    DEV_INDEX_PAGE: boolean;
+    DEV_ALLOWED_ORIGINS: string;
+    DEV_INDEX_PAGE: string;
   }
 }
