@@ -9,7 +9,7 @@ import {
   mdiShoePrint,
   mdiBathtub,
   mdiSilverwareForkKnife,
-  mdiSofa, mdiLightningBolt
+  mdiSofa, mdiLightningBolt, mdiTabletDashboard
 } from "@mdi/js";
 import {HomeAssistantDashboardLayout} from "@/app/layouts/home-assistant-dashboard-layout";
 
@@ -123,6 +123,14 @@ const NavbarCardItems: NavbarCardItem[] = [
         color: "blue",
         icon: mdiServer,
         path: "/home-assistant/server",
+      },
+      {
+        title: "Terminal",
+        color: "blue",
+        icon: mdiTabletDashboard,
+        path: "/terminal/main",
+        hideOnMobile: true,
+        forUsers: ["Bohdan"]
       },
     ]
   }
