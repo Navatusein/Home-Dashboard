@@ -1,7 +1,7 @@
 @use "@/shared/styles/variables" as variables;
 
 .base {
-  --icon-color: var(--color-text-primary);;
+  --icon-color: inherit;
 
   color: var(--icon-color);
 
