@@ -7,12 +7,15 @@
   --base-button-modifier-color: #ffffff;
   --base-button-intensity-modifier: 2;
 
+  --modifier-clickable-color: #ffffff;
+  
   height: 100%;
   padding: 0;
   position: relative;
   border-radius: 12px;
   border: 5px solid var(--base-button-color);
   background-color: color-mix(in srgb, var(--base-button-color), white 20%);
+  color: var(--color-text-primary-light);
   overflow: hidden;
 
   // Без этого long press на мобильных выделяет текст вместо жеста
@@ -71,7 +74,6 @@
   white-space: pre-wrap;
   text-align: center;
   font-weight: bold;
-  font-size: variables.$font-size-lg;
 }
 
 .container {

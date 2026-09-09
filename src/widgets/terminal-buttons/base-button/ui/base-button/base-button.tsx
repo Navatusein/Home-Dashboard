@@ -109,7 +109,7 @@ export default function BaseButton(props: Props) {
           className={styles["container"]}
         >
           {title && (
-            <Typography.Text className={styles["title"]} suppressHydrationWarning={suppressHydrationWarning}>
+            <Typography.Text className={styles["title"]} suppressHydrationWarning={suppressHydrationWarning} fontSize="lg">
               {title}
             </Typography.Text>
           )}
