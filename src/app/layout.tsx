@@ -24,6 +24,10 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 type Props = {
@@ -33,7 +37,7 @@ type Props = {
 export default function Layout(props: Props) {
   return (
     <html lang="en" data-lt-installed={true} suppressHydrationWarning={true} data-color-theme="dark">
-      <body>
+    <body>
         <ServiceWorker/>
         <BaseLayout>
           {props.children}

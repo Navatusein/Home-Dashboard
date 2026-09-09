@@ -34,15 +34,15 @@ export default function HomeAssistantDashboardLayout(props: Props) {
           <Flex justify="space-between">
             <GreetingCard/>
             <Flex gap="xs">
-              <Chips text="6" icon={mdiLightbulbGroup} color="orange"/>
-              <Chips text="3" icon={mdiWindowOpenVariant} color="yellow"/>
-              <Chips text="Home" icon={mdiShieldHomeOutline} color="green"/>
-              <Chips text="" icon={mdiLockOpenVariant} color="red"/>
+              <Chips text="6" icon={mdiLightbulbGroup} iconColor="orange"/>
+              <Chips text="3" icon={mdiWindowOpenVariant} iconColor="yellow"/>
+              <Chips text="Home" icon={mdiShieldHomeOutline} iconColor="green"/>
+              <Chips icon={mdiLockOpenVariant} iconColor="red"/>
               {fromTerminal && (
                 <Chips
                   text="Terminal"
                   icon={mdiTabletDashboard}
-                  color="teal"
+                  iconColor="teal"
                   clickable
                   onClick={() => router.push(buildPath())}
                 />
