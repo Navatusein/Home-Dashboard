@@ -26,7 +26,7 @@ export default function NavbarButton(props: Props) {
       <Flex vertical align="center" justify="center" className={styles["icon-container"]}>
         <Icon path={props.item.icon} size="lg" className={styles["icon"]}/>
       </Flex>
-      <Typography.Text>
+      <Typography.Text fontSize="sm">
         {props.item.title}
       </Typography.Text>
     </Flex>

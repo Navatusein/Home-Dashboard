@@ -12,7 +12,6 @@
   --nav-button-intensity-modifier: 1;
 
   width: 100%;
-  font-size: variables.$font-size-sm;
   border-radius: variables.$control-border-radius-sm;
 
   .icon-container {
@@ -72,8 +71,6 @@
     .icon-container {
       width: 40px;
     }
-
-    font-size: variables.$font-size-xs;
   }
 
   @include clickable.clickable(var(--nav-button-background-color), var(--nav-button-intensity-modifier), $target: ".icon-container");

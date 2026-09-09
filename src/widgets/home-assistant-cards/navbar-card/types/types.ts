@@ -8,6 +8,7 @@ export type NavbarCardItem = {
   path?: string;
   modal?: string;
   children?: NavbarCardItemChild[];
+  forUsers?: string[];
 }
 
 export type NavbarCardItemChild = Omit<NavbarCardItem, "children">;
