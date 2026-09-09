@@ -51,7 +51,7 @@
 }
 
 @mixin active {
-  &:active:is([aria-disabled=false], :not([aria-disabled])):not(:has([data-clickable]:active)) {
+  &:active:is([aria-disabled="false"], :not([aria-disabled])):not(:has([data-clickable]:active)) {
     @content;
   }
 }

@@ -45,6 +45,7 @@ export default function ModalPopUpHeader(props: Props) {
       <Button
         icon={mdiClose}
         shape="round"
+        color="secondary"
         onClick={() => modalContext.close()}
       />
     </div>

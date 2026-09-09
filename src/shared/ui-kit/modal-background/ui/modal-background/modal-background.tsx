@@ -41,7 +41,7 @@ export default function ModalBackground(props: Props) {
         className: className
       })}
       initial={{backgroundColor: "rgba(0, 0, 0, 0)"}}
-      animate={{backgroundColor: "rgba(0, 0, 0, 0.7)", transition: {delay: enterDelay}}}
+      animate={{backgroundColor: "rgba(0, 0, 0, 0.8)", transition: {delay: enterDelay}}}
       exit={{backgroundColor: "rgba(0, 0, 0, 0)", transition: {delay: exitDelay}}}
       transition={{duration: duration, delay: delay}}
       onPointerUp={() => modalContext.close()}

@@ -3,12 +3,20 @@ import {Slot} from "@radix-ui/react-slot"
 import {cva, VariantProps} from "class-variance-authority";
 import styles from "./chips.module.scss";
 import {Icon, Typography} from "@/shared/ui-kit";
-import {ColorToken} from "@/shared/constants/colors";
+import {ALL_COLORS, AllColorToken, ColorToken} from "@/shared/constants/colors";
+
+const allColorVariants = Object.fromEntries(
+  ALL_COLORS.map(value => [value, styles[`color-${value}`]])
+) as Record<AllColorToken, string>;
 
 const variants = cva(
   styles["base"],
   {
     variants: {
+      color: {
+        default: null,
+        ...allColorVariants
+      },
       clickable: {
         true: styles["clickable"],
         false: null
@@ -20,13 +28,13 @@ const variants = cva(
 
 type Props = ComponentProps<"div"> & VariantProps<typeof variants> & {
   asChild?: boolean;
-  text: string;
-  color?: ColorToken;
+  text?: string;
+  iconColor?: ColorToken;
   icon?: string;
 }
 
 export default function Chips(props: Props) {
-  const {className, text, icon, color, clickable, asChild = false, ...otherProps} = props;
+  const {className, text, icon, iconColor, color, clickable, asChild = false, ...otherProps} = props;
 
   const TempComponent = asChild ? Slot : "div"
 
@@ -36,16 +44,19 @@ export default function Chips(props: Props) {
       data-clickable={clickable}
       className={variants({
         className: className,
+        color: color,
         clickable: clickable
       })}
       {...otherProps}
     >
       {icon && (
-        <Icon path={icon} size="sm" color={color}/>
+        <Icon path={icon} size="sm" color={iconColor}/>
       )}
-      <Typography.Text className={styles["text"]}>
-        {text}
-      </Typography.Text>
+      {text && (
+        <Typography.Text className={styles["text"]} fontSize="sm">
+          {text}
+        </Typography.Text>
+      )}
     </TempComponent>
   )
 }

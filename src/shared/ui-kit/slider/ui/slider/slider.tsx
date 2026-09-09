@@ -1,6 +1,6 @@
 "use client"
 
-import {ComponentProps, useEffect, useState} from "react";
+import {ComponentProps} from "react";
 import {Root, Track, Range, Thumb} from "@radix-ui/react-slider";
 import {cva, VariantProps} from "class-variance-authority";
 import styles from "./slider.module.scss";

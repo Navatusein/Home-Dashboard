@@ -28,12 +28,22 @@
   &.shape-round {
     --button-border-radius: #{variables.$border-radius-rounded};
   }
+  
+  &.outline {
+    --button-background-color: var(--color-transparent);
+  }
 
   @each $name, $color in variables.$colors-map {
     &.color-#{$name} {
       --button-color: var(--color-text-primary-dark);
       --button-background-color: #{$color};
       --button-intensity-modifier: 4;
+    }
+  }
+
+  @each $name, $color in variables.$semantic-colors-map {
+    &.color-#{$name} {
+      --button-background-color: #{$color};
     }
   }
 

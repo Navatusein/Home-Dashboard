@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $padding-body-xl: 200px;
 $padding-body-lg: 100px;
 $padding-body-sm: 10px;
@@ -22,12 +24,12 @@ $border-radius-sm: 12px;
 $border-radius-circle: 100%;
 $border-radius-rounded: 999px;
 
-$font-size-xxl: 32px;
-$font-size-xl: 24px;
-$font-size-lg: 18px;
-$font-size-md: 16px;
-$font-size-sm: 14px;
-$font-size-xs: 12px;
+$font-size-xxl: var(--font-size-xxl);
+$font-size-xl: var(--font-size-xl);
+$font-size-lg: var(--font-size-lg);
+$font-size-md: var(--font-size-md);
+$font-size-sm: var(--font-size-sm);
+$font-size-xs: var(--font-size-xs);
 
 $font-sizes-map: (
   xxl: $font-size-xxl,
@@ -91,6 +93,16 @@ $colors-map: (
   "blue": var(--color-blue-tint),
   "teal": var(--color-teal-tint),
   "pink": var(--color-pink-tint),
+);
+
+$semantic-colors-map: (
+  "primary": var(--color-primary),
+  "secondary": var(--color-secondary),
+);
+
+$all-colors-map: map.merge(
+  $colors-map,
+  $semantic-colors-map
 );
 
 $control-height-default: 40px;

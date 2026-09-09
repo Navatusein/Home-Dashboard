@@ -1,4 +1,22 @@
+@use "@/shared/styles/mixins/media" as media;
+
 :root {
+  --font-size-xxl: 32px;
+  --font-size-xl: 24px;
+  --font-size-lg: 18px;
+  --font-size-md: 16px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+
+  @include media.respond-below(sm) {
+    --font-size-xxl: 24px;
+    --font-size-xl: 20px;
+    --font-size-lg: 16px;
+    --font-size-md: 14px;
+    --font-size-sm: 12px;
+    --font-size-xs: 10px;
+  }
+
   --color-transparent: rgba(0, 0, 0, 0);
 
   --color-accent: #1677FF;
@@ -33,12 +51,30 @@
   --color-text-primary: var(--color-text-primary-light);
   --color-text-secondary: var(--color-text-secondary-light);
 
-  --color-background: #000000;
-  --color-primary: #1b1d21;
-  --color-secondary: #111318;
+  //Default
+  //--color-background: #000000;
+  //--color-primary: #1b1d21;
+  //--color-secondary: #111318;
 
+  //Lifted
+  //--color-background: #101216;
+  //--color-primary: #2e343d;
+  //--color-secondary: #1c2026;
+  
+  //Graphite
+  //--color-background: #0d0f12;
+  //--color-primary: #262a32;
+  //--color-secondary: #171a20;
+
+  //Slate
+  --color-background: #0b0d11;
+  --color-primary: #272e3b;
+  --color-secondary: #161b24;
+  
+  --color-disabled: #FF4D4F;
+  
   --modifier-color-tint: #000000;
-  --modifier-color-tint-percent: 20%;
+  --modifier-color-tint-percent: 25%;
 
   --modifier-clickable-color: #ffffff;
   --modifier-clickable-intensity: 1;
@@ -69,6 +105,8 @@
   --color-primary: #e9ebef;
   --color-secondary: #f4f6fa;
 
+  --color-disabled: #FF4D4F;
+  
   --modifier-color-tint: #ffffff;
   --modifier-color-tint-percent: 20%;
 

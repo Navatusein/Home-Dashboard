@@ -5,6 +5,7 @@ import styles from "./segment-header.module.scss";
 import Link from "next/link";
 import {mdiChevronRight} from "@mdi/js";
 import {Flex, Icon, Typography} from "@/shared/ui-kit";
+import {ColorToken} from "@/shared/constants/colors";
 
 const variants = cva(
   styles["base"],
@@ -18,11 +19,12 @@ type Props = ComponentProps<"div"> & VariantProps<typeof variants> & {
   asChild?: boolean;
   title: string;
   icon?: string;
+  iconColor?: ColorToken;
   link?: string;
 }
 
 export default function SegmentHeader(props: Props) {
-  const {className, title, icon, link, children, asChild = false, ...otherProps} = props;
+  const {className, title, icon, iconColor, link, children, asChild = false, ...otherProps} = props;
 
   const TempComponent = asChild ? Slot : "div"
 
@@ -37,7 +39,7 @@ export default function SegmentHeader(props: Props) {
       <Link href={link ?? ""} className={styles["link"]} data-has-link={link != null}>
         <Flex align="center" gap="xs">
           {icon && (
-            <Icon path={icon} className={styles["icon"]}/>
+            <Icon path={icon} className={styles["icon"]} color={iconColor}/>
           )}
           <Typography.Text className={styles["title"]}>
             {title}

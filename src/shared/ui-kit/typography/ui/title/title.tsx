@@ -18,13 +18,14 @@ type Props = Omit<ComponentProps<typeof BaseTypography>, 'type' | 'dataSlot'> & 
 }
 
 export default function Title(props: Props) {
-  const {level = 1} = props;
+  const {level = 1, className, ...otherProps} = props;
 
   return (
     <BaseTypography
       type={LEVELS[level - 1]}
       dataSlot="title"
-      {...props}
+      className={variants({className: className})}
+      {...otherProps}
     />
   )
 }

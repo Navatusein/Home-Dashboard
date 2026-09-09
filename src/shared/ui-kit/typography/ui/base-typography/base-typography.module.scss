@@ -1,6 +1,9 @@
 @use "@/shared/styles/variables" as variables;
 
 .base {
+  user-select: none;
+  //font-size: variables.$font-size-md;
+  
   &.text-color-primary {
     color: var(--color-text-primary);
   }
@@ -20,7 +23,7 @@
   }
 
   &.bold {
-    font-weight: 800;
+    font-weight: 700;
   }
 
   @each $name, $font-size in variables.$font-sizes-map {

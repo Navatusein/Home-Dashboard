@@ -2,6 +2,7 @@
 @use "@/shared/styles/mixins/clickable" as clickable;
 
 .base {
+  --chips-color: var(--color-text-primary);
   --chips-background-color: var(--color-primary);
   --chips-intensity-modifier: 1;
 
@@ -9,9 +10,26 @@
   align-items: center;
   gap: variables.$gap-xxs;
 
+  height: 32PX;
+
   background-color: var(--chips-background-color);
-  padding: variables.$padding-xs;
+  color: var(--chips-color);
+  padding: 0 variables.$padding-xs;
   border-radius: variables.$border-radius-rounded;
+
+  @each $name, $color in variables.$colors-map {
+    &.color-#{$name} {
+      --chips-color: var(--color-text-primary-dark);
+      --chips-background-color: #{$color};
+      --chips-intensity-modifier: 4;
+    }
+  }
+
+  @each $name, $color in variables.$semantic-colors-map {
+    &.color-#{$name} {
+      --chips-background-color: #{$color};
+    }
+  }
 
   &.clickable {
     @include clickable.clickable(var(--chips-background-color), var(--chips-intensity-modifier));

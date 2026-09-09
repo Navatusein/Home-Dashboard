@@ -1,15 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,XOPQ,XTRA,YOPQ,YTDE,YTFI,YTLC,YTUC@8..144,100..1000,96,468,79,-203,738,514,712&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "JetBrains Mono", monospace;
+  
+  //font-family: "JetBrains Mono", monospace;
+  //font-optical-sizing: auto;
+  //font-weight: 500;
+  //font-style: normal;
+
+  font-family: "Instrument Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-
+  font-size: var(--font-size-md);
+  
   &::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -29,6 +37,10 @@
   &::-webkit-scrollbar-thumb:active {
     background-color: var(--color-primary);
   }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
 }
 
 ul {

@@ -12,6 +12,7 @@ import SegmentHeaderPart from "../segment-header-part/segment-header-part";
 import TypographyTextPart from "../typography-text-part/typography-text-part";
 import ChipsPart from "../chips-part/chips-part";
 import RoundedIconPart from "../rounded-icon-part/rounded-icon-part";
+import DropdownPart from "../dropdown-part/dropdown-part";
 
 export default function UiKitView() {
   return (
@@ -29,6 +30,7 @@ export default function UiKitView() {
       <SegmentHeaderPart/>
       <ChipsPart/>
       <RoundedIconPart/>
+      <DropdownPart/>
     </Flex>
   )
 }

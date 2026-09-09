@@ -11,6 +11,12 @@
   gap: 8px;
 
   width: 100%;
+  
+  margin-bottom: variables.$gap-sm;
+
+  background-color: var(--color-secondary);
+  border-radius: variables.$border-radius-rounded;
+  padding-left: variables.$padding-xs;
 }
 
 .icon-container {
@@ -19,10 +25,6 @@
   justify-content: center;
 
   height: variables.$control-height-default;
-
-  background-color: var(--color-primary);
-  border-radius: variables.$border-radius-circle;
-  padding: 8px;
 }
 
 .title {
@@ -31,8 +33,4 @@
 
   width: 100%;
   height: variables.$control-height-default;
-
-  background-color: var(--color-primary);
-  border-radius: variables.$border-radius-rounded;
-  padding-left: 12px;
 }

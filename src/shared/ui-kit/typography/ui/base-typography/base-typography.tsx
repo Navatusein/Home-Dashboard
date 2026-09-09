@@ -8,6 +8,8 @@ const fontSizeVariants = Object.fromEntries(
   FONT_SIZES.map(value => [value, styles[`font-size-${value}`]])
 ) as Record<FontSizeToken, string>;
 
+export const DEFAULT_FONT_SIZE = "md";
+
 const variants = cva(
   styles["base"],
   {

@@ -30,10 +30,11 @@ const variants = cva(
 type Props = ComponentProps<"div"> & VariantProps<typeof variants> &  {
   path: string;
   size?: IconSizesToken;
+  iconColor?: ColorToken;
 }
 
 export default function RoundedIcon(props: Props) {
-  const {className, color, clickable, style, path, size, ...otherProps} = props;
+  const {className, color, iconColor, clickable, style, path, size, ...otherProps} = props;
 
   return (
     <Flex
@@ -49,7 +50,7 @@ export default function RoundedIcon(props: Props) {
       })}
       {...otherProps}
     >
-      <Icon path={path} size={size}/>
+      <Icon path={path} size={size} color={iconColor}/>
     </Flex>
   )
 }

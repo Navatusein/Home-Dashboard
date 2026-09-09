@@ -12,6 +12,7 @@ import {ResponsiveToggler} from "./responsive-toggler";
 import {ModalBackground} from "./modal-background";
 import {RoundedIcon} from "./rounded-icon";
 import {Icon} from "./icon";
+import {DropdownMenu} from "./dropdown-menu";
 
 export {
   BootstrapGrid,
@@ -28,4 +29,5 @@ export {
   ModalBackground,
   RoundedIcon,
   Icon,
+  DropdownMenu
 };

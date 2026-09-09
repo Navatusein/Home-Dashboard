@@ -2,13 +2,13 @@ import {ComponentProps} from "react";
 import {Slot} from "@radix-ui/react-slot"
 import {cva, VariantProps} from "class-variance-authority";
 import styles from "./button.module.scss";
-import {ColorToken, COLORS} from "@/shared/constants/colors";
+import {AllColorToken, ALL_COLORS} from "@/shared/constants/colors";
 import {Icon, Typography} from "@/shared/ui-kit";
 import {FontSizeToken} from "@/shared/constants/font-sizes";
 
-const colorVariants = Object.fromEntries(
-  COLORS.map(value => [value, styles[`color-${value}`]])
-) as Record<ColorToken, string>;
+const allColorVariants = Object.fromEntries(
+  ALL_COLORS.map(value => [value, styles[`color-${value}`]])
+) as Record<AllColorToken, string>;
 
 const variants = cva(
   styles["base"],
@@ -16,11 +16,15 @@ const variants = cva(
     variants: {
       color: {
         default: null,
-        ...colorVariants
+        ...allColorVariants
       },
       shape: {
         default: null,
         round: styles["shape-round"],
+      },
+      outline: {
+        true: styles["outline"],
+        false: null
       }
     },
     defaultVariants: {},
@@ -35,7 +39,7 @@ type Props = Omit<ComponentProps<"button">, "children"> & VariantProps<typeof va
 }
 
 export default function Button(props: Props) {
-  const {className, asChild = false, color, shape, children, icon, fontSize = "md", ...otherProps} = props;
+  const {className, asChild = false, outline, color, shape, children, icon, fontSize = "md", ...otherProps} = props;
 
   const TempComponent = asChild ? Slot : "button"
 
@@ -46,7 +50,8 @@ export default function Button(props: Props) {
       className={variants({
         className: className,
         color: color,
-        shape: shape
+        shape: shape,
+        outline: outline
       })}
       {...otherProps}
     >
