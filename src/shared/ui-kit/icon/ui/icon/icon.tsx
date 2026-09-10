@@ -21,7 +21,8 @@ const variants = cva(
       color: {
         default: null,
         ...colorVariants,
-        secondary: styles['color-secondary']
+        secondary: styles["color-secondary"],
+        primary: styles["color-primary"],
       },
       size: {
         ...iconSizesVariants

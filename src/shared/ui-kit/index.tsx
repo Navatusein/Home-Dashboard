@@ -13,6 +13,7 @@ import {ModalBackground} from "./modal-background";
 import {RoundedIcon} from "./rounded-icon";
 import {Icon} from "./icon";
 import {DropdownMenu} from "./dropdown-menu";
+import {Select} from "./select";
 
 export {
   BootstrapGrid,
@@ -29,5 +30,6 @@ export {
   ModalBackground,
   RoundedIcon,
   Icon,
-  DropdownMenu
+  DropdownMenu,
+  Select
 };

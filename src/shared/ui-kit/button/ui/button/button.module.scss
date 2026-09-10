@@ -23,7 +23,6 @@
   background-color: var(--button-background-color);
   color: var(--button-color);
   border-radius: var(--button-border-radius);
-  font-size: variables.$font-size-sm;
 
   &.shape-round {
     --button-border-radius: #{variables.$border-radius-rounded};

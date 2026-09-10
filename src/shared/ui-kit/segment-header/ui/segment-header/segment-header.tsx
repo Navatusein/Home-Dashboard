@@ -39,7 +39,7 @@ export default function SegmentHeader(props: Props) {
       <Link href={link ?? ""} className={styles["link"]} data-has-link={link != null}>
         <Flex align="center" gap="xs">
           {icon && (
-            <Icon path={icon} className={styles["icon"]} color={iconColor}/>
+            <Icon path={icon} color={iconColor ?? "primary"}/>
           )}
           <Typography.Text className={styles["title"]}>
             {title}

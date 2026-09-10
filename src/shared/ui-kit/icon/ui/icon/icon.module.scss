@@ -21,4 +21,8 @@
   &.color-secondary {
     --icon-color: var(--color-text-secondary);
   }
+
+  &.color-primary {
+    --icon-color: var(--color-text-primary);
+  }
 }

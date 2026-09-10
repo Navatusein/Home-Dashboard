@@ -13,6 +13,7 @@ import TypographyTextPart from "../typography-text-part/typography-text-part";
 import ChipsPart from "../chips-part/chips-part";
 import RoundedIconPart from "../rounded-icon-part/rounded-icon-part";
 import DropdownPart from "../dropdown-part/dropdown-part";
+import SelectPart from "../select-part/select-part";
 
 export default function UiKitView() {
   return (
@@ -31,6 +32,7 @@ export default function UiKitView() {
       <ChipsPart/>
       <RoundedIconPart/>
       <DropdownPart/>
+      <SelectPart/>
     </Flex>
   )
 }
