@@ -13,12 +13,12 @@ export default function SegmentDevelop() {
       <BaseButton
         icon={LayoutGridIcon}
         title="Main"
-        onClickAction={() => service.loadUrl({serviceData: {url: "https://dashboard.navatuseinlab.uk/terminal/main"}})}
+        onClickAction={() => service.loadUrl({serviceData: {url: "https://dashboard.navatuseinlab.uk/terminal/system"}})}
       />
       <BaseButton
         icon={LayoutGridIcon}
         title="Develop"
-        onClickAction={() => service.loadUrl({serviceData: {url: "https://develop.navatuseinlab.uk/terminal/main"}})}
+        onClickAction={() => service.loadUrl({serviceData: {url: "https://develop.navatuseinlab.uk/terminal/system"}})}
       />
     </Grid.Section>
   )
