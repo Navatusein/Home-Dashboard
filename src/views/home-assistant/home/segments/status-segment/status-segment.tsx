@@ -1,17 +1,24 @@
 import {Flex, ResponsiveToggler} from "@/shared/ui-kit";
 import {StatusCard} from "@/widgets/home-assistant-cards/status-card";
-import {mdiFlash, mdiHomeBattery, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent, mdiWeatherSunny} from "@mdi/js";
+import {mdiFlash, mdiHomeBattery, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent} from "@mdi/js";
+import {useEntity} from "@hakit/core";
+import {DEFAULT_WEATHER_ICON, WEATHER_ICONS} from "@/shared/constants/weather-icons";
 import {roundTextTransformer, numberFixedTextTransformerProvider} from "@/shared/text-transformers/number-text-transformer";
 import {pascalCaseTextTransformer} from "@/shared/text-transformers/case-text-transformer";
 
 export default function StatusSegment() {
+  const weatherIcon = useEntity("sensor.weather_icon");
+  const weatherSummary = useEntity("sensor.weather_summary");
+
+  const weather = WEATHER_ICONS[weatherIcon.state] ?? DEFAULT_WEATHER_ICON;
+
   return (
     <ResponsiveToggler breakpoint="sm" hide>
       <Flex justify="space-around">
         <StatusCard
-          icon={mdiWeatherSunny}
-          iconColor="yellow"
-          title="Sunny"
+          icon={weather.icon}
+          iconColor={weather.color}
+          title={weatherSummary.state}
           entity="sensor.weather_temperature"
           textTransformer={numberFixedTextTransformerProvider(1)}
         />
