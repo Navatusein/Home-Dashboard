@@ -15,39 +15,42 @@ const variants = cva(
   }
 )
 
-type Props = Omit<ComponentProps<"div">, "children"> & VariantProps<typeof variants> & {
+type Props = ComponentProps<"div"> & VariantProps<typeof variants> & {
   title: string
   icon?: string;
 }
 
 export default function ModalPopUpHeader(props: Props) {
-  const {className, title, icon, ...otherProps} = props;
+  const {className, title, icon, children, ...otherProps} = props;
 
   const modalContext = useContext(ModalContext);
 
   return (
     <div data-slot="modal-pop-up-header" className={styles["base"]}>
-      <div
-        className={variants({
-          className: className
-        })}
-        {...otherProps}
-      >
-        {icon && (
-          <div className={styles["icon-container"]}>
-            <Icon path={icon}/>
-          </div>
-        )}
-        <Typography.Paragraph className={styles["title"]}>
-          {title}
-        </Typography.Paragraph>
+      <div className={styles["row"]}>
+        <div
+          className={variants({
+            className: className
+          })}
+          {...otherProps}
+        >
+          {icon && (
+            <div className={styles["icon-container"]}>
+              <Icon path={icon}/>
+            </div>
+          )}
+          <Typography.Paragraph className={styles["title"]}>
+            {title}
+          </Typography.Paragraph>
+        </div>
+        <Button
+          icon={mdiClose}
+          shape="round"
+          color="secondary"
+          onClick={() => modalContext.close()}
+        />
       </div>
-      <Button
-        icon={mdiClose}
-        shape="round"
-        color="secondary"
-        onClick={() => modalContext.close()}
-      />
+      {children}
     </div>
   )
 }

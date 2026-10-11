@@ -3,6 +3,7 @@
 import {cva, VariantProps} from "class-variance-authority";
 import styles from "./modal-pop-up.module.scss";
 import ModalPopUpHeader from "../modal-pop-up-header/modal-pop-up-header";
+import ModalPopUpContent from "../modal-pop-up-content/modal-pop-up-content";
 import {AnimatePresence, HTMLMotionProps, motion} from "framer-motion";
 import {ModalBackground} from "@/shared/ui-kit/modal-background";
 import {ModalContext} from "@/shared/contexts/modal-context";
@@ -48,3 +49,4 @@ export default function ModalPopUp(props: Props) {
 }
 
 ModalPopUp.Header = ModalPopUpHeader;
+ModalPopUp.Content = ModalPopUpContent;

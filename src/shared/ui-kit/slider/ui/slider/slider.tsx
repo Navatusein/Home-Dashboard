@@ -4,25 +4,42 @@ import {ComponentProps} from "react";
 import {Root, Track, Range, Thumb} from "@radix-ui/react-slider";
 import {cva, VariantProps} from "class-variance-authority";
 import styles from "./slider.module.scss";
+import {ALL_COLORS, AllColorToken} from "@/shared/constants/colors";
+
+const colorVariants = Object.fromEntries(
+  ALL_COLORS.map(value => [value, styles[`color-${value}`]])
+) as Record<AllColorToken, string>;
 
 const variants = cva(
   styles["base"],
   {
     variants: {
+      color: {
+        default: null,
+        ...colorVariants
+      },
       vertical: {
         true: styles["vertical"],
         false: null
+      },
+      thumb: {
+        true: styles["with-thumb"],
+        false: null
+      },
+      tone: {
+        darker: styles["tone-darker"],
+        lighter: styles["tone-lighter"]
       }
     },
     defaultVariants: {},
   }
 )
 
-type Props = ComponentProps<typeof Root> & VariantProps<typeof variants> & {
+type Props = Omit<ComponentProps<typeof Root>, "color"> & VariantProps<typeof variants> & {
 }
 
 export default function Slider(props: Props) {
-  const {className, defaultValue, value, vertical, max, min, ...otherProps} = props;
+  const {className, defaultValue, value, color, vertical, thumb, tone, max, min, ...otherProps} = props;
   return (
     <Root
       data-slot="slider"
@@ -33,7 +50,10 @@ export default function Slider(props: Props) {
       max={max}
       className={variants({
         className: className,
-        vertical: vertical
+        color: color,
+        vertical: vertical,
+        thumb: thumb,
+        tone: tone
       })}
       {...otherProps}
     >

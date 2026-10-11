@@ -10,6 +10,7 @@
   background-color: var(--rounded-icon-background-color);
   height: variables.$control-height-default;
   width: variables.$control-height-default;
+  flex-shrink: 0;
   border-radius: variables.$border-radius-circle;
 
   @each $name, $color in variables.$colors-map {

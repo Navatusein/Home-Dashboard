@@ -14,6 +14,7 @@ import {RoundedIcon} from "./rounded-icon";
 import {Icon} from "./icon";
 import {DropdownMenu} from "./dropdown-menu";
 import {Select} from "./select";
+import {Switch} from "./switch";
 
 export {
   BootstrapGrid,
@@ -31,5 +32,6 @@ export {
   RoundedIcon,
   Icon,
   DropdownMenu,
-  Select
+  Select,
+  Switch
 };

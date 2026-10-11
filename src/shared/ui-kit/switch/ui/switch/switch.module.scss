@@ -1,0 +1,62 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  --switch-track-background: var(--color-primary);
+  --switch-color: var(--color-accent);
+  --switch-tone-amount: 35%;
+  --switch-checked-background: var(--switch-color);
+  --switch-thumb-background: var(--color-text-primary-light);
+  --switch-width: 44px;
+  --switch-height: 24px;
+  --switch-thumb-offset: 2px;
+
+  position: relative;
+  flex-shrink: 0;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  border: 0;
+  border-radius: variables.$border-radius-rounded;
+  background-color: var(--switch-track-background);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  -webkit-tap-highlight-color: var(--color-transparent);
+
+  @each $name, $color in variables.$colors-map {
+    &.color-#{$name} {
+      --switch-color: #{$color};
+    }
+  }
+
+  &.tone-darker {
+    --switch-checked-background: color-mix(in srgb, var(--color-text-primary-dark) var(--switch-tone-amount), var(--switch-color));
+  }
+
+  &.tone-lighter {
+    --switch-checked-background: color-mix(in srgb, var(--color-text-primary-light) var(--switch-tone-amount), var(--switch-color));
+  }
+
+  &[data-state="checked"] {
+    background-color: var(--switch-checked-background);
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.thumb {
+  display: block;
+  width: calc(var(--switch-height) - (var(--switch-thumb-offset) * 2));
+  height: calc(var(--switch-height) - (var(--switch-thumb-offset) * 2));
+  border-radius: variables.$border-radius-circle;
+  background-color: var(--switch-thumb-background);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transform: translateX(var(--switch-thumb-offset));
+  transition: transform 0.15s ease;
+
+  &[data-state="checked"] {
+    transform: translateX(calc(var(--switch-width) - var(--switch-height) + var(--switch-thumb-offset)));
+  }
+}

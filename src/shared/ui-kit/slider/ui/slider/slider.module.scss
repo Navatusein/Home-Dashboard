@@ -3,9 +3,15 @@
 .base {
   --slider-track-border-radius: #{variables.$border-radius-sm};
   --slider-track-background: var(--color-primary);
-  --slider-range-background: var(--color-accent);
+  --slider-color: var(--color-accent);
+  --slider-tone-amount: 35%;
+  --slider-range-background: var(--slider-color);
   --slider-range-border-radius: #{variables.$border-radius-sm};
   --slider-range-min-size: 10px;
+  --slider-thumb-background: var(--color-text-primary-light);
+  --slider-thumb-length: 20px;
+  --slider-thumb-thickness: 6px;
+  --slider-thumb-offset: 8px;
 
   position: relative;
   display: flex;
@@ -15,6 +21,40 @@
   border-radius: var(--slider-track-border-radius);
   overflow: hidden;
   height: variables.$control-height-default;
+
+  @each $name, $color in variables.$all-colors-map {
+    &.color-#{$name} {
+      --slider-color: #{$color};
+    }
+  }
+
+  &.color-primary {
+    --slider-track-background: var(--color-secondary);
+  }
+
+  &.color-secondary {
+    --slider-track-background: var(--color-primary);
+  }
+
+  @each $name, $color in variables.$semantic-colors-map {
+    &.color-#{$name} {
+      --slider-tone-amount: 10%;
+    }
+  }
+
+  &.tone-darker {
+    --slider-track-background: color-mix(in srgb, var(--color-text-primary-dark) 15%, transparent);
+    --slider-range-background: color-mix(in srgb, var(--color-text-primary-dark) var(--slider-tone-amount), var(--slider-color));
+  }
+
+  &.tone-lighter {
+    --slider-track-background: color-mix(in srgb, var(--color-text-primary-dark) 15%, transparent);
+    --slider-range-background: color-mix(in srgb, var(--color-text-primary-light) var(--slider-tone-amount), var(--slider-color));
+  }
+
+  &.with-thumb {
+    --slider-range-min-size: 0px;
+  }
 
   &.rounded {
     --slider-range-border-radius: #{variables.$border-radius-md};
@@ -49,7 +89,7 @@
 }
 
 .track {
-  background-color: var(--slider-track-background);
+  background: var(--slider-track-background);
   position: relative;
   flex-grow: 1;
   height: 100%;
@@ -57,7 +97,7 @@
   &::after {
     content: "";
     position: absolute;
-    background-color: var(--slider-range-background);
+    background: var(--slider-range-background);
     border-radius: 0 var(--slider-range-border-radius) var(--slider-range-border-radius) 0;
     top: 0;
     left: 0;
@@ -68,8 +108,40 @@
 }
 
 .range {
-  background-color: var(--slider-range-background);
+  background: var(--slider-range-background);
   position: absolute;
   border-radius: 0 var(--slider-range-border-radius) var(--slider-range-border-radius) 0;
   height: 100%;
+}
+
+// Бегунок рисуется на конце заполнения, а не на Thumb из Radix: тот центрируется на границе и наполовину вылезает из заполнения
+.with-thumb .range {
+  min-width: calc(var(--slider-thumb-offset) * 2 + var(--slider-thumb-thickness));
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: var(--slider-thumb-offset);
+    translate: 0 -50%;
+    width: var(--slider-thumb-thickness);
+    height: var(--slider-thumb-length);
+    border-radius: variables.$border-radius-rounded;
+    background: var(--slider-thumb-background);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.vertical.with-thumb .range {
+  min-width: unset;
+  min-height: calc(var(--slider-thumb-offset) * 2 + var(--slider-thumb-thickness));
+
+  &::after {
+    top: var(--slider-thumb-offset);
+    right: unset;
+    left: 50%;
+    translate: -50% 0;
+    width: var(--slider-thumb-length);
+    height: var(--slider-thumb-thickness);
+  }
 }

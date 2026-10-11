@@ -85,6 +85,8 @@ Entity ids are hard-coded string literals at the call site (e.g. `button.navatus
 
 Room/personal modals on the home view are driven by the URL: `QueryModalControl` opens a `ModalPopUp` when `?modal=<name>` matches and closes by pushing the bare pathname. To add one, create it under `views/home-assistant/home/modals/`, mount it in `HomeView`, and add a navbar item with the same `modal` value.
 
+A modal body is `ModalPopUp.Header` (fixed; its children, e.g. a row of chips, stay fixed with it) followed by `ModalPopUp.Content`, which is the only part that scrolls. Anything placed outside `ModalPopUp.Content` is clipped when it does not fit.
+
 ### Terminal grid
 
 - `TerminalLayout` renders one `Grid` (12 columns × 7 rows); `TerminalModal` overlays a second grid of the same size.

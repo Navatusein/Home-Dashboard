@@ -14,6 +14,7 @@ import ChipsPart from "../chips-part/chips-part";
 import RoundedIconPart from "../rounded-icon-part/rounded-icon-part";
 import DropdownPart from "../dropdown-part/dropdown-part";
 import SelectPart from "../select-part/select-part";
+import SwitchPart from "../switch-part/switch-part";
 
 export default function UiKitView() {
   return (
@@ -33,6 +34,7 @@ export default function UiKitView() {
       <RoundedIconPart/>
       <DropdownPart/>
       <SelectPart/>
+      <SwitchPart/>
     </Flex>
   )
 }
