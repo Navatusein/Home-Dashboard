@@ -7,3 +7,4 @@ export type EntityNameNumber = `number.${string}`;
 export type EntityNameButton = `button.${string}`;
 export type EntityNameSelect = `select.${string}`;
 export type EntityNameBinarySensor = `binary_sensor.${string}`;
+export type EntityNameCover = `cover.${string}`;

@@ -39,11 +39,11 @@ export default function ClimateCard(props: Props) {
         <Flex gap="xs" align="center" style={{height: "100%"}}>
           <RoundedIcon path={mdiThermostat}/>
           <Flex vertical>
-            <Typography.Text>
-              {props.title}
+            <Typography.Text bold>
+              {`${currentMode?.title} ${climateEntity.attributes.current_temperature}°C`}
             </Typography.Text>
             <Typography.Text textColor="secondary" fontSize="sm">
-              {`${currentMode?.title} ${climateEntity.attributes.current_temperature}°C`}
+              {props.title}
             </Typography.Text>
           </Flex>
         </Flex>
