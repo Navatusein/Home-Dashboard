@@ -15,6 +15,7 @@ import {Icon} from "./icon";
 import {DropdownMenu} from "./dropdown-menu";
 import {Select} from "./select";
 import {Switch} from "./switch";
+import {Chart, ChartOption} from "./chart";
 
 export {
   BootstrapGrid,
@@ -33,5 +34,8 @@ export {
   Icon,
   DropdownMenu,
   Select,
-  Switch
+  Switch,
+  Chart
 };
+
+export type {ChartOption};
