@@ -1,6 +1,6 @@
-import ServerControls from "../server-controls/server-controls";
+import ServerControls from "../../ui/server-controls/server-controls";
 
-export default function SegmentServers() {
+export default function ServersSegment() {
   return (
     <>
       <ServerControls

@@ -9,7 +9,7 @@ import PlugConnectedIcon from "@public/icons/home-automation-and-buildings/plug-
 import PlugConnectedXIcon from "@public/icons/home-automation-and-buildings/plug-connected-x.svg";
 import BoltIcon from "@public/icons/weather/bolt.svg";
 
-export default function SegmentPowerGrid() {
+export default function PowerGridSegment() {
   const inputSource = useEntity("sensor.gx_device_ac_active_input_source");
 
   const isGrid = inputSource.state == "grid";

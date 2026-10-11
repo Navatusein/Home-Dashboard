@@ -7,7 +7,7 @@ import Microphone2Icon from "@public/icons/media/microphone-2.svg";
 import HeadphonesOffIcon from "@public/icons/media/headphones-off.svg";
 import HeadphonesIcon from "@public/icons/media/headphones.svg";
 
-export default function SegmentCommunicationControl() {
+export default function CommunicationControlSegment() {
   return (
     <>
       {/*<Grid.Section rowStart={2} colStart={11} direction="vertical">*/}

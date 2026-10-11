@@ -12,7 +12,7 @@ import LinkOffIcon from "@public/icons/software-editors-and-uI/link-off.svg";
 import CaptureIcon from "@public/icons/streaming-and-socials/capture.svg";
 import CaptureOffIcon from "@public/icons/streaming-and-socials/capture-off.svg";
 
-export default function SegmentObs() {
+export default function ObsSegment() {
   const isObsDisconnected = useEntityOff("binary_sensor.navatusein_pc_obs_plugin_status");
 
   return (

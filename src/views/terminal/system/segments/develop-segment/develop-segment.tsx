@@ -5,7 +5,7 @@ import {useService} from "@hakit/core";
 import {BaseButton} from "@/widgets/terminal-buttons/base-button";
 import LayoutGridIcon from "@public/icons/software-editors-and-uI/layout-grid.svg";
 
-export default function SegmentDevelop() {
+export default function DevelopSegment() {
   const service = useService("fully_kiosk", {device_id: "bf81236db0217da00f70e0651e582f84"});
 
   return (

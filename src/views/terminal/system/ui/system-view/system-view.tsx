@@ -1,19 +1,19 @@
-import SegmentPcControl from "../segment-pc-control/segment-pc-control";
-import SegmentFastLaunch from "../segment-fast-launch/segment-fast-launch";
-import SegmentStatus from "../segment-status/segment-status";
-import SegmentDevelop from "../segment-develop/segment-develop";
-import SegmentPowerGrid from "../segment-power-grid/segment-power-grid";
-import SegmentServers from "../segment-servers/segment-servers";
+import PcControlSegment from "../../segments/pc-control-segment/pc-control-segment";
+import FastLaunchSegment from "../../segments/fast-launch-segment/fast-launch-segment";
+import StatusSegment from "../../segments/status-segment/status-segment";
+import DevelopSegment from "../../segments/develop-segment/develop-segment";
+import PowerGridSegment from "../../segments/power-grid-segment/power-grid-segment";
+import ServersSegment from "../../segments/servers-segment/servers-segment";
 
 export default function SystemView() {
   return (
     <>
-      <SegmentStatus/>
-      <SegmentPowerGrid/>
-      <SegmentServers/>
-      <SegmentFastLaunch/>
-      <SegmentPcControl/>
-      <SegmentDevelop/>
+      <StatusSegment/>
+      <PowerGridSegment/>
+      <ServersSegment/>
+      <FastLaunchSegment/>
+      <PcControlSegment/>
+      <DevelopSegment/>
     </>
   )
 }

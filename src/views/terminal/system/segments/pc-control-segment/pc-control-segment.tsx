@@ -11,7 +11,7 @@ import ReloadIcon from "@public/icons/devices-and-networks/reload.svg";
 import DeviceLaptopIcon from "@public/icons/devices-and-networks/device-laptop.svg";
 import DeviceLaptopOffIcon from "@public/icons/devices-and-networks/device-laptop-off.svg";
 
-export default function SegmentPcControl() {
+export default function PcControlSegment() {
   return (
     <>
       <AgentDisabledProvider>

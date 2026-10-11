@@ -2,7 +2,7 @@ import {Grid} from "@/shared/ui-kit";
 import {ButtonButton} from "@/widgets/terminal-buttons/button-button";
 import {AgentDisabledProvider} from "@/features/agent-disabled-provider";
 
-export default function SegmentFastLaunch() {
+export default function FastLaunchSegment() {
   return (
     <>
       <AgentDisabledProvider>

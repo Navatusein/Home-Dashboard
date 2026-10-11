@@ -59,7 +59,7 @@ Every non-trivial module follows the same shape and is imported through its `ind
   helpers/                        # optional
 ```
 
-Stick to this pattern when adding new components — pages, layouts, widgets, features, and UI-kit primitives all use it. Views additionally keep their page-private pieces next to `ui/`: `views/home-assistant/home/{segments,modals}/` and `views/terminal/*/ui/segment-*/`.
+Stick to this pattern when adding new components — pages, layouts, widgets, features, and UI-kit primitives all use it. Views additionally keep their page-private pieces next to `ui/`: `views/home-assistant/home/{segments,modals}/` and `views/terminal/*/segments/`. A segment lives in `segments/<name>-segment/<name>-segment.tsx` and exports `<Name>Segment`.
 
 ### Routing
 

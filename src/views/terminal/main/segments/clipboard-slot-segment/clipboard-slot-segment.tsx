@@ -1,7 +1,7 @@
 import {Grid} from "@/shared/ui-kit";
 import {ClipboardSlotButton} from "@/widgets/terminal-buttons/clipboard-slot-button";
 
-export default function SegmentClipboardSlot() {
+export default function ClipboardSlotSegment() {
   return (
     <>
       <Grid.Section rowStart={3} colStart={7} direction="horizontal">

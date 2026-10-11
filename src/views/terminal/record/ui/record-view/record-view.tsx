@@ -1,9 +1,9 @@
-import SegmentObs from "../segment-obs/segment-obs";
+import ObsSegment from "../../segments/obs-segment/obs-segment";
 
 export default function RecordView() {
   return (
     <>
-      <SegmentObs/>
+      <ObsSegment/>
     </>
   )
 }

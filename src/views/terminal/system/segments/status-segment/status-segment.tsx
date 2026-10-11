@@ -12,7 +12,7 @@ import LockIcon from "@public/icons/home-automation-and-buildings/lock.svg"
 import LockOpenIcon from "@public/icons/home-automation-and-buildings/lock-open.svg"
 import {AgentDisabledProvider} from "@/features/agent-disabled-provider";
 
-export default function SegmentStatus() {
+export default function StatusSegment() {
   const isUserSessionUnlocked = !useEntityOff("binary_sensor.navatusein_pc_user_session");
   const isPcRunning = !useEntityOff("binary_sensor.navatusein_pc_pc_running");
   const isAgentRunning = !useEntityOff("binary_sensor.navatusein_pc_agent_running");
