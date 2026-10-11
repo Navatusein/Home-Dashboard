@@ -1,0 +1,113 @@
+import {ColorToken} from "@/shared/constants/colors";
+import {PowerFlowNode} from "../types/types";
+
+type ValueNode = {
+  title: string;
+  color?: ColorToken;
+  value: number;
+  size: number;
+  children: ValueNode[];
+}
+
+export type FlowNode = {
+  key: string;
+  title: string;
+  color?: ColorToken;
+  value: number;
+  size: number;
+  depth?: number;
+}
+
+export type FlowLink = {
+  source: string;
+  target: string;
+  value: number;
+}
+
+export type Flow = {
+  nodes: FlowNode[];
+  links: FlowLink[];
+}
+
+const MIN_VALUE = 1;
+
+function resolveValues(node: PowerFlowNode, values: Record<string, number>): ValueNode {
+  const children = (node.children ?? [])
+    .map((child) => resolveValues(child, values))
+    .filter((child) => child.value >= MIN_VALUE);
+
+  const tracked = children.reduce((total, child) => total + child.value, 0);
+  const value = values[node.entity] > 0 ? values[node.entity] : tracked;
+
+  return {title: node.title, color: node.color, value: value, size: 0, children: children};
+}
+
+function resolveSizes(node: ValueNode, size: number) {
+  const tracked = node.children.reduce((total, child) => total + child.value, 0);
+  const factor = tracked > size ? size / tracked : 1;
+  const untracked = size - tracked * factor;
+
+  node.size = size;
+
+  for (const child of node.children)
+    resolveSizes(child, child.value * factor);
+
+  if (node.children.length > 0 && untracked >= MIN_VALUE)
+    node.children.push({title: "Untracked", value: untracked, size: untracked, children: []});
+}
+
+export function buildFlow(sources: PowerFlowNode[], home: PowerFlowNode, values: Record<string, number>): Flow {
+  const nodes: FlowNode[] = [];
+  const links: FlowLink[] = [];
+
+  const homeValues = resolveValues(home, values);
+
+  if (homeValues.value < MIN_VALUE)
+    return {nodes: nodes, links: links};
+
+  resolveSizes(homeValues, homeValues.value);
+
+  const inputs = sources.map((source) => ({source: source, value: values[source.entity] || 0}));
+  const activeSources = inputs.filter((input) => input.value >= MIN_VALUE);
+  const sourcesTotal = activeSources.reduce((total, input) => total + input.value, 0);
+
+  const sinks: FlowNode[] = inputs
+    .filter((input) => input.value <= -MIN_VALUE)
+    .map((input, index) => ({key: `sink-${index}`, title: input.source.title, color: input.source.color, value: -input.value, size: -input.value, depth: 1}));
+
+  const loss = sourcesTotal - homeValues.value - sinks.reduce((total, sink) => total + sink.value, 0);
+
+  if (loss >= MIN_VALUE)
+    sinks.push({key: "loss", title: "Inverter", value: loss, size: loss, depth: 1});
+
+  const targets = [{key: "home", size: homeValues.value}, ...sinks];
+  const targetsTotal = targets.reduce((total, target) => total + target.size, 0);
+
+  activeSources.forEach((input, index) => {
+    const key = `source-${index}`;
+    const share = input.value / sourcesTotal;
+
+    nodes.push({key: key, title: input.source.title, color: input.source.color, value: input.value, size: targetsTotal * share});
+
+    for (const target of targets)
+      links.push({source: key, target: target.key, value: target.size * share});
+  });
+
+  const flatten = (node: ValueNode, key: string) => {
+    nodes.push({key: key, title: node.title, color: node.color, value: node.value, size: node.size});
+
+    node.children.forEach((child, index) => {
+      const childKey = `${key}-${index}`;
+
+      links.push({source: key, target: childKey, value: child.size});
+      flatten(child, childKey);
+    });
+  }
+
+  flatten(homeValues, "home");
+
+  if (activeSources.length > 0)
+    nodes.push(...sinks);
+
+  return {nodes: nodes, links: links};
+}

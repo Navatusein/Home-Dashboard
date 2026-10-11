@@ -1,0 +1,21 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: variables.$gap-xxs;
+}
+
+.circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  border: 2px solid var(--node-color);
+  border-radius: variables.$border-radius-circle;
+  background-color: var(--color-secondary);
+}
