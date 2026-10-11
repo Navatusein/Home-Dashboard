@@ -63,6 +63,7 @@ export default function BaseButton(props: Props) {
     onLongPressAction,
     onReleaseAction,
     suppressHydrationWarning,
+    longPressDelay,
     ...otherProps
   } = props;
 
@@ -72,7 +73,7 @@ export default function BaseButton(props: Props) {
     onLongPressAction: onLongPressAction,
     onReleaseAction: onReleaseAction,
     moveThreshold: 20,
-    longPressDelay: props.longPressDelay,
+    longPressDelay: longPressDelay,
   });
 
   const groupDisabled = useContext(DisabledContext);
