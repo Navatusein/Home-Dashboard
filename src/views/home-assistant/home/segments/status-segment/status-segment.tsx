@@ -1,6 +1,6 @@
 import {Flex, ResponsiveToggler} from "@/shared/ui-kit";
 import {StatusCard} from "@/widgets/home-assistant-cards/status-card";
-import {mdiFlash, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent, mdiWeatherSunny} from "@mdi/js";
+import {mdiFlash, mdiHomeBattery, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent, mdiWeatherSunny} from "@mdi/js";
 import {roundTextTransformer, numberFixedTextTransformerProvider} from "@/shared/text-transformers/number-text-transformer";
 import {pascalCaseTextTransformer} from "@/shared/text-transformers/case-text-transformer";
 
@@ -42,6 +42,13 @@ export default function StatusSegment() {
           iconColor="secondary"
           entity="vacuum.valetudo_roborocks5"
           textTransformer={pascalCaseTextTransformer}
+        />
+        <StatusCard
+          icon={mdiHomeBattery}
+          iconColor="red"
+          title="Victron"
+          entity="sensor.pylontech_battery_id_512_charge"
+          textTransformer={roundTextTransformer}
         />
       </Flex>
     </ResponsiveToggler>
