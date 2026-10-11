@@ -5,7 +5,11 @@ import {usePathname, useRouter} from "next/navigation";
 import {EntityStateCard} from "@/widgets/home-assistant-cards/entity-state-card";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 
-export default function NetworkSegment() {
+type Props = {
+  modal?: string;
+}
+
+export default function NetworkSegment(props: Props) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -29,7 +33,7 @@ export default function NetworkSegment() {
             text={isConnected ? "Connected" : "Disconnected"}
             icon={isConnected ? mdiRouterNetworkWireless : mdiRouterNetwork}
             color={isConnected ? "teal" : undefined}
-            onClick={() => router.push(`${pathname}?modal=network`)}
+            onClick={props.modal ? () => router.push(`${pathname}?modal=${props.modal}`) : undefined}
           />
         </Grid.Element>
         <EntityStateCard

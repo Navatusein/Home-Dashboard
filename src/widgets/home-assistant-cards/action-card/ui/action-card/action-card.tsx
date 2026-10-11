@@ -1,20 +1,22 @@
 import {Card, Flex, RoundedIcon, Typography} from "@/shared/ui-kit";
 import {useEntity} from "@hakit/core";
-import {EntityNameButton} from "@/shared/types/ha-domains";
+import {EntityNameButton, EntityNameScript} from "@/shared/types/ha-domains";
 import {useConfirm} from "@/shared/hooks/use-confirm";
 
 type Props = {
   title: string,
   description: string,
   icon: string,
-  entity: EntityNameButton,
+  entity: EntityNameButton | EntityNameScript,
   confirm?: boolean,
 }
 
 export default function ActionCard(props: Props) {
   const entity = useEntity(props.entity);
 
-  const {isConfirming, confirm} = useConfirm(() => entity.service.press());
+  const run = () => "press" in entity.service ? entity.service.press() : entity.service.turnOn();
+
+  const {isConfirming, confirm} = useConfirm(run);
 
   return (
     <Card
@@ -22,7 +24,7 @@ export default function ActionCard(props: Props) {
       padding="xs"
       clickable
       color={isConfirming ? "red" : undefined}
-      onClick={() => props.confirm ? confirm() : entity.service.press()}
+      onClick={() => props.confirm ? confirm() : run()}
     >
       <Flex align="center" gap="xs" style={{height: "100%"}}>
         <RoundedIcon path={props.icon}/>

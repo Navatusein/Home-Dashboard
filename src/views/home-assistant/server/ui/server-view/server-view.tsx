@@ -1,15 +1,20 @@
 "use client"
 
 import {BootstrapGrid, Flex} from "@/shared/ui-kit";
+import {useUser} from "@hakit/core";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
 import StatusSegment from "../../segments/status-segment/status-segment";
 import NodeSegment from "../../segments/node-segment/node-segment";
-import InverterSegment from "../../segments/inverter-segment/inverter-segment";
 import NetworkSegment from "../../segments/network-segment/network-segment";
 import NodeModal from "../../modals/node-modal/node-modal";
 import NetworkModal from "../../modals/network-modal/network-modal";
+import AdminSegment from "../../segments/admin-segment/admin-segment";
+import BatteriesModal from "../../modals/batteries-modal/batteries-modal";
+import UpdatesModal from "../../modals/updates-modal/updates-modal";
 
 export default function ServerView() {
+  const canOpenModals = useUser()?.name == "Bohdan";
+
   return (
     <Flex vertical gap="sm">
       <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
@@ -25,7 +30,7 @@ export default function ServerView() {
           <NodeSegment
             title="Vega"
             color="blue"
-            modal="vega"
+            modal={canOpenModals ? "vega" : undefined}
             statusBinarySensor="binary_sensor.node_vega_status"
             cpuSensor="sensor.node_vega_cpu_used"
             memorySensor="sensor.node_vega_memory_used_percentage"
@@ -37,7 +42,7 @@ export default function ServerView() {
           <NodeSegment
             title="Sirius"
             color="purple"
-            modal="sirius"
+            modal={canOpenModals ? "sirius" : undefined}
             statusBinarySensor="binary_sensor.node_sirius_status"
             cpuSensor="sensor.node_sirius_cpu_used"
             memorySensor="sensor.node_sirius_memory_used_percentage"
@@ -49,7 +54,7 @@ export default function ServerView() {
           <NodeSegment
             title="Orion"
             color="orange"
-            modal="orion"
+            modal={canOpenModals ? "orion" : undefined}
             statusBinarySensor="binary_sensor.node_orion_status"
             cpuSensor="sensor.node_orion_cpu_used"
             memorySensor="sensor.node_orion_memory_used_percentage"
@@ -58,28 +63,34 @@ export default function ServerView() {
           />
         </BootstrapGrid.Column>
         <BootstrapGrid.Column span={8} lg={12} md={24}>
-          <InverterSegment/>
+          <NetworkSegment modal={canOpenModals ? "network" : undefined}/>
         </BootstrapGrid.Column>
         <BootstrapGrid.Column span={8} lg={12} md={24}>
-          <NetworkSegment/>
+          <AdminSegment canOpenModals={canOpenModals}/>
         </BootstrapGrid.Column>
       </BootstrapGrid.Row>
-      <NodeModal
-        title="Vega"
-        node="vega"
-        color="blue"
-      />
-      <NodeModal
-        title="Sirius"
-        node="sirius"
-        color="purple"
-      />
-      <NodeModal
-        title="Orion"
-        node="orion"
-        color="orange"
-      />
-      <NetworkModal/>
+      {canOpenModals && (
+        <>
+          <NodeModal
+            title="Vega"
+            node="vega"
+            color="blue"
+          />
+          <NodeModal
+            title="Sirius"
+            node="sirius"
+            color="purple"
+          />
+          <NodeModal
+            title="Orion"
+            node="orion"
+            color="orange"
+          />
+          <NetworkModal/>
+          <BatteriesModal/>
+          <UpdatesModal/>
+        </>
+      )}
     </Flex>
   )
 }

@@ -3,11 +3,13 @@ import {isUnavailableState, useEntity} from "@hakit/core";
 import {EntityNameSensor} from "@/shared/types/ha-domains";
 import {TextTransformer} from "@/shared/text-transformers/base-text-transformer";
 import {roundTextTransformer} from "@/shared/text-transformers/number-text-transformer";
+import {ColorToken} from "@/shared/constants/colors";
 
 type Props = {
   title: string,
   entity: EntityNameSensor,
   icon?: string,
+  iconColor?: ColorToken,
   textTransformer?: TextTransformer,
   unit?: string,
 }
@@ -22,7 +24,7 @@ export default function EntityStateCard(props: Props) {
     <Card stackCount={1} padding={props.icon ? "xs" : "sm"}>
       <Flex align="center" gap="xs" style={{height: "100%"}}>
         {props.icon && (
-          <RoundedIcon path={props.icon}/>
+          <RoundedIcon path={props.icon} iconColor={props.iconColor}/>
         )}
         <Flex vertical>
           <Typography.Text bold>

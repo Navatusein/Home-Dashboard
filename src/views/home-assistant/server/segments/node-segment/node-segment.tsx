@@ -11,7 +11,7 @@ import {numberFixedTextTransformerProvider} from "@/shared/text-transformers/num
 type Props = {
   title: string;
   color: ColorToken;
-  modal: string;
+  modal?: string;
   statusBinarySensor: EntityNameBinarySensor;
   cpuSensor: EntityNameSensor;
   memorySensor: EntityNameSensor;
@@ -33,7 +33,7 @@ export default function NodeSegment(props: Props) {
         text={isOnline ? "Online" : "Offline"}
         icon={isOnline ? mdiServer : mdiServerOff}
         color={isOnline ? props.color : undefined}
-        onClick={() => router.push(`${pathname}?modal=${props.modal}`)}
+        onClick={props.modal ? () => router.push(`${pathname}?modal=${props.modal}`) : undefined}
       />
       <Grid columns={2} gap="xs">
         <EntityStateCard

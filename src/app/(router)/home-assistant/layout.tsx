@@ -9,7 +9,7 @@ import {
   mdiShoePrint,
   mdiBathtub,
   mdiSilverwareForkKnife,
-  mdiSofa, mdiLightningBolt, mdiTabletDashboard
+  mdiSofa, mdiLightningBolt, mdiTabletDashboard, mdiTools
 } from "@mdi/js";
 import {HomeAssistantDashboardLayout} from "@/app/layouts/home-assistant-dashboard-layout";
 
@@ -97,14 +97,14 @@ const NavbarCardItems: NavbarCardItem[] = [
     title: "Energy",
     path: "/home-assistant/energy",
     color: "yellow",
-    icon: mdiLightningBolt,
-    hideOnMobile: true,
+    icon: mdiLightningBolt
   },
   {
     title: "Security",
     path: "/home-assistant/security",
     color: "red",
-    icon: mdiShieldHome
+    icon: mdiShieldHome,
+    hideOnMobile: true,
   },
   {
     title: "Personal",
@@ -123,6 +123,13 @@ const NavbarCardItems: NavbarCardItem[] = [
         color: "blue",
         icon: mdiServer,
         path: "/home-assistant/server",
+      },
+      {
+        title: "Service",
+        color: "blue",
+        icon: mdiTools,
+        path: "/home-assistant/service",
+        forUsers: ["Bohdan"]
       },
       {
         title: "Terminal",
