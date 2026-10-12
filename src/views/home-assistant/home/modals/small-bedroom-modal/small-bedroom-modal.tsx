@@ -13,6 +13,8 @@ import {
   mdiThermostat,
   mdiWindowClosedVariant
 } from "@mdi/js";
+import {useUser} from "@hakit/core";
+import {useRouter} from "next/navigation";
 import {QueryModalControl} from "@/features/query-modal-control";
 import {Chips} from "@/shared/ui-kit/chips";
 import {ClimateCard} from "@/widgets/home-assistant-cards/climate-card";
@@ -23,7 +25,10 @@ import {ActionCard} from "@/widgets/home-assistant-cards/action-card";
 import {useEntityOff} from "@/shared/hooks/use-entity-off";
 
 export default function SmallBedroomModal() {
+  const router = useRouter();
+
   const isComputerOn = !useEntityOff("binary_sensor.navatusein_pc_pc_running");
+  const canOpenPc = useUser()?.name == "Bohdan";
 
   return (
     <QueryModalControl modal="small-bedroom">
@@ -66,6 +71,7 @@ export default function SmallBedroomModal() {
                 text={isComputerOn ? "On" : "Off"}
                 icon={isComputerOn ? mdiDesktopTowerMonitor : mdiMonitorOff}
                 color={isComputerOn ? "teal" : undefined}
+                onClick={canOpenPc ? () => router.push("/home-assistant/navatusein-pc") : undefined}
               />
             </Grid.Element>
             <ActionCard
