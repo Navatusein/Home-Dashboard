@@ -1,5 +1,5 @@
 import {Card, Flex, RoundedIcon, Typography} from "@/shared/ui-kit";
-import {useEntity} from "@hakit/core";
+import {useService} from "@hakit/core";
 import {EntityNameButton, EntityNameScript} from "@/shared/types/ha-domains";
 import {useConfirm} from "@/shared/hooks/use-confirm";
 
@@ -12,9 +12,11 @@ type Props = {
 }
 
 export default function ActionCard(props: Props) {
-  const entity = useEntity(props.entity);
+  const service = useService();
 
-  const run = () => "press" in entity.service ? entity.service.press() : entity.service.turnOn();
+  const run = () => props.entity.startsWith("button.")
+    ? service("button").press({target: props.entity})
+    : service("script").turnOn({target: props.entity});
 
   const {isConfirming, confirm} = useConfirm(run);
 
