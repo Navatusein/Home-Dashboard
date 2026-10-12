@@ -5,5 +5,6 @@ export type PowerFlowNode = {
   title: string;
   entity: EntityNameSensor;
   color: ColorToken;
+  coversLoss?: boolean;
   children?: PowerFlowNode[];
 }

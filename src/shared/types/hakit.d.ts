@@ -7,5 +7,8 @@ declare module "@hakit/core" {
       startApplication: ServiceFunction<object, T, {application: string}>;
       setConfig: ServiceFunction<object, T, {key: string; value: string}>;
     };
+    vacuum: DefaultServices<T>["vacuum"] & {
+      cleanArea: ServiceFunction<object, T, {cleaning_area_id: string[]}>;
+    };
   }
 }

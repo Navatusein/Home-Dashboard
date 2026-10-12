@@ -1,63 +1,88 @@
-import {Flex, ResponsiveToggler} from "@/shared/ui-kit";
 import {StatusCard} from "@/widgets/home-assistant-cards/status-card";
-import {mdiFlash, mdiHomeBattery, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent} from "@mdi/js";
+import {mdiFlash, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent} from "@mdi/js";
 import {useEntity} from "@hakit/core";
+import {usePathname, useRouter} from "next/navigation";
 import {DEFAULT_WEATHER_ICON, WEATHER_ICONS} from "@/shared/constants/weather-icons";
+import {BATTERY_PERCENT_CHARGING_ICONS, BATTERY_PERCENT_ICONS, BatteryPercentTokens} from "@/shared/constants/battery-percent-icons";
 import {roundTextTransformer, numberFixedTextTransformerProvider} from "@/shared/text-transformers/number-text-transformer";
 import {pascalCaseTextTransformer} from "@/shared/text-transformers/case-text-transformer";
+import styles from "./status-segment.module.scss";
+
+const BATTERY_LOW_CHARGE = 50;
+const BATTERY_CRITICAL_CHARGE = 20;
+
+function getBatteryColor(charge: number, state: string) {
+  if (charge < BATTERY_CRITICAL_CHARGE)
+    return "red";
+
+  if (charge < BATTERY_LOW_CHARGE)
+    return "orange";
+
+  return state == "discharging" ? "yellow" : "green";
+}
 
 export default function StatusSegment() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const weatherIcon = useEntity("sensor.weather_icon");
   const weatherSummary = useEntity("sensor.weather_summary");
 
+  const batteryCharge = useEntity("sensor.pylontech_battery_id_512_charge");
+  const batteryState = useEntity("sensor.gx_device_dc_battery_state");
+
   const weather = WEATHER_ICONS[weatherIcon.state] ?? DEFAULT_WEATHER_ICON;
 
+  const charge = Number(batteryCharge.state) || 0;
+  const batteryIcons = batteryState.state == "charging" ? BATTERY_PERCENT_CHARGING_ICONS : BATTERY_PERCENT_ICONS;
+
   return (
-    <ResponsiveToggler breakpoint="sm" hide>
-      <Flex justify="space-around">
-        <StatusCard
-          icon={weather.icon}
-          iconColor={weather.color}
-          title={weatherSummary.state}
-          entity="sensor.weather_temperature"
-          textTransformer={numberFixedTextTransformerProvider(1)}
-        />
-        <StatusCard
-          icon={mdiThermometer}
-          iconColor="green"
-          title="Temperature"
-          entity="sensor.average_temperature"
-          textTransformer={numberFixedTextTransformerProvider(1)}
-        />
-        <StatusCard
-          icon={mdiWaterPercent}
-          iconColor="blue"
-          title="Humidity"
-          entity="sensor.average_humidity"
-          textTransformer={numberFixedTextTransformerProvider(1)}
-        />
-        <StatusCard
-          icon={mdiFlash}
-          iconColor="yellow"
-          title="Energy"
-          entity="sensor.multiplus_ii_48_4k5_55_32_id_276_0_line_1_input_power"
-          textTransformer={roundTextTransformer}
-        />
-        <StatusCard
-          icon={mdiRobotVacuumOff}
-          title="Roborock"
-          iconColor="secondary"
-          entity="vacuum.valetudo_roborocks5"
-          textTransformer={pascalCaseTextTransformer}
-        />
-        <StatusCard
-          icon={mdiHomeBattery}
-          iconColor="red"
-          title="Victron"
-          entity="sensor.pylontech_battery_id_512_charge"
-          textTransformer={roundTextTransformer}
-        />
-      </Flex>
-    </ResponsiveToggler>
+    <div className={styles["status"]}>
+      <StatusCard
+        icon={weather.icon}
+        iconColor={weather.color}
+        title={weatherSummary.state}
+        entity="sensor.weather_temperature"
+        textTransformer={numberFixedTextTransformerProvider(1)}
+      />
+      <StatusCard
+        icon={mdiThermometer}
+        iconColor="green"
+        title="Temperature"
+        entity="sensor.average_temperature"
+        textTransformer={numberFixedTextTransformerProvider(1)}
+      />
+      <StatusCard
+        icon={mdiWaterPercent}
+        iconColor="blue"
+        title="Humidity"
+        entity="sensor.average_humidity"
+        textTransformer={numberFixedTextTransformerProvider(1)}
+      />
+      <StatusCard
+        icon={mdiFlash}
+        iconColor="yellow"
+        title="Energy"
+        entity="sensor.gx_device_consumption_power_l1"
+        textTransformer={roundTextTransformer}
+        onClick={() => router.push("/home-assistant/energy")}
+      />
+      <StatusCard
+        icon={mdiRobotVacuumOff}
+        title="Roborock"
+        iconColor="secondary"
+        entity="vacuum.valetudo_roborocks5"
+        textTransformer={pascalCaseTextTransformer}
+        onClick={() => router.push(`${pathname}?modal=vacuum`)}
+      />
+      <StatusCard
+        icon={batteryIcons[Math.round(charge / 10) as BatteryPercentTokens]}
+        iconColor={getBatteryColor(charge, batteryState.state)}
+        title="Victron"
+        entity="sensor.pylontech_battery_id_512_charge"
+        textTransformer={roundTextTransformer}
+        onClick={() => router.push("/home-assistant/energy")}
+      />
+    </div>
   )
 }

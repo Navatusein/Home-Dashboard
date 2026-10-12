@@ -1,6 +1,6 @@
 "use client"
 
-import {ComponentProps, useEffect, useRef} from "react";
+import {ComponentProps, TouchEvent, useEffect, useRef} from "react";
 import {cva} from "class-variance-authority";
 import {ComposeOption, EChartsType, init, use as registerComponents} from "echarts/core";
 import {SankeyChart, SankeySeriesOption} from "echarts/charts";
@@ -107,6 +107,8 @@ export default function Chart(props: Props) {
       chartRef.current.dispatchAction({type: "highlight", ...highlightRef.current});
   }, [option]);
 
+  const stopTouch = (event: TouchEvent) => event.stopPropagation();
+
   return (
     <div
       ref={containerRef}
@@ -114,6 +116,9 @@ export default function Chart(props: Props) {
       className={variants({
         className: className
       })}
+      onTouchStartCapture={stopTouch}
+      onTouchMoveCapture={stopTouch}
+      onTouchEndCapture={stopTouch}
       {...otherProps}
     />
   )

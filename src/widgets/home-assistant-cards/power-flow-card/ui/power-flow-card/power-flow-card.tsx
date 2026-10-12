@@ -100,6 +100,7 @@ export default function PowerFlowCard(props: Props) {
         nodeAlign: "justify",
         layoutIterations: 0,
         draggable: false,
+        animationDuration: 250,
         emphasis: {
           focus: "adjacency",
         },
@@ -144,7 +145,7 @@ export default function PowerFlowCard(props: Props) {
 
   return (
     <Card ref={cardRef} stackCount={isVertical ? 8 : 5} padding="sm">
-      <Chart option={option}/>
+      {layout && <Chart option={option}/>}
     </Card>
   )
 }

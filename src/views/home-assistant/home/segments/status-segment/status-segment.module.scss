@@ -1,0 +1,29 @@
+@use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/media" as media;
+
+.status {
+  display: flex;
+  justify-content: space-around;
+
+  @include media.respond-below(sm) {
+    justify-content: flex-start;
+    padding: variables.$padding-xs 0;
+    background-color: var(--color-secondary);
+    border-radius: variables.$border-radius-md;
+    contain: inline-size;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    > * {
+      display: flex;
+      flex: 0 0 calc(100% / 3);
+      min-width: 0;
+      justify-content: center;
+    }
+
+    > :nth-child(3n + 1) {
+      scroll-snap-align: start;
+    }
+  }
+}

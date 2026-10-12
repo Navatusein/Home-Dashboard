@@ -1,0 +1,87 @@
+.map {
+  display: block;
+  width: 100%;
+
+  path {
+    shape-rendering: crispEdges;
+  }
+
+  polyline {
+    fill: none;
+    stroke-width: 4;
+    stroke-linejoin: round;
+  }
+
+  circle, polygon {
+    stroke-width: 4;
+  }
+}
+
+.layer-floor {
+  fill: var(--color-blue-tint);
+}
+
+.layer-segment {
+  cursor: pointer;
+
+  @each $name in (blue, teal, purple, yellow, orange, pink, green, red) {
+    &.color-#{$name} {
+      fill: var(--color-#{$name});
+
+      &.dimmed {
+        fill: color-mix(in srgb, var(--color-text-primary-dark) 35%, var(--color-#{$name}));
+      }
+    }
+  }
+}
+
+.entities, .order {
+  pointer-events: none;
+}
+
+.order {
+  rect {
+    fill: var(--color-secondary);
+  }
+
+  text {
+    fill: var(--color-text-primary);
+    font-size: 10px;
+    font-weight: bold;
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+}
+
+.layer-wall {
+  fill: var(--color-text-secondary);
+}
+
+.entity-path, .entity-predicted_path {
+  stroke: var(--color-text-primary-dark);
+  opacity: 0.5;
+}
+
+.entity-virtual_wall {
+  stroke: var(--color-red);
+}
+
+.entity-no_go_area, .entity-no_mop_area {
+  fill: color-mix(in srgb, var(--color-red) 50%, transparent);
+  stroke: var(--color-red);
+}
+
+.entity-active_zone {
+  fill: color-mix(in srgb, var(--color-green) 50%, transparent);
+  stroke: var(--color-green);
+}
+
+.entity-charger_location {
+  fill: var(--color-green);
+  stroke: var(--color-text-primary-dark);
+}
+
+.entity-robot_position, .entity-go_to_target {
+  fill: var(--color-accent);
+  stroke: var(--color-text-primary-light);
+}

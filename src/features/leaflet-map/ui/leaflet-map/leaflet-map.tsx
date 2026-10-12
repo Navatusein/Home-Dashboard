@@ -1,7 +1,9 @@
 "use client"
 
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import {LatLngExpression, LatLngTuple} from "leaflet";
+import {divIcon, LatLngTuple} from "leaflet";
+import {LeafletMapMarker} from "../../types/types";
+import FitBounds from "../fit-bounds/fit-bounds";
 import styles from "./leaflet-map.module.scss";
 
 import "leaflet/dist/leaflet.css";
@@ -9,11 +11,20 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 
 type Props = {
-  center: LatLngExpression | LatLngTuple;
-  posix: LatLngExpression | LatLngTuple;
+  center: LatLngTuple;
+  markers: LeafletMapMarker[];
 }
 
+const MARKER_SIZE = 40;
+const MARKER_GAP = 4;
+
 export default function LeafletMap(props: Props) {
+  const getOffset = (marker: LeafletMapMarker) => {
+    const group = props.markers.filter((other) => other.position.join() == marker.position.join());
+
+    return (group.indexOf(marker) - (group.length - 1) / 2) * (MARKER_SIZE + MARKER_GAP);
+  }
+
   return (
     <MapContainer
       attributionControl={false}
@@ -26,9 +37,26 @@ export default function LeafletMap(props: Props) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={props.posix} draggable={false}>
-        <Popup>Hey, I’m a popup!</Popup>
-      </Marker>
+      <FitBounds points={[props.center, ...props.markers.map((marker) => marker.position)]}/>
+      {props.markers.map((marker) => (
+        <Marker
+          key={marker.key}
+          position={marker.position}
+          icon={divIcon({
+            html: `<img src="${marker.imageUrl}" alt=""/>`,
+            className: styles["marker"],
+            iconSize: [MARKER_SIZE, MARKER_SIZE],
+            iconAnchor: [MARKER_SIZE / 2 - getOffset(marker), MARKER_SIZE / 2],
+            popupAnchor: [getOffset(marker), -MARKER_SIZE / 2],
+          })}
+        >
+          <Popup closeButton={false}>
+            <b>{marker.title}</b>
+            <br/>
+            {marker.description}
+          </Popup>
+        </Marker>
+      ))}
     </MapContainer>
   )
 }

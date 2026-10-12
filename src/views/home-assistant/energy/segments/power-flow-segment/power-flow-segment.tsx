@@ -4,14 +4,15 @@ import {PowerFlowCard, PowerFlowNode} from "@/widgets/home-assistant-cards/power
 
 const SOURCES: PowerFlowNode[] = [
   {
-    title: "Grid",
-    entity: "sensor.gx_device_grid_power_l1",
-    color: "blue",
-  },
-  {
     title: "Battery",
     entity: "sensor.pylontech_battery_id_512_power_inverted",
     color: "green",
+  },
+  {
+    title: "Grid",
+    entity: "sensor.gx_device_grid_power_l1",
+    color: "blue",
+    coversLoss: true,
   },
 ]
 

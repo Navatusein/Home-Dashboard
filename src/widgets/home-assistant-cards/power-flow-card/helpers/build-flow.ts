@@ -75,22 +75,32 @@ export function buildFlow(sources: PowerFlowNode[], home: PowerFlowNode, values:
     .filter((input) => input.value <= -MIN_VALUE)
     .map((input, index) => ({key: `sink-${index}`, title: input.source.title, color: input.source.color, value: -input.value, size: -input.value, depth: 1}));
 
-  const loss = sourcesTotal - homeValues.value - sinks.reduce((total, sink) => total + sink.value, 0);
-
-  if (loss >= MIN_VALUE)
-    sinks.push({key: "loss", title: "Inverter", value: loss, size: loss, depth: 1});
-
   const targets = [{key: "home", size: homeValues.value}, ...sinks];
   const targetsTotal = targets.reduce((total, target) => total + target.size, 0);
 
+  const loss = sourcesTotal - targetsTotal >= MIN_VALUE ? sourcesTotal - targetsTotal : 0;
+
+  if (loss > 0)
+    sinks.push({key: "loss", title: "Inverter", value: loss, size: loss, depth: 1});
+
+  const lossSourcesTotal = activeSources.reduce((total, input) => total + (input.source.coversLoss ? input.value : 0), 0);
+  const coveredLoss = Math.min(lossSourcesTotal, loss);
+
   activeSources.forEach((input, index) => {
     const key = `source-${index}`;
-    const share = input.value / sourcesTotal;
+    const lossShare = input.source.coversLoss
+      ? coveredLoss / lossSourcesTotal
+      : (loss - coveredLoss) / (sourcesTotal - lossSourcesTotal);
+    const inputLoss = input.value * lossShare || 0;
+    const share = (input.value - inputLoss) / (sourcesTotal - loss);
 
-    nodes.push({key: key, title: input.source.title, color: input.source.color, value: input.value, size: targetsTotal * share});
+    nodes.push({key: key, title: input.source.title, color: input.source.color, value: input.value, size: targetsTotal * share + inputLoss});
 
     for (const target of targets)
       links.push({source: key, target: target.key, value: target.size * share});
+
+    if (inputLoss > 0)
+      links.push({source: key, target: "loss", value: inputLoss});
   });
 
   const flatten = (node: ValueNode, key: string) => {
