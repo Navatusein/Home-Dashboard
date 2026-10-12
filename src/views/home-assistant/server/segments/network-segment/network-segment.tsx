@@ -15,7 +15,13 @@ export default function NetworkSegment(props: Props) {
 
   const gatewayState = useEntity("sensor.cloud_gateway_fiber_state");
 
+  const mainClients = useEntity("sensor.masyasys_clients");
+  const iotClients = useEntity("sensor.masyasys_iot_clients");
+  const guestClients = useEntity("sensor.masyasys_guest_clients");
+
   const isConnected = gatewayState.state == "connected";
+  const wifiClients = [mainClients, iotClients, guestClients]
+    .reduce((total, clients) => total + (Number(clients.state) || 0), 0);
 
   return (
     <Flex gap="xs" vertical>
@@ -46,10 +52,10 @@ export default function NetworkSegment(props: Props) {
           icon={mdiMicrosoft}
           entity="sensor.cloud_gateway_fiber_microsoft_wan_latency"
         />
-        <EntityStateCard
+        <StateCard
           title="Wi-Fi Clients"
+          text={`${wifiClients}`}
           icon={mdiWifi}
-          entity="sensor.masyasys_clients"
         />
       </Grid>
     </Flex>
