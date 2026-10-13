@@ -2,18 +2,15 @@ import {Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
 import {
   mdiChip,
   mdiEthernet,
-  mdiLedOff,
   mdiRestart,
   mdiRouterWireless,
   mdiUsb,
-  mdiWeatherNight,
   mdiWifi,
   mdiZigbee
 } from "@mdi/js";
 import {useEntity} from "@hakit/core";
 import {EntityStateCard} from "@/widgets/home-assistant-cards/entity-state-card";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
-import {SwitchCard} from "@/widgets/home-assistant-cards/switch-card";
 import {ActionCard} from "@/widgets/home-assistant-cards/action-card";
 import {useEntityOff} from "@/shared/hooks/use-entity-off";
 
@@ -31,7 +28,7 @@ export default function CoordinatorSegment() {
 
   return (
     <Flex gap="xs" vertical>
-      <SegmentHeader icon={mdiRouterWireless} title="SLZB-06P10" iconColor="teal"/>
+      <SegmentHeader icon={mdiRouterWireless} title="SLZB-06P10" iconColor="purple"/>
       <Grid columns={2} gap="xs">
         <EntityStateCard
           title="Core Temp"
@@ -44,25 +41,13 @@ export default function CoordinatorSegment() {
             title="Connection"
             text={isOnline ? (mode?.text ?? "--") : "Offline"}
             icon={mode?.icon ?? mdiRouterWireless}
-            color={isOnline ? "teal" : "red"}
+            color={isOnline ? "purple" : "red"}
           />
         </Grid.Element>
         <EntityStateCard
           title="Zigbee Temp"
           icon={mdiZigbee}
           entity="sensor.slzb_06p10_zigbee_chip_temp"
-        />
-        <SwitchCard
-          title="Disable LEDs"
-          icon={mdiLedOff}
-          entity="switch.slzb_06p10_disable_leds"
-          color="teal"
-        />
-        <SwitchCard
-          title="LED Night Mode"
-          icon={mdiWeatherNight}
-          entity="switch.slzb_06p10_led_night_mode"
-          color="teal"
         />
         <ActionCard
           title="Core"
