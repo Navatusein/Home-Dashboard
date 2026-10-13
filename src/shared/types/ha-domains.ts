@@ -10,3 +10,4 @@ export type EntityNameBinarySensor = `binary_sensor.${string}`;
 export type EntityNameCover = `cover.${string}`;
 export type EntityNameScript = `script.${string}`;
 export type EntityNameCamera = `camera.${string}`;
+export type EntityNameMediaPlayer = `media_player.${string}`;

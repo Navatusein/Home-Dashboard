@@ -17,7 +17,7 @@ import {ActionCard} from "@/widgets/home-assistant-cards/action-card";
 export default function AppsSegment() {
   return (
     <Flex gap="xs" vertical>
-      <SegmentHeader icon={mdiApps} title="Apps" iconColor="purple"/>
+      <SegmentHeader icon={mdiApps} title="Apps" iconColor="yellow"/>
       <Grid columns={2} gap="xs">
         <ActionCard
           title="Telegram"

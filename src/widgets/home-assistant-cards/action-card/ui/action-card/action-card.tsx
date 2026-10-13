@@ -1,6 +1,7 @@
 import {Card, Flex, RoundedIcon, Typography} from "@/shared/ui-kit";
 import {useService} from "@hakit/core";
 import {EntityNameButton, EntityNameScript} from "@/shared/types/ha-domains";
+import {ColorToken} from "@/shared/constants/colors";
 import {useConfirm} from "@/shared/hooks/use-confirm";
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
   description: string,
   icon: string,
   entity: EntityNameButton | EntityNameScript,
+  color?: ColorToken,
   confirm?: boolean,
 }
 
@@ -25,7 +27,7 @@ export default function ActionCard(props: Props) {
       stackCount={1}
       padding="xs"
       clickable
-      color={isConfirming ? "red" : undefined}
+      color={isConfirming ? "red" : props.color}
       onClick={() => props.confirm ? confirm() : run()}
     >
       <Flex align="center" gap="xs" style={{height: "100%"}}>

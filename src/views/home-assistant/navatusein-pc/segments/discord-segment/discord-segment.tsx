@@ -11,7 +11,7 @@ export default function DiscordSegment() {
 
   return (
     <Flex gap="xs" vertical>
-      <SegmentHeader icon={mdiHeadset} title="Discord" iconColor="purple"/>
+      <SegmentHeader icon={mdiHeadset} title="Discord" iconColor="blue"/>
       <Grid columns={2} gap="xs">
         <Grid.Element rowSpan={2}>
           <StateCard
@@ -19,7 +19,7 @@ export default function DiscordSegment() {
             title="Voice"
             text={isInVoice ? "In Channel" : (isRunning ? "Idle" : "Offline")}
             icon={mdiAccountVoice}
-            color={isInVoice ? "purple" : undefined}
+            color={isInVoice ? "blue" : undefined}
           />
         </Grid.Element>
         <SwitchCard
@@ -35,12 +35,15 @@ export default function DiscordSegment() {
           color="red"
         />
         {isInVoice && (
-          <ActionCard
-            title="Leave"
-            description="Leave channel"
-            icon={mdiPhoneHangup}
-            entity="button.navatusein_pc_discord_leave_channel"
-          />
+          <Grid.Element colSpan={2}>
+            <ActionCard
+              title="Leave"
+              description="Leave channel"
+              icon={mdiPhoneHangup}
+              entity="button.navatusein_pc_discord_leave_channel"
+              color="red"
+            />
+          </Grid.Element>
         )}
       </Grid>
     </Flex>

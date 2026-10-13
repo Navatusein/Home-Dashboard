@@ -6,6 +6,7 @@ import {
   mdiDevices,
   mdiLightbulbGroup,
   mdiLock,
+  mdiMonitor,
   mdiMonitorOff,
   mdiMotionSensor,
   mdiPower,
@@ -21,6 +22,7 @@ import {ClimateCard} from "@/widgets/home-assistant-cards/climate-card";
 import {LightCard} from "@/widgets/home-assistant-cards/light-card";
 import {CoverCard} from "@/widgets/home-assistant-cards/cover-card";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
+import {SwitchCard} from "@/widgets/home-assistant-cards/switch-card";
 import {ActionCard} from "@/widgets/home-assistant-cards/action-card";
 import {useEntityOff} from "@/shared/hooks/use-entity-off";
 
@@ -80,6 +82,15 @@ export default function SmallBedroomModal() {
               icon={mdiLock}
               entity="button.navatusein_pc_lock_pc"
             />
+            <Grid.Element rowSpan={2}>
+              <SwitchCard
+                tall
+                title="Terminal Screen"
+                icon={mdiMonitor}
+                entity="switch.pc_terminal_screen"
+                color="purple"
+              />
+            </Grid.Element>
             <ActionCard
               title="Shutdown"
               description="Power off"

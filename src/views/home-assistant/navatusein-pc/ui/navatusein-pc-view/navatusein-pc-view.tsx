@@ -8,6 +8,7 @@ import SoundSegment from "../../segments/sound-segment/sound-segment";
 import MediaSegment from "../../segments/media-segment/media-segment";
 import DiscordSegment from "../../segments/discord-segment/discord-segment";
 import AppsSegment from "../../segments/apps-segment/apps-segment";
+import TerminalSegment from "../../segments/terminal-segment/terminal-segment";
 
 export default function NavatuseinPcView() {
   const isOwner = useUser()?.name == "Bohdan";
@@ -31,6 +32,7 @@ export default function NavatuseinPcView() {
         </BootstrapGrid.Column>
         <BootstrapGrid.Column span={8} lg={12} md={24}>
           <Flex vertical gap="sm">
+            <TerminalSegment/>
             <SoundSegment/>
             <MediaSegment/>
           </Flex>
