@@ -1,6 +1,6 @@
 "use client"
 
-import {ComponentProps} from "react";
+import {ComponentProps, useRef} from "react";
 import {Root, Track, Range, Thumb} from "@radix-ui/react-slider";
 import {cva, VariantProps} from "class-variance-authority";
 import styles from "./slider.module.scss";
@@ -35,11 +35,20 @@ const variants = cva(
   }
 )
 
+const TOUCH_SLOP = 8;
+
 type Props = Omit<ComponentProps<typeof Root>, "color"> & VariantProps<typeof variants> & {
 }
 
 export default function Slider(props: Props) {
-  const {className, defaultValue, value, color, vertical, thumb, tone, max, min, ...otherProps} = props;
+  const {className, defaultValue, value, color, vertical, thumb, tone, max, min, onValueChange, ...otherProps} = props;
+
+  const touchStartRef = useRef<{x: number, y: number}>(null);
+
+  const resetTouch = () => {
+    touchStartRef.current = null;
+  }
+
   return (
     <Root
       data-slot="slider"
@@ -48,6 +57,26 @@ export default function Slider(props: Props) {
       value={value}
       min={min}
       max={max}
+      onValueChange={(value) => {
+        if (!touchStartRef.current)
+          onValueChange?.(value);
+      }}
+      onPointerDown={(event) => {
+        touchStartRef.current = event.pointerType == "touch" ? {x: event.clientX, y: event.clientY} : null;
+      }}
+      onPointerMove={(event) => {
+        if (!touchStartRef.current)
+          return;
+
+        const deltaX = Math.abs(event.clientX - touchStartRef.current.x);
+        const deltaY = Math.abs(event.clientY - touchStartRef.current.y);
+        const [along, across] = vertical ? [deltaY, deltaX] : [deltaX, deltaY];
+
+        if (along > TOUCH_SLOP && along > across)
+          touchStartRef.current = null;
+      }}
+      onPointerUp={resetTouch}
+      onPointerCancel={resetTouch}
       className={variants({
         className: className,
         color: color,

@@ -1,6 +1,6 @@
 "use client"
 
-import {ComponentProps, ReactNode} from "react";
+import {ComponentProps, ReactNode, useRef, useState} from "react";
 import {cva, VariantProps} from "class-variance-authority";
 import {
   DropdownMenu as DropdownMenuRoot,
@@ -23,15 +23,34 @@ const variants = cva(
 type Props = ComponentProps<typeof DropdownMenuContent> & VariantProps<typeof variants> & {
   children?: ReactNode;
   items: DropdownItem[];
+  modal?: boolean;
   onItemSelect?: (item: DropdownItem, event: Event) => void;
 }
 
 export default function DropdownMenu(props: Props) {
-  const {className, children, items, onItemSelect, ...otherProps} = props;
+  const {className, children, items, modal, onItemSelect, ...otherProps} = props;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const isTouchRef = useRef(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <DropdownMenuRoot>
-      <DropdownMenuTrigger asChild className={styles["menu-trigger"]}>
+    <DropdownMenuRoot modal={modal} open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger
+        ref={triggerRef}
+        asChild
+        className={styles["menu-trigger"]}
+        onPointerDown={(event) => {
+          isTouchRef.current = event.pointerType == "touch";
+
+          if (isTouchRef.current)
+            event.preventDefault();
+        }}
+        onClick={() => {
+          if (isTouchRef.current)
+            setIsOpen((value) => !value);
+        }}
+      >
         {children}
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
@@ -40,6 +59,10 @@ export default function DropdownMenu(props: Props) {
             className: className
           })}
           avoidCollisions
+          onInteractOutside={(event) => {
+            if (triggerRef.current?.contains(event.target as Node))
+              event.preventDefault();
+          }}
           {...otherProps}
         >
           {items.map((item) => (
@@ -47,7 +70,7 @@ export default function DropdownMenu(props: Props) {
               key={item.key}
               disabled={item.disabled}
               aria-disabled={item.disabled}
-              data-selected={item.selected}
+              data-selected={item.selected || undefined}
               className={styles["menu-item"]}
               onSelect={(event) => {
                 onItemSelect?.(item, event);

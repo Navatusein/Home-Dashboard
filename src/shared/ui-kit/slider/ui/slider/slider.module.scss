@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   user-select: none;
-  touch-action: none;
+  touch-action: pan-y;
   border-radius: var(--slider-track-border-radius);
   overflow: hidden;
   height: variables.$control-height-default;
@@ -62,6 +62,7 @@
   }
 
   &.vertical {
+    touch-action: pan-x;
     height: 100%;
     flex-direction: column;
 
