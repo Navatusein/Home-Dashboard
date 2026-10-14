@@ -6,6 +6,8 @@ type ValueNode = {
   color?: ColorToken;
   value: number;
   size: number;
+  untrackedTitle?: string;
+  hidden?: boolean;
   children: ValueNode[];
 }
 
@@ -39,7 +41,7 @@ function resolveValues(node: PowerFlowNode, values: Record<string, number>): Val
   const tracked = children.reduce((total, child) => total + child.value, 0);
   const value = values[node.entity] > 0 ? values[node.entity] : tracked;
 
-  return {title: node.title, color: node.color, value: value, size: 0, children: children};
+  return {title: node.title, color: node.color, value: value, size: 0, untrackedTitle: node.untrackedTitle, hidden: node.hidden, children: children};
 }
 
 function resolveSizes(node: ValueNode, size: number) {
@@ -53,7 +55,9 @@ function resolveSizes(node: ValueNode, size: number) {
     resolveSizes(child, child.value * factor);
 
   if (node.children.length > 0 && untracked >= MIN_VALUE)
-    node.children.push({title: "Untracked", value: untracked, size: untracked, children: []});
+    node.children.push({title: node.untrackedTitle ?? "Untracked", value: untracked, size: untracked, children: []});
+
+  node.children = node.children.flatMap((child) => child.hidden ? child.children : [child]);
 }
 
 export function buildFlow(sources: PowerFlowNode[], home: PowerFlowNode, values: Record<string, number>): Flow {
@@ -81,7 +85,7 @@ export function buildFlow(sources: PowerFlowNode[], home: PowerFlowNode, values:
   const loss = sourcesTotal - targetsTotal >= MIN_VALUE ? sourcesTotal - targetsTotal : 0;
 
   if (loss > 0)
-    sinks.push({key: "loss", title: "Inverter", value: loss, size: loss, depth: 1});
+    sinks.push({key: "loss", title: "Victron", value: loss, size: loss, depth: 1});
 
   const lossSourcesTotal = activeSources.reduce((total, input) => total + (input.source.coversLoss ? input.value : 0), 0);
   const coveredLoss = Math.min(lossSourcesTotal, loss);

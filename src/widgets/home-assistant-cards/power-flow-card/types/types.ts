@@ -6,5 +6,7 @@ export type PowerFlowNode = {
   entity: EntityNameSensor;
   color: ColorToken;
   coversLoss?: boolean;
+  untrackedTitle?: string;
+  hidden?: boolean;
   children?: PowerFlowNode[];
 }

@@ -28,28 +28,37 @@ const HOME: PowerFlowNode = {
       children: [
         {
           title: "Servers",
-          entity: "sensor.servers_nas_wr01b_power",
+          entity: "sensor.must_nas_wr01b_power",
           color: "pink",
+          untrackedTitle: "Must",
           children: [
             {
-              title: "Orion",
-              entity: "sensor.orion_nas_wr01b_power",
-              color: "orange",
-            },
-            {
-              title: "Network",
-              entity: "sensor.network_nas_wr01b_power",
-              color: "red",
-            },
-            {
-              title: "Sirius",
-              entity: "sensor.sirius_nas_wr01b_power",
-              color: "purple",
-            },
-            {
-              title: "Vega",
-              entity: "sensor.vega_nas_wr01b_power",
-              color: "blue",
+              title: "Servers",
+              entity: "sensor.servers_nas_wr01b_power",
+              color: "pink",
+              hidden: true,
+              children: [
+                {
+                  title: "Orion",
+                  entity: "sensor.orion_nas_wr01b_power",
+                  color: "orange",
+                },
+                {
+                  title: "Network",
+                  entity: "sensor.network_nas_wr01b_power",
+                  color: "red",
+                },
+                {
+                  title: "Sirius",
+                  entity: "sensor.sirius_nas_wr01b_power",
+                  color: "purple",
+                },
+                {
+                  title: "Vega",
+                  entity: "sensor.vega_nas_wr01b_power",
+                  color: "blue",
+                },
+              ],
             },
           ],
         },
@@ -57,6 +66,11 @@ const HOME: PowerFlowNode = {
           title: "PC",
           entity: "sensor.pc_nas_wr01b_power",
           color: "green",
+        },
+        {
+          title: "Monitor",
+          entity: "sensor.0xa4c138dd3f063ee4_power",
+          color: "teal",
         },
         {
           title: "Laptop",
