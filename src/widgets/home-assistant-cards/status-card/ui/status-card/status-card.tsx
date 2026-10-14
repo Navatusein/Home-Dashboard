@@ -3,6 +3,7 @@ import {ColorToken} from "@/shared/constants/colors";
 import {EntityName, useEntity} from "@hakit/core";
 import {baseTextTransformer, TextTransformer} from "@/shared/text-transformers/base-text-transformer";
 import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
+import styles from "./status-card.module.scss";
 
 type Props = {
   title: string,
@@ -21,10 +22,10 @@ export default function StatusCard(props: Props) {
 
   return (
     <Card outline clickable padding="xs" onClick={props.onClick}>
-      <Flex gap="xs">
-        <Icon path={props.icon} size={isMobile ? "lg" : "xl"} color={props.iconColor}/>
-        <Flex vertical>
-          <Typography.Text fontSize="sm" textColor={isMobile ? "secondary" : undefined}>
+      <Flex gap="xs" className={styles["content"]}>
+        <Icon className={styles["icon"]} path={props.icon} size={isMobile ? "lg" : "xl"} color={props.iconColor}/>
+        <Flex vertical className={styles["content"]}>
+          <Typography.Text className={styles["title"]} fontSize="sm" textColor={isMobile ? "secondary" : undefined}>
             {props.title}
           </Typography.Text>
           <Typography.Text bold>

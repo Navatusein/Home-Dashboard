@@ -7,9 +7,12 @@ import {BATTERY_PERCENT_CHARGING_ICONS, BATTERY_PERCENT_ICONS, BatteryPercentTok
 import {roundTextTransformer, numberFixedTextTransformerProvider} from "@/shared/text-transformers/number-text-transformer";
 import {pascalCaseTextTransformer} from "@/shared/text-transformers/case-text-transformer";
 import styles from "./status-segment.module.scss";
+import {useEffect, useRef} from "react";
 
 const BATTERY_LOW_CHARGE = 50;
 const BATTERY_CRITICAL_CHARGE = 20;
+
+const PAGE_STORAGE_KEY = "status-segment-page";
 
 function getBatteryColor(charge: number, state: string) {
   if (charge < BATTERY_CRITICAL_CHARGE)
@@ -24,6 +27,7 @@ function getBatteryColor(charge: number, state: string) {
 export default function StatusSegment() {
   const pathname = usePathname();
   const router = useRouter();
+  const statusRef = useRef<HTMLDivElement>(null);
 
   const weatherIcon = useEntity("sensor.weather_icon");
   const weatherSummary = useEntity("sensor.weather_summary");
@@ -36,8 +40,18 @@ export default function StatusSegment() {
   const charge = Number(batteryCharge.state) || 0;
   const batteryIcons = batteryState.state == "charging" ? BATTERY_PERCENT_CHARGING_ICONS : BATTERY_PERCENT_ICONS;
 
+  useEffect(() => {
+    const status = statusRef.current!;
+    status.scrollLeft = Number(localStorage.getItem(PAGE_STORAGE_KEY)) * status.clientWidth;
+  }, []);
+
+  const savePage = () => {
+    const status = statusRef.current!;
+    localStorage.setItem(PAGE_STORAGE_KEY, String(Math.round(status.scrollLeft / status.clientWidth)));
+  }
+
   return (
-    <div className={styles["status"]}>
+    <div ref={statusRef} className={styles["status"]} onScroll={savePage}>
       <StatusCard
         icon={weather.icon}
         iconColor={weather.color}

@@ -1,0 +1,13 @@
+.content {
+  min-width: 0;
+}
+
+.title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  flex-shrink: 0;
+}
