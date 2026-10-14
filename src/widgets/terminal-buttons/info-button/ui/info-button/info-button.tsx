@@ -2,6 +2,7 @@
 
 import {BaseButton, BaseButtonSharedProps} from "@/widgets/terminal-buttons/base-button";
 import {useEffect, useState} from "react";
+import {useEntity} from "@hakit/core";
 import {TerminalModal} from "@/features/terminal-modal";
 import {Grid} from "@/shared/ui-kit";
 import AlarmIcon from "@public/icons/date-and-time/alarm.svg"
@@ -12,6 +13,9 @@ export default function InfoButton(props: Props) {
   const [time, setTime] = useState(new Date());
   const [timer, setTimer] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const inputSource = useEntity("sensor.gx_device_ac_active_input_source");
+  const batteryCharge = useEntity("sensor.pylontech_battery_id_512_charge");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -35,6 +39,9 @@ export default function InfoButton(props: Props) {
 
     if (timer != 0)
       infoStrings[0] = infoStrings[0] + ` (${timer})`
+
+    if (inputSource.state != "grid")
+      infoStrings.push(`Battery ${Math.round(Number(batteryCharge.state))}%`);
 
     return infoStrings.join("\n");
   }
