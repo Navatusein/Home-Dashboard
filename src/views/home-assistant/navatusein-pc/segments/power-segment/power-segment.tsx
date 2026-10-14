@@ -1,13 +1,14 @@
 import {Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
 import {
+  mdiDesktopTower,
   mdiDesktopTowerMonitor,
   mdiFlash,
   mdiLock,
+  mdiMonitor,
   mdiMonitorOff,
   mdiMouse,
   mdiPower,
   mdiPowerOn,
-  mdiPowerPlug,
   mdiRestart
 } from "@mdi/js";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
@@ -33,16 +34,27 @@ export default function PowerSegment() {
           />
         </Grid.Element>
         <SwitchCard
-          title="Socket"
-          icon={mdiPowerPlug}
+          title="PC"
+          icon={mdiDesktopTower}
           entity="switch.pc_nas_wr01b"
           color="teal"
           confirmOff
         />
+        <SwitchCard
+          title="Monitor"
+          icon={mdiMonitor}
+          entity="switch.0xa4c138dd3f063ee4"
+          color="teal"
+        />
         <EntityStateCard
-          title="Consumption"
+          title="PC"
           icon={mdiFlash}
           entity="sensor.pc_nas_wr01b_power"
+        />
+        <EntityStateCard
+          title="Monitor"
+          icon={mdiFlash}
+          entity="sensor.0xa4c138dd3f063ee4_power"
         />
         {isComputerOn ? (
           <>
