@@ -3,13 +3,22 @@ import {mdiLightbulbGroup, mdiMotionSensor, mdiPaperRoll} from "@mdi/js";
 import {QueryModalControl} from "@/features/query-modal-control";
 import {Chips} from "@/shared/ui-kit/chips";
 import {LightCard} from "@/widgets/home-assistant-cards/light-card";
+import {isOffState, useEntity} from "@hakit/core";
 
 export default function RestroomModal() {
+  const presenceEntity = useEntity("binary_sensor.restroom_ts0601_presence");
+
+  const isPresence = !isOffState(presenceEntity.state);
+
   return (
     <QueryModalControl modal="restroom">
       <ModalPopUp.Header title="Restroom" icon={mdiPaperRoll}>
         <Flex justify="center" gap="xs">
-          <Chips text="25 minutes ago" icon={mdiMotionSensor} iconColor="blue"/>
+          <Chips
+            text={isPresence ? "Detected" : presenceEntity.custom.relativeTime}
+            icon={mdiMotionSensor}
+            iconColor={isPresence ? "green" : "blue"}
+          />
         </Flex>
       </ModalPopUp.Header>
       <ModalPopUp.Content>

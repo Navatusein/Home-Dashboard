@@ -59,6 +59,7 @@ export default function RoomsSegment() {
           roomIcon={mdiPaperRoll}
           roomModalPath="restroom"
           lightEntity="light.virtual_restroom_light"
+          temperatureEntity="sensor.restroom_ts0601_temperature"
         />
         <RoomCard
           roomName="Kitchen"
