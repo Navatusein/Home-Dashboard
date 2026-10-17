@@ -15,6 +15,7 @@ import styles from "./home-assistant-dashboard-layout.module.scss";
 import {GreetingCard} from "@/widgets/home-assistant-cards/greeting-card";
 import {useRouter, useSearchParams} from "next/navigation";
 import {buildPath, TERMINAL_QUERY_PARAM} from "@/shared/helpers/terminal-path-builder";
+import {OrientationLock} from "@/features/orientation-lock";
 
 type Props = {
   children: ReactNode;
@@ -28,6 +29,7 @@ export default function HomeAssistantDashboardLayout(props: Props) {
 
   return (
     <Flex vertical className={styles["page-container"]}>
+      <OrientationLock/>
       <Flex grow className={styles["page-content-container"]}>
         <NavbarCard items={props.navbarItems}/>
         <Flex vertical gap="sm" grow className={styles["page-content"]}>
