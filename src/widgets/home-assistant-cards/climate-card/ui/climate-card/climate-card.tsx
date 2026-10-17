@@ -1,8 +1,10 @@
+import {useState} from "react";
 import {Button, Card, Flex, RoundedIcon, Select, Space, Typography} from "@/shared/ui-kit";
 import {isOffState, useEntity} from "@hakit/core";
 import {EntityNameClimate} from "@/shared/types/ha-domains";
 import {mdiMinus, mdiPlus, mdiThermostat} from "@mdi/js";
 import {CLIMATE_MODES} from "../../types/types";
+import ClimateModal from "../climate-modal/climate-modal";
 
 type Props = {
   climateEntity: EntityNameClimate,
@@ -13,6 +15,8 @@ type Props = {
 export default function ClimateCard(props: Props) {
   const climateEntity = useEntity(props.climateEntity);
   const isClimateEntityOff = isOffState(climateEntity.state);
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   
   const changeTemperature = (value: number) => {
     climateEntity.service.setTemperature({serviceData: {temperature: climateEntity.attributes.temperature + value}});
@@ -34,48 +38,69 @@ export default function ClimateCard(props: Props) {
     }));
 
   return (
-    <Card stackCount={1} padding="xs" clickable color={currentMode?.color}>
-      <Flex align="start" justify="space-between" style={{height: "100%"}}>
-        <Flex gap="xs" align="center" style={{height: "100%"}}>
-          <RoundedIcon path={mdiThermostat}/>
-          <Flex vertical>
-            <Typography.Text bold>
-              {`${currentMode?.title} ${climateEntity.attributes.current_temperature}°C`}
-            </Typography.Text>
-            <Typography.Text textColor="secondary" fontSize="sm">
-              {props.title}
-            </Typography.Text>
+    <>
+      <Card
+        stackCount={1}
+        padding="xs"
+        clickable
+        color={currentMode?.color}
+        onClick={() => setIsModalOpen(true)}
+      >
+        <Flex align="start" justify="space-between" style={{height: "100%"}}>
+          <Flex gap="xs" align="center" style={{height: "100%"}}>
+            <RoundedIcon path={mdiThermostat}/>
+            <Flex vertical>
+              <Typography.Text bold>
+                {`${currentMode?.title} ${climateEntity.attributes.current_temperature}°C`}
+              </Typography.Text>
+              <Typography.Text textColor="secondary" fontSize="sm">
+                {props.title}
+              </Typography.Text>
+            </Flex>
+          </Flex>
+          <Flex
+            data-clickable
+            gap="xs"
+            align="center"
+            style={{height: "100%"}}
+            onClick={(event) => event.stopPropagation()}
+          >
+            {!isClimateEntityOff && (
+              <Space compact>
+                <Button
+                  shape="round"
+                  icon={mdiPlus}
+                  onClick={() => changeTemperature(1)}
+                />
+                <Button fontSize="sm">
+                  {`${climateEntity.attributes.temperature}°C`}
+                </Button>
+                <Button
+                  shape="round"
+                  icon={mdiMinus}
+                  onClick={() => changeTemperature(-1)}
+                />
+              </Space>
+            )}
+            <Select
+              items={modeItems}
+              value={climateEntity.state}
+              onValueChange={changeMode}
+              placeholderIcon={currentMode?.icon}
+              shape="round"
+              compact
+              iconOnly
+            />
           </Flex>
         </Flex>
-        <Flex gap="xs" align="center" style={{height: "100%"}}>
-          {!isClimateEntityOff && (
-            <Space compact>
-              <Button
-                shape="round"
-                icon={mdiPlus}
-                onClick={() => changeTemperature(1)}
-              />
-              <Button fontSize="sm">
-                {`${climateEntity.attributes.temperature}°C`}
-              </Button>
-              <Button
-                shape="round"
-                icon={mdiMinus}
-                onClick={() => changeTemperature(-1)}
-              />
-            </Space>
-          )}
-          <Select
-            items={modeItems}
-            value={climateEntity.state}
-            onValueChange={changeMode}
-            placeholderIcon={currentMode?.icon}
-            shape="round"
-            compact
-            iconOnly
-          />
-        </Flex>
-      </Flex>
-    </Card>
+      </Card>
+      <ClimateModal
+        climateEntity={props.climateEntity}
+        title={props.title}
+        hiddenModes={props.hiddenModes}
+        isOpen={isModalOpen}
+        close={() => setIsModalOpen(false)}
+      />
+    </>
   )
 }

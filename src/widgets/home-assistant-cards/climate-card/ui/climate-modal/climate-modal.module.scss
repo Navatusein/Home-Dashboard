@@ -1,0 +1,41 @@
+@use "@/shared/styles/variables" as variables;
+
+.slider {
+  position: relative;
+
+  width: 100%;
+  max-width: 300px;
+}
+
+.slider-value {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.target {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  translate: -50% 0;
+}
+
+.modes {
+  width: 100%;
+
+  button {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

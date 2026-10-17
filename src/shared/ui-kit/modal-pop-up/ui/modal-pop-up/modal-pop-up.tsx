@@ -7,14 +7,38 @@ import ModalPopUpContent from "../modal-pop-up-content/modal-pop-up-content";
 import {AnimatePresence, HTMLMotionProps, motion} from "framer-motion";
 import {ModalBackground} from "@/shared/ui-kit/modal-background";
 import {ModalContext} from "@/shared/contexts/modal-context";
+import {useSyncExternalStore} from "react";
+import {createPortal} from "react-dom";
 
 const variants = cva(
   styles["base"],
   {
-    variants: {},
-    defaultVariants: {},
+    variants: {
+      placement: {
+        bottom: styles["placement-bottom"],
+        center: styles["placement-center"],
+      },
+    },
+    defaultVariants: {
+      placement: "bottom",
+    },
   }
 )
+
+const animations = {
+  bottom: {
+    initial: {translate: "-50% 110%"},
+    animate: {translate: "-50% 0%"},
+    exit: {translate: "-50% 110%"},
+  },
+  center: {
+    initial: {translate: "-50% -50%", scale: 0.9, opacity: 0},
+    animate: {translate: "-50% -50%", scale: 1, opacity: 1},
+    exit: {translate: "-50% -50%", scale: 0.9, opacity: 0},
+  },
+}
+
+const subscribe = () => () => {};
 
 type Props = HTMLMotionProps<"div"> & VariantProps<typeof variants> & {
   isOpen: boolean;
@@ -22,20 +46,24 @@ type Props = HTMLMotionProps<"div"> & VariantProps<typeof variants> & {
 }
 
 export default function ModalPopUp(props: Props) {
-  const {className, isOpen, close, ...otherProps} = props;
+  const {className, placement, isOpen, close, ...otherProps} = props;
 
-  return (
+  const isClient = useSyncExternalStore(subscribe, () => true, () => false);
+
+  if (!isClient)
+    return null;
+
+  return createPortal(
     <ModalContext.Provider value={{isOpen: isOpen, close: close}}>
       <AnimatePresence>
         {isOpen && (
           <ModalBackground fixScroll>
             <motion.div
-              initial={{translate: "-50% 110%"}}
-              animate={{translate: "-50% 0%"}}
-              exit={{translate: "-50% 110%"}}
+              {...animations[placement ?? "bottom"]}
               transition={{duration: 0.3}}
               data-slot="modal-pop-up-content"
               className={variants({
+                placement: placement,
                 className: className
               })}
               onPointerUp={(e) => e.stopPropagation()}
@@ -44,7 +72,8 @@ export default function ModalPopUp(props: Props) {
           </ModalBackground>
         )}
       </AnimatePresence>
-    </ModalContext.Provider>
+    </ModalContext.Provider>,
+    document.body
   )
 }
 

@@ -10,25 +10,41 @@
   flex-direction: column;
 
   width: 500px;
-  height: 80%;
 
-  bottom: 0;
   left: 50%;
 
   color: var(--card-color);
   background-color: var(--color-background);
   padding: var(--modal-pop-up-padding) var(--modal-pop-up-padding) 0;
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
   box-shadow: 0 0 15px 5px rgba(0,0,0,0.75);
   border: 1px solid var(--color-primary);
-  border-bottom: 0;
   overflow: hidden;
 
   @include media.respond-below(variables.$breakpoint-sm) {
     --border-radius: #{variables.$border-radius-md + variables.$padding-xs};
     --modal-pop-up-padding: #{variables.$padding-xs};
+  }
+}
 
-    width: calc(100%);
+.placement-bottom {
+  height: 80%;
+
+  bottom: 0;
+
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  border-bottom: 0;
+
+  @include media.respond-below(variables.$breakpoint-sm) {
+    width: 100%;
     height: 92%;
   }
+}
+
+.placement-center {
+  max-width: calc(100% - 2 * #{variables.$padding-body-sm});
+  max-height: 90%;
+
+  top: 50%;
+
+  border-radius: calc(#{variables.$control-height-default} / 2 + var(--modal-pop-up-padding));
 }

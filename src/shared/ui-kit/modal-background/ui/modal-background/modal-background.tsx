@@ -28,9 +28,17 @@ export default function ModalBackground(props: Props) {
   const modalContext = useContext(ModalContext);
 
   useEffect(() => {
-    if (fixScroll) {
-      document.body.style.overflowY = modalContext.isOpen ? "hidden" : "unset";
-      document.body.style.marginRight = modalContext.isOpen ? "4px" : "unset";
+    if (!fixScroll || !modalContext.isOpen)
+      return;
+
+    const {overflowY, marginRight} = document.body.style;
+
+    document.body.style.overflowY = "hidden";
+    document.body.style.marginRight = "4px";
+
+    return () => {
+      document.body.style.overflowY = overflowY;
+      document.body.style.marginRight = marginRight;
     }
   }, [fixScroll, modalContext.isOpen]);
 
