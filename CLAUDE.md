@@ -131,6 +131,7 @@ See `example.env`.
 - `HOME_ASSISTANT_URL` — required; base URL of the Home Assistant instance.
 - `DEV_ALLOWED_ORIGINS` — comma-separated list passed to `allowedDevOrigins` (needed to open the dev server from another device).
 - `DEV_INDEX_PAGE` — when set, `/` redirects to `/dev`. It is a truthiness check on the string, so `DEV_INDEX_PAGE=false` still enables it; leave it unset to disable.
+- `FAKER_CONFIG_PATH` — path to the JSON config of the terminal Faker page (profiles, field generators, buttons, templates), read server-side on each request; mounted from a ConfigMap in k8s. `faker.example.json` documents the format; the real `faker.json` is git-ignored.
 - `DEV_DISABLE_HOME_ASSISTANT` — **not** wired to anything; the real toggle is the `DISABLE_HOME_ASSISTANT` constant (see above).
 
 ## Release and deployment

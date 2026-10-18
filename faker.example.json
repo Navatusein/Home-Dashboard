@@ -1,0 +1,77 @@
+{
+  "emailBase": "john.doe@gmail.com",
+  "fakeEmailDomains": ["example.com", "test.local"],
+  "profiles": {
+    "participant": {
+      "title": "Participant",
+      "fields": {
+        "gender": {"type": "gender", "male": "M", "female": "F"},
+        "firstName": {"type": "firstName", "gender": "gender"},
+        "lastName": {"type": "lastName"},
+        "email": {"type": "email"},
+        "dateOfBirth": {"type": "date", "minAge": 18, "maxAge": 60},
+        "phone": {"type": "code", "pattern": "333#######"}
+      },
+      "historyTitle": "@firstName@ @lastName@",
+      "buttons": [
+        {"ref": "firstName", "label": "First name"},
+        {"ref": "lastName", "label": "Last name"},
+        {"ref": "gender", "label": "Gender"},
+        {"span": 3, "items": [
+          {"ref": "email:plus", "display": "email:tag", "label": "Email +"},
+          {"ref": "email:fake", "label": "Email fake"}
+        ]},
+        {"span": 2, "items": [
+          {"ref": "dateOfBirth:DD.MM.YYYY", "label": "Birth"},
+          {"ref": "dateOfBirth:MM/DD/YYYY", "label": "Birth"},
+          {"ref": "dateOfBirth:YYYY-MM-DD", "label": "Birth"}
+        ]},
+        {"ref": "phone", "label": "Phone"}
+      ],
+      "templates": {
+        "Create": {
+          "firstName": "@firstName@",
+          "lastName": "@lastName@",
+          "dateOfBirth": "@dateOfBirth:YYYY-MM-DD@",
+          "email": "@email:plus@",
+          "gender": "@gender@",
+          "phone": "@phone@"
+        },
+        "Update": {
+          "email": "@email:fake@",
+          "phone": "@phone@"
+        }
+      }
+    },
+    "function": {
+      "title": "Function",
+      "fields": {
+        "uuid": {"type": "uuid"},
+        "code": {"type": "code", "pattern": "???##"},
+        "name": {"type": "faker", "method": "person.jobTitle"},
+        "label": {"type": "template", "value": "@code@ - @name:upper@"},
+        "discipline": {"type": "pick", "values": [{"label": "TTE", "value": "TTE"}, {"label": "SWM", "value": "SWM"}]},
+        "validFrom": {"type": "date", "from": "2026-01-01", "to": "2026-06-30"},
+        "validTo": {"type": "date", "after": "validFrom", "minDays": 1, "maxDays": 30}
+      },
+      "historyTitle": "@code@",
+      "buttons": [
+        {"ref": "code", "label": "Code"},
+        {"ref": "label", "label": "Label", "span": 2},
+        {"ref": "discipline:value", "label": "Discipline"},
+        {"ref": "validFrom:DD.MM.YYYY", "label": "From"},
+        {"ref": "validTo:DD.MM.YYYY", "label": "To"}
+      ],
+      "templates": {
+        "Create": {
+          "uuid": "@uuid@",
+          "code": "@code@",
+          "label": "@label@",
+          "disciplines": ["@discipline@"],
+          "validFrom": "@validFrom:iso@",
+          "validTo": "@validTo:iso@"
+        }
+      }
+    }
+  }
+}

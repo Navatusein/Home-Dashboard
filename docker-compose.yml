@@ -8,4 +8,7 @@ services:
       - 3000:3000
     environment:
       - HOME_ASSISTANT_URL=https://www.home-assistant.io/
+      - FAKER_CONFIG_PATH=/app/config/faker.json
+    volumes:
+      - ./faker.json:/app/config/faker.json:ro
     restart: unless-stopped
