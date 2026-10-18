@@ -12,6 +12,7 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  NTFY_ICON: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/github-light.png
 
 jobs:
   build-and-push-to-registry:
@@ -30,9 +31,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
@@ -65,11 +63,9 @@ jobs:
         with:
           context: .
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
@@ -106,6 +102,7 @@ jobs:
           grep -q "tag: ${VERSION}@${DIGEST}" "$GITOPS_FILE"
 
       - name: Create pull request
+        id: pr
         if: steps.update.outputs.changed == 'true'
         run: |
           BRANCH="chore/home-dashboard-${VERSION}"
@@ -121,3 +118,48 @@ jobs:
             --title "(Updated) home-dashboard image to ${VERSION}" \
             --body "Digest \`${DIGEST}\` from ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
             || gh pr edit "$BRANCH" --repo "$GITOPS_REPOSITORY" --title "(Updated) home-dashboard image to ${VERSION}"
+          echo "url=$(gh pr view "$BRANCH" --repo "$GITOPS_REPOSITORY" --json url -q .url)" >> "$GITHUB_OUTPUT"
+
+      - name: Notify ntfy
+        if: steps.update.outputs.changed == 'true'
+        run: |
+          curl -fsS \
+            -H "Authorization: Bearer ${NTFY_TOKEN}" \
+            -H "Title: home-dashboard ${VERSION}" \
+            -H "Tags: rocket" \
+            -H "Icon: ${NTFY_ICON}" \
+            -H "Click: ${PR_URL}" \
+            -H "Actions: view, Open PR, ${PR_URL}" \
+            -d "GitOps PR is ready" \
+            "${NTFY_URL}/${NTFY_TOPIC}"
+        env:
+          NTFY_URL: ${{ secrets.NTFY_URL }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+
+  notify-failure:
+    name: Notify failure
+    needs: [build-and-push-to-registry, create-gitops-pull-request]
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions: {}
+
+    steps:
+      - name: Notify ntfy
+        run: |
+          curl -fsS \
+            -H "Authorization: Bearer ${NTFY_TOKEN}" \
+            -H "Title: home-dashboard ${GITHUB_REF_NAME}" \
+            -H "Tags: x" \
+            -H "Priority: high" \
+            -H "Icon: ${NTFY_ICON}" \
+            -H "Click: ${RUN_URL}" \
+            -H "Actions: view, Open run, ${RUN_URL}" \
+            -d "Release build failed" \
+            "${NTFY_URL}/${NTFY_TOPIC}"
+        env:
+          NTFY_URL: ${{ secrets.NTFY_URL }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
