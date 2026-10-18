@@ -1,6 +1,6 @@
 import {Card, Flex, RoundedIcon, Typography} from "@/shared/ui-kit";
 import Image from "next/image";
-import {useEntity} from "@hakit/core";
+import {useEntity, useHass} from "@hakit/core";
 import {
   BATTERY_PERCENT_CHARGING_ICONS,
   BATTERY_PERCENT_ICONS,
@@ -10,11 +10,11 @@ import {EntityNamePerson} from "@/shared/types/ha-domains";
 
 type Props = {
   personEntity: EntityNamePerson;
-  imageUrl: string;
 }
 
 export default function PersonCard(props: Props) {
   const personEntity = useEntity(props.personEntity);
+  const joinHassUrl = useHass((state) => state.helpers.joinHassUrl);
   const deviceTrackerEntity = useEntity<"device_tracker.">(personEntity.attributes.source, {
     returnNullIfNotFound: true,
   })
@@ -27,7 +27,14 @@ export default function PersonCard(props: Props) {
   return (
     <Card stackCount={1} padding="xs">
       <Flex align="center" gap="xs" style={{height: "100%"}}>
-        <Image src={props.imageUrl} alt="Img" width={40} height={40} style={{borderRadius: "100%"}}/>
+        <Image
+          src={joinHassUrl(personEntity.attributes.entity_picture ?? "")}
+          alt="Img"
+          width={40}
+          height={40}
+          style={{borderRadius: "100%"}}
+          unoptimized
+        />
         <Flex vertical grow>
           <Typography.Text>
             {personEntity.attributes.friendly_name}

@@ -17,12 +17,10 @@ import KitchenModal from "../../modals/kitchen-modal/kitchen-modal";
 import LargeCorridorModal from "../../modals/large-corridor-modal/large-corridor-modal";
 import VacuumModal from "../../modals/vacuum-modal/vacuum-modal";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
-import {WelcomeCard, WelcomeCardPerson} from "@/widgets/home-assistant-cards/welcome-card";
+import {WelcomeCard} from "@/widgets/home-assistant-cards/welcome-card";
+import {EntityNamePerson} from "@/shared/types/ha-domains";
 
-const WELCOME_PERSONS: WelcomeCardPerson[] = [
-  {entity: "person.bogdan", imageUrl: "/users/bohdan.jpg"},
-  {entity: "person.iulia", imageUrl: "/users/julia.png"},
-]
+const WELCOME_PERSONS: EntityNamePerson[] = ["person.bogdan", "person.iulia"];
 
 export default function HomeView() {
   return (

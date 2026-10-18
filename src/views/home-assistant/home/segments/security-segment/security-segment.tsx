@@ -8,14 +8,8 @@ export default function SecuritySegment() {
       <SegmentHeader icon={mdiSecurity} title="Security"/>
       <Card stackCount={2}>Card Large</Card>
       <Grid columns={2} gap="xs">
-        <PersonCard
-          personEntity="person.bogdan"
-          imageUrl="/users/bohdan.jpg"
-        />
-        <PersonCard
-          personEntity="person.iulia"
-          imageUrl="/users/julia.png"
-        />
+        <PersonCard personEntity="person.bogdan"/>
+        <PersonCard personEntity="person.iulia"/>
       </Grid>
     </Flex>
   )
