@@ -16,6 +16,7 @@ import {GreetingCard} from "@/widgets/home-assistant-cards/greeting-card";
 import {useRouter, useSearchParams} from "next/navigation";
 import {buildPath, TERMINAL_QUERY_PARAM} from "@/shared/helpers/terminal-path-builder";
 import {OrientationLock} from "@/features/orientation-lock";
+import {DiscordMuteChip} from "@/features/discord-mute-chip";
 
 type Props = {
   children: ReactNode;
@@ -41,13 +42,16 @@ export default function HomeAssistantDashboardLayout(props: Props) {
               <Chips text="Home" icon={mdiShieldHomeOutline} iconColor="green"/>
               <Chips icon={mdiLockOpenVariant} iconColor="red"/>
               {fromTerminal && (
-                <Chips
-                  text="Terminal"
-                  icon={mdiTabletDashboard}
-                  iconColor="teal"
-                  clickable
-                  onClick={() => router.push(buildPath())}
-                />
+                <>
+                  <DiscordMuteChip/>
+                  <Chips
+                    text="Terminal"
+                    icon={mdiTabletDashboard}
+                    iconColor="teal"
+                    clickable
+                    onClick={() => router.push(buildPath())}
+                  />
+                </>
               )}
             </Flex>
           </Flex>
