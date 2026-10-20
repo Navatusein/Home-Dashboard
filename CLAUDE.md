@@ -136,4 +136,4 @@ See `example.env`.
 
 ## Release and deployment
 
-Pushing a `v*.*.*` tag runs `.github/workflows/build-release-image.yml`: it builds the `linux/amd64`-only `Dockerfile` image (all cluster nodes are amd64; no arm64/QEMU, no build cache — both made builds 10–15 min) (Next standalone output), pushes it to `ghcr.io/navatusein/home-dashboard`, then opens a PR in the `Navatusein/Home-Lab` GitOps repo bumping the image tag in the Kubernetes HelmRelease, and posts to ntfy on PR creation or on failure (secrets `NTFY_URL`, `NTFY_TOPIC`, `NTFY_TOKEN`). Keep `package.json` `version` in sync with the tag.
+Pushing a `v*.*.*` tag runs `.github/workflows/build-release-image.yml`: it builds the `linux/amd64`-only `Dockerfile` image (all cluster nodes are amd64; no arm64/QEMU, no build cache — both made builds 10–15 min) (Next standalone output), pushes it to `ghcr.io/navatusein/home-dashboard`, then opens a PR in the `Navatusein/Home-Lab` GitOps repo bumping the image tag in the Kubernetes HelmRelease. Keep `package.json` `version` in sync with the tag.
