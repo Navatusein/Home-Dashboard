@@ -1,18 +1,24 @@
 "use client"
 
-import {BootstrapGrid, Flex} from "@/shared/ui-kit";
+import {BootstrapGrid, Flex, ResponsiveToggler} from "@/shared/ui-kit";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
 import OverviewSegment from "../../segments/overview-segment/overview-segment";
 import GridSegment from "../../segments/grid-segment/grid-segment";
 import BatterySegment from "../../segments/battery-segment/battery-segment";
 import PowerFlowSegment from "../../segments/power-flow-segment/power-flow-segment";
+import OutageSegment from "../../segments/outage-segment/outage-segment";
 
 export default function EnergyView() {
   return (
     <Flex vertical gap="sm">
       <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
-        <BootstrapGrid.Column span={16} md={24}>
-          <InfoCard/>
+        <ResponsiveToggler breakpoint="sm" hide asChild>
+          <BootstrapGrid.Column span={16} md={24}>
+            <InfoCard/>
+          </BootstrapGrid.Column>
+        </ResponsiveToggler>
+        <BootstrapGrid.Column span={8} md={24}>
+          <OutageSegment/>
         </BootstrapGrid.Column>
       </BootstrapGrid.Row>
       <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
