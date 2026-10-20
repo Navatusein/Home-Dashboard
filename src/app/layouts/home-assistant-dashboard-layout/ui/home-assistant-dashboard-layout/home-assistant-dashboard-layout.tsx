@@ -13,10 +13,12 @@ import {
 import {ReactNode, useState} from "react";
 import styles from "./home-assistant-dashboard-layout.module.scss";
 import {GreetingCard} from "@/widgets/home-assistant-cards/greeting-card";
-import {useRouter, useSearchParams} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {buildPath, TERMINAL_QUERY_PARAM} from "@/shared/helpers/terminal-path-builder";
 import {OrientationLock} from "@/features/orientation-lock";
 import {DiscordMuteChip} from "@/features/discord-mute-chip";
+import {useEntity} from "@hakit/core";
+import LightsModal from "../../modals/lights-modal/lights-modal";
 
 type Props = {
   children: ReactNode;
@@ -25,8 +27,10 @@ type Props = {
 
 export default function HomeAssistantDashboardLayout(props: Props) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [fromTerminal] = useState(() => searchParams.has(TERMINAL_QUERY_PARAM));
+  const lightsOn = useEntity("sensor.lights_on_count");
 
   return (
     <Flex vertical className={styles["page-container"]}>
@@ -37,10 +41,27 @@ export default function HomeAssistantDashboardLayout(props: Props) {
           <Flex justify="space-between">
             <GreetingCard/>
             <Flex gap="xs">
-              <Chips text="6" icon={mdiLightbulbGroup} iconColor="orange"/>
-              <Chips text="3" icon={mdiWindowOpenVariant} iconColor="yellow"/>
-              <Chips text="Home" icon={mdiShieldHomeOutline} iconColor="green"/>
-              <Chips icon={mdiLockOpenVariant} iconColor="red"/>
+              <Chips
+                text={lightsOn.state}
+                icon={mdiLightbulbGroup}
+                iconColor="orange"
+                clickable
+                onClick={() => router.push(`${pathname}?modal=lights`)}
+              />
+              <Chips
+                text="3"
+                icon={mdiWindowOpenVariant}
+                iconColor="yellow"
+              />
+              <Chips
+                text="Home"
+                icon={mdiShieldHomeOutline}
+                iconColor="green"
+              />
+              <Chips
+                icon={mdiLockOpenVariant}
+                iconColor="red"
+              />
               {fromTerminal && (
                 <>
                   <DiscordMuteChip/>
@@ -58,6 +79,7 @@ export default function HomeAssistantDashboardLayout(props: Props) {
           {props.children}
         </Flex>
       </Flex>
+      <LightsModal/>
     </Flex>
   )
 }
