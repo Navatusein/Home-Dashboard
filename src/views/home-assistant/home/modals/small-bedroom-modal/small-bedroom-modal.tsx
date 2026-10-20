@@ -4,6 +4,7 @@ import {
   mdiDeskLamp,
   mdiDesktopTowerMonitor,
   mdiDevices,
+  mdiLaptop,
   mdiLightbulbGroup,
   mdiLock,
   mdiMonitor,
@@ -98,6 +99,14 @@ export default function SmallBedroomModal() {
               entity="button.navatusein_pc_shutdown_pc"
               confirm
             />
+            <Grid.Element colSpan={2}>
+              <SwitchCard
+                title="Laptop"
+                icon={mdiLaptop}
+                entity="switch.laptop_nas_wr01b"
+                color="blue"
+              />
+            </Grid.Element>
           </Grid>
         </Flex>
       </ModalPopUp.Content>
