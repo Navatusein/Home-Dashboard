@@ -16,6 +16,7 @@ import DropdownPart from "../dropdown-part/dropdown-part";
 import SelectPart from "../select-part/select-part";
 import SwitchPart from "../switch-part/switch-part";
 import ChartPart from "../chart-part/chart-part";
+import SegmentedPart from "../segmented-part/segmented-part";
 
 export default function UiKitView() {
   return (
@@ -37,6 +38,7 @@ export default function UiKitView() {
       <SelectPart/>
       <SwitchPart/>
       <ChartPart/>
+      <SegmentedPart/>
     </Flex>
   )
 }

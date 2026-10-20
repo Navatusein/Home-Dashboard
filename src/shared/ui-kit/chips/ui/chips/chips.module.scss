@@ -35,3 +35,9 @@
     @include clickable.clickable(var(--chips-background-color), var(--chips-intensity-modifier));
   }
 }
+
+.text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -16,6 +16,7 @@ import {DropdownMenu} from "./dropdown-menu";
 import {Select} from "./select";
 import {Switch} from "./switch";
 import {Chart, ChartOption} from "./chart";
+import {Segmented, SegmentedOption} from "./segmented";
 
 export {
   BootstrapGrid,
@@ -35,7 +36,8 @@ export {
   DropdownMenu,
   Select,
   Switch,
-  Chart
+  Chart,
+  Segmented
 };
 
-export type {ChartOption};
+export type {ChartOption, SegmentedOption};

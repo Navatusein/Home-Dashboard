@@ -16,6 +16,7 @@ import RestroomModal from "../../modals/restroom-modal/restroom-modal";
 import KitchenModal from "../../modals/kitchen-modal/kitchen-modal";
 import LargeCorridorModal from "../../modals/large-corridor-modal/large-corridor-modal";
 import VacuumModal from "../../modals/vacuum-modal/vacuum-modal";
+import ClimateModal from "../../modals/climate-modal/climate-modal";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
 import {WelcomeCard} from "@/widgets/home-assistant-cards/welcome-card";
 import {EntityNamePerson} from "@/shared/types/ha-domains";
@@ -72,6 +73,7 @@ export default function HomeView() {
       <KitchenModal/>
       <PersonalModal/>
       <VacuumModal/>
+      <ClimateModal/>
     </Flex>
   )
 }

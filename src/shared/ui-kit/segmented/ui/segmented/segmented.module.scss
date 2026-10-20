@@ -1,0 +1,55 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  --segmented-color: var(--color-accent);
+
+  display: inline-flex;
+  gap: 2PX;
+
+  height: 32PX;
+  padding: 2PX;
+
+  background-color: var(--color-primary);
+  border-radius: variables.$border-radius-rounded;
+
+  @each $name, $color in variables.$colors-map {
+    &.color-#{$name} {
+      --segmented-color: #{$color};
+    }
+  }
+}
+
+.option {
+  position: relative;
+  flex: 1;
+
+  padding: 0 variables.$padding-sm;
+
+  border: 0;
+  border-radius: variables.$border-radius-rounded;
+  background-color: var(--color-transparent);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: variables.$font-size-sm;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  -webkit-tap-highlight-color: var(--color-transparent);
+
+  &[data-selected="true"] {
+    color: var(--color-text-primary-dark);
+  }
+}
+
+.indicator {
+  position: absolute;
+  inset: 0;
+
+  border-radius: variables.$border-radius-rounded;
+  background-color: var(--segmented-color);
+}
+
+.text {
+  position: relative;
+  white-space: nowrap;
+}

@@ -3,15 +3,15 @@
 import {ComponentProps, TouchEvent, useEffect, useRef} from "react";
 import {cva} from "class-variance-authority";
 import {ComposeOption, EChartsType, init, use as registerComponents} from "echarts/core";
-import {SankeyChart, SankeySeriesOption} from "echarts/charts";
-import {TooltipComponent, TooltipComponentOption} from "echarts/components";
+import {LineChart, LineSeriesOption, SankeyChart, SankeySeriesOption} from "echarts/charts";
+import {GridComponent, GridComponentOption, TooltipComponent, TooltipComponentOption} from "echarts/components";
 import {CanvasRenderer} from "echarts/renderers";
 import {resolveCssVariables} from "../../helpers/resolve-css-variables";
 import styles from "./chart.module.scss";
 
-registerComponents([SankeyChart, TooltipComponent, CanvasRenderer]);
+registerComponents([SankeyChart, LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
-export type ChartOption = ComposeOption<SankeySeriesOption | TooltipComponentOption>;
+export type ChartOption = ComposeOption<SankeySeriesOption | LineSeriesOption | GridComponentOption | TooltipComponentOption>;
 
 const BASE_OPTION: ChartOption = {
   stateAnimation: {
@@ -116,9 +116,9 @@ export default function Chart(props: Props) {
       className={variants({
         className: className
       })}
-      onTouchStartCapture={stopTouch}
-      onTouchMoveCapture={stopTouch}
-      onTouchEndCapture={stopTouch}
+      onTouchStart={stopTouch}
+      onTouchMove={stopTouch}
+      onTouchEnd={stopTouch}
       {...otherProps}
     />
   )

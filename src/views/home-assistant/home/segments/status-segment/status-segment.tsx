@@ -63,15 +63,17 @@ export default function StatusSegment() {
         icon={mdiThermometer}
         iconColor="green"
         title="Temperature"
-        entity="sensor.average_temperature"
+        entity="sensor.average_temperature_home"
         textTransformer={numberFixedTextTransformerProvider(1)}
+        onClick={() => router.push(`${pathname}?modal=climate`)}
       />
       <StatusCard
         icon={mdiWaterPercent}
         iconColor="blue"
         title="Humidity"
-        entity="sensor.average_humidity"
+        entity="sensor.average_humidity_home"
         textTransformer={numberFixedTextTransformerProvider(1)}
+        onClick={() => router.push(`${pathname}?modal=climate`)}
       />
       <StatusCard
         icon={mdiFlash}
