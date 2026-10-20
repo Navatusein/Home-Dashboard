@@ -1,6 +1,6 @@
 "use client"
 
-import {BootstrapGrid, Flex} from "@/shared/ui-kit";
+import {BootstrapGrid, Flex, ResponsiveToggler} from "@/shared/ui-kit";
 import {useUser} from "@hakit/core";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
 import StatusSegment from "../../segments/status-segment/status-segment";
@@ -20,7 +20,9 @@ export default function ServerView() {
       <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
         <BootstrapGrid.Column span={16} md={24}>
           <Flex vertical gap="sm">
-            <InfoCard/>
+            <ResponsiveToggler breakpoint="sm" hide>
+              <InfoCard/>
+            </ResponsiveToggler>
             <StatusSegment/>
           </Flex>
         </BootstrapGrid.Column>

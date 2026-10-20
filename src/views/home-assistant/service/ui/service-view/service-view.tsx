@@ -1,6 +1,6 @@
 "use client"
 
-import {BootstrapGrid, Flex} from "@/shared/ui-kit";
+import {BootstrapGrid, Flex, ResponsiveToggler} from "@/shared/ui-kit";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
 import ToolsSegment from "../../segments/tools-segment/tools-segment";
 import ZigbeeSegment from "../../segments/zigbee-segment/zigbee-segment";
@@ -11,9 +11,11 @@ export default function ServiceView() {
   return (
     <Flex vertical gap="sm">
       <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
-        <BootstrapGrid.Column span={16} md={24}>
-          <InfoCard/>
-        </BootstrapGrid.Column>
+        <ResponsiveToggler breakpoint="sm" hide asChild>
+          <BootstrapGrid.Column span={16} md={24}>
+            <InfoCard/>
+          </BootstrapGrid.Column>
+        </ResponsiveToggler>
       </BootstrapGrid.Row>
       <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
         <BootstrapGrid.Column span={8} lg={12} md={24}>
