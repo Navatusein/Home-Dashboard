@@ -14,7 +14,7 @@ import {
 } from "@mdi/js";
 import {ColorToken} from "@/shared/constants/colors";
 
-type WeatherIcon = {
+export type WeatherIcon = {
   icon: string;
   color: ColorToken | "secondary";
 }

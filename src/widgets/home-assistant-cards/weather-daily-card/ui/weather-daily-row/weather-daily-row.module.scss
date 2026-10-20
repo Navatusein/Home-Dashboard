@@ -1,0 +1,18 @@
+@use "@/shared/styles/variables" as variables;
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 40px 24px 36px 36px;
+  align-items: center;
+  gap: variables.$gap-xs;
+  padding: variables.$padding-xxs 0;
+}
+
+.precipitation {
+  color: var(--color-blue);
+  text-align: right;
+}
+
+.temperature {
+  text-align: right;
+}

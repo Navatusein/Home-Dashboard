@@ -1,0 +1,8 @@
+@use "@/shared/styles/variables" as variables;
+
+.hours {
+  display: flex;
+  gap: variables.$gap-xs;
+  overflow-x: auto;
+  scrollbar-width: none;
+}

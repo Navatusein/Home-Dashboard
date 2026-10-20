@@ -58,6 +58,7 @@ export default function StatusSegment() {
         title={weatherSummary.state}
         entity="sensor.weather_temperature"
         textTransformer={numberFixedTextTransformerProvider(1)}
+        onClick={() => router.push(`${pathname}?modal=weather`)}
       />
       <StatusCard
         icon={mdiThermometer}
