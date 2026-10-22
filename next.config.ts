@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "src")],
   },
+  experimental: {
+    agentUpgrade: "security",
+  },
   logging: {
     browserToTerminal: process.env.NODE_ENV === "development",
   },
