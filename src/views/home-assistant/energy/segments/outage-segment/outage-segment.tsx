@@ -1,5 +1,6 @@
 import {Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
 import {
+  mdiBatteryChargingHigh,
   mdiBatteryClock,
   mdiCalendarCheck,
   mdiCalendarClock,
@@ -29,6 +30,7 @@ export default function OutageSegment() {
   const nextConnectivity = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_next_connectivity");
   const statusTomorrow = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_status_tomorrow");
   const batteryRuntime = useEntity("sensor.victron_battery_runtime");
+  const batteryChargeTime = useEntity("sensor.victron_battery_charge_time");
 
   const minutesUntil = (state: string) => isUnavailableState(state) ? null : (Date.parse(state) - now) / 60_000;
 
@@ -36,13 +38,24 @@ export default function OutageSegment() {
   const plannedIn = minutesUntil(nextPlanned.state);
   const probableIn = minutesUntil(nextProbable.state);
   const connectivityIn = minutesUntil(nextConnectivity.state);
-  const runtime = isUnavailableState(batteryRuntime.state) ? null : Number(batteryRuntime.state);
+  const runtime = isUnavailableState(batteryRuntime.state) ? null : Number(batteryRuntime.state) * 60;
+  const chargeTime = isUnavailableState(batteryChargeTime.state) ? null : Number(batteryChargeTime.state);
+  const outageIn = plannedIn ?? probableIn;
 
   const isRuntimeShort = runtime != null && connectivityIn != null && runtime < connectivityIn;
+  const isChargeLong = chargeTime != null && outageIn != null && chargeTime > outageIn;
 
   return (
     <Flex gap="xs" vertical>
       <SegmentHeader icon={mdiTransmissionTowerOff} title="Outages" iconColor="red"/>
+      {isGrid && chargeTime != null && (
+        <StateCard
+          title="Battery Full"
+          text={`In ${formatDuration(chargeTime)}`}
+          icon={mdiBatteryChargingHigh}
+          color={isChargeLong ? "red" : "green"}
+        />
+      )}
       {isGrid ? (
         <Grid columns={2} gap="xs">
           <StateCard
