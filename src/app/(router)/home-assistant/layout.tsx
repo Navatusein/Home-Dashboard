@@ -19,6 +19,14 @@ type Props = {
 
 const NavbarCardItems: NavbarCardItem[] = [
   {
+    title: "Terminal",
+    path: "/terminal/main",
+    color: "blue",
+    icon: mdiTabletDashboard,
+    hideOnMobile: true,
+    forUsers: ["Bohdan"]
+  },
+  {
     title: "Home",
     path: "/home-assistant/home",
     color: "teal",
@@ -137,15 +145,7 @@ const NavbarCardItems: NavbarCardItem[] = [
         icon: mdiTools,
         path: "/home-assistant/service",
         forUsers: ["Bohdan"]
-      },
-      {
-        title: "Terminal",
-        color: "blue",
-        icon: mdiTabletDashboard,
-        path: "/terminal/main",
-        hideOnMobile: true,
-        forUsers: ["Bohdan"]
-      },
+      }
     ]
   }
 ]
