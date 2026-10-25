@@ -27,45 +27,41 @@ const HOME: PowerFlowNode = {
       color: "purple",
       children: [
         {
-          title: "Servers",
+          title: "Must",
           entity: "sensor.must_nas_wr01b_power",
           color: "pink",
-          untrackedTitle: "Must",
           children: [
             {
-              title: "Servers",
-              entity: "sensor.servers_nas_wr01b_power",
-              color: "pink",
-              hidden: true,
-              children: [
-                {
-                  title: "Orion",
-                  entity: "sensor.orion_nas_wr01b_power",
-                  color: "orange",
-                },
-                {
-                  title: "Network",
-                  entity: "sensor.network_nas_wr01b_power",
-                  color: "red",
-                },
-                {
-                  title: "Sirius",
-                  entity: "sensor.sirius_nas_wr01b_power",
-                  color: "purple",
-                },
-                {
-                  title: "Vega",
-                  entity: "sensor.vega_nas_wr01b_power",
-                  color: "blue",
-                },
-              ],
+              title: "PC",
+              entity: "sensor.pc_nas_wr01b_power",
+              color: "green",
+            },
+            {
+              title: "Orion",
+              entity: "sensor.orion_nas_wr01b_power",
+              color: "orange",
+            },
+            {
+              title: "Network",
+              entity: "sensor.network_nas_wr01b_power",
+              color: "red",
+            },
+            {
+              title: "Sirius",
+              entity: "sensor.sirius_nas_wr01b_power",
+              color: "purple",
+            },
+            {
+              title: "Vega",
+              entity: "sensor.vega_nas_wr01b_power",
+              color: "blue",
+            },
+            {
+              title: "Switch",
+              entity: "sensor.switch_nas_wr01b_power",
+              color: "teal",
             },
           ],
-        },
-        {
-          title: "PC",
-          entity: "sensor.pc_nas_wr01b_power",
-          color: "green",
         },
         {
           title: "Monitor",
