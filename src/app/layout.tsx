@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     title: "Dashboard",
   },
   icons: {
+    icon: "/icon-192.png",
     apple: "/apple-icon.png",
   },
 };
