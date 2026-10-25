@@ -48,14 +48,6 @@ export default function OutageSegment() {
   return (
     <Flex gap="xs" vertical>
       <SegmentHeader icon={mdiTransmissionTowerOff} title="Outages" iconColor="red"/>
-      {isGrid && chargeTime != null && (
-        <StateCard
-          title="Battery Full"
-          text={`In ${formatDuration(chargeTime)}`}
-          icon={mdiBatteryChargingHigh}
-          color={isChargeLong ? "red" : "green"}
-        />
-      )}
       {isGrid ? (
         <Grid columns={2} gap="xs">
           <StateCard
@@ -68,11 +60,20 @@ export default function OutageSegment() {
             icon={plannedIn != null ? mdiCalendarRemove : probableIn != null ? mdiCalendarQuestion : mdiCalendarCheck}
             color={plannedIn != null ? "orange" : probableIn != null ? "yellow" : "green"}
           />
-          <StateCard
-            title="Tomorrow"
-            text={TOMORROW_STATUS[statusTomorrow.state] ?? "Unknown"}
-            icon={mdiCalendarClock}
-          />
+          {chargeTime != null ? (
+            <StateCard
+              title="Battery Full"
+              text={`In ${formatDuration(chargeTime)}`}
+              icon={mdiBatteryChargingHigh}
+              color={isChargeLong ? "red" : "green"}
+            />
+          ) : (
+            <StateCard
+              title="Tomorrow"
+              text={TOMORROW_STATUS[statusTomorrow.state] ?? "Unknown"}
+              icon={mdiCalendarClock}
+            />
+          )}
         </Grid>
       ) : (
         <Grid columns={2} gap="xs">
