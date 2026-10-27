@@ -13,16 +13,13 @@ import {isUnavailableState, useEntity} from "@hakit/core";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 import {useNow} from "@/shared/hooks/use-now";
 import {formatDuration} from "@/shared/helpers/format-duration";
-
-const TOMORROW_STATUS: Record<string, string> = {
-  no_outages: "No Outages",
-  schedule_applies: "Scheduled",
-  waiting_for_schedule: "Pending",
-  emergency_shutdowns: "Emergency",
-};
+import {usePathname, useRouter} from "next/navigation";
+import {OUTAGE_STATUS} from "../../constants/outage-status";
 
 export default function OutageSegment() {
   const now = useNow(30_000);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const inputSource = useEntity("sensor.gx_device_ac_active_input_source");
   const nextPlanned = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_next_planned_outage");
@@ -59,6 +56,7 @@ export default function OutageSegment() {
             }
             icon={plannedIn != null ? mdiCalendarRemove : probableIn != null ? mdiCalendarQuestion : mdiCalendarCheck}
             color={plannedIn != null ? "orange" : probableIn != null ? "yellow" : "green"}
+            onClick={() => router.push(`${pathname}?modal=outage`)}
           />
           {chargeTime != null ? (
             <StateCard
@@ -70,7 +68,7 @@ export default function OutageSegment() {
           ) : (
             <StateCard
               title="Tomorrow"
-              text={TOMORROW_STATUS[statusTomorrow.state] ?? "Unknown"}
+              text={OUTAGE_STATUS[statusTomorrow.state] ?? "Unknown"}
               icon={mdiCalendarClock}
             />
           )}
@@ -82,6 +80,7 @@ export default function OutageSegment() {
             text={connectivityIn != null ? `In ${formatDuration(connectivityIn)}` : "Unknown"}
             icon={mdiTransmissionTowerImport}
             color="blue"
+            onClick={() => router.push(`${pathname}?modal=outage`)}
           />
           <StateCard
             title="Battery Runtime"

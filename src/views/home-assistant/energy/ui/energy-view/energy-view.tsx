@@ -7,6 +7,7 @@ import GridSegment from "../../segments/grid-segment/grid-segment";
 import BatterySegment from "../../segments/battery-segment/battery-segment";
 import PowerFlowSegment from "../../segments/power-flow-segment/power-flow-segment";
 import OutageSegment from "../../segments/outage-segment/outage-segment";
+import OutageModal from "../../modals/outage-modal/outage-modal";
 
 export default function EnergyView() {
   return (
@@ -35,6 +36,7 @@ export default function EnergyView() {
           <PowerFlowSegment/>
         </BootstrapGrid.Column>
       </BootstrapGrid.Row>
+      <OutageModal/>
     </Flex>
   )
 }

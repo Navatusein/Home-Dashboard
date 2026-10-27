@@ -1,0 +1,30 @@
+@use "@/shared/styles/variables" as variables;
+
+.bar {
+  position: relative;
+  height: 40px;
+  border-radius: variables.$border-radius-sm;
+  overflow: hidden;
+}
+
+.schedule {
+  position: relative;
+  height: 4px;
+}
+
+.schedule-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: variables.$border-radius-rounded;
+  background-color: var(--color-text-secondary);
+}
+
+.now {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background-color: var(--color-accent);
+}
