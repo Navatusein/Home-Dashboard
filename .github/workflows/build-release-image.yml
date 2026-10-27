@@ -26,6 +26,7 @@ jobs:
     outputs:
       digest: ${{ steps.push.outputs.digest }}
       version: ${{ steps.meta.outputs.version }}
+      image: ${{ steps.image.outputs.name }}
 
     steps:
       - name: Checkout repository
@@ -84,6 +85,7 @@ jobs:
       GITOPS_FILE: kubernetes/main-k8s/apps/application/home-dashboard/app/helm-release.yaml
       DIGEST: ${{ needs.build-and-push-to-registry.outputs.digest }}
       VERSION: ${{ needs.build-and-push-to-registry.outputs.version }}
+      IMAGE: ${{ needs.build-and-push-to-registry.outputs.image }}
       GH_TOKEN: ${{ secrets.GITOPS_TOKEN }}
 
     steps:
@@ -96,23 +98,37 @@ jobs:
       - name: Update image tag
         id: update
         run: |
+          OLD_VERSION=$(sed -nE 's|^\s*tag:\s*([^@[:space:]]+).*$|\1|p' "$GITOPS_FILE" | head -n1)
           sed -i -E "s|^(\s*tag:\s*).+$|\1${VERSION}@${DIGEST}|" "$GITOPS_FILE"
           git diff --quiet -- "$GITOPS_FILE" && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
           grep -q "tag: ${VERSION}@${DIGEST}" "$GITOPS_FILE"
 
+          IFS=. read -r OLD_MAJOR OLD_MINOR _ <<< "$OLD_VERSION"
+          IFS=. read -r NEW_MAJOR NEW_MINOR _ <<< "$VERSION"
+          if [ "$OLD_MAJOR" != "$NEW_MAJOR" ]; then
+            PREFIX="feat(container)!"
+          elif [ "$OLD_MINOR" != "$NEW_MINOR" ]; then
+            PREFIX="feat(container)"
+          else
+            PREFIX="chore(container)"
+          fi
+          echo "title=${PREFIX}: update image ${IMAGE} ( ${OLD_VERSION} → ${VERSION} )" >> "$GITHUB_OUTPUT"
+
       - name: Create pull request
         if: steps.update.outputs.changed == 'true'
+        env:
+          TITLE: ${{ steps.update.outputs.title }}
         run: |
           BRANCH="chore/home-dashboard-${VERSION}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$BRANCH"
-          git commit -am "(Updated) home-dashboard image to ${VERSION}"
+          git commit -am "$TITLE"
           git push --force origin "$BRANCH"
           gh pr create \
             --repo "$GITOPS_REPOSITORY" \
             --head "$BRANCH" \
             --base main \
-            --title "(Updated) home-dashboard image to ${VERSION}" \
+            --title "$TITLE" \
             --body "Digest \`${DIGEST}\` from ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
-            || gh pr edit "$BRANCH" --repo "$GITOPS_REPOSITORY" --title "(Updated) home-dashboard image to ${VERSION}"
+            || gh pr edit "$BRANCH" --repo "$GITOPS_REPOSITORY" --title "$TITLE"
