@@ -18,13 +18,26 @@ import LargeCorridorModal from "../../modals/large-corridor-modal/large-corridor
 import VacuumModal from "../../modals/vacuum-modal/vacuum-modal";
 import ClimateModal from "../../modals/climate-modal/climate-modal";
 import WeatherModal from "../../modals/weather-modal/weather-modal";
+import MapModal from "../../modals/map-modal/map-modal";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
 import {WelcomeCard} from "@/widgets/home-assistant-cards/welcome-card";
 import {EntityNamePerson} from "@/shared/types/ha-domains";
+import {useState} from "react";
+import {usePathname, useRouter} from "next/navigation";
+import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
 
 const WELCOME_PERSONS: EntityNamePerson[] = ["person.bogdan", "person.iulia"];
 
 export default function HomeView() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const isMobile = useBreakpoint("sm");
+  const [mapFocus, setMapFocus] = useState<{key: string}>();
+
+  const openPersonOnMap = (person: EntityNamePerson) => {
+    router.push(`${pathname}?modal=map&person=${person}`);
+  }
+
   return (
     <Flex vertical gap="sm">
       <ResponsiveToggler breakpoint="sm" hide>
@@ -39,6 +52,7 @@ export default function HomeView() {
           <WelcomeCard
             persons={WELCOME_PERSONS}
             room="Small Bedroom"
+            onPersonClick={openPersonOnMap}
           />
           <StatusSegment/>
         </Flex>
@@ -49,14 +63,16 @@ export default function HomeView() {
             <ResponsiveToggler breakpoint="sm" hide>
               <StatusSegment/>
             </ResponsiveToggler>
-            <MapSegment/>
+            <MapSegment focus={mapFocus}/>
             <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
               <BootstrapGrid.Column span={12} md={24}>
                 <MusicSegment/>
               </BootstrapGrid.Column>
-              <BootstrapGrid.Column span={12} md={24}>
-                <SecuritySegment/>
-              </BootstrapGrid.Column>
+              {!isMobile && (
+                <BootstrapGrid.Column span={12} md={24}>
+                  <SecuritySegment onPersonClick={(person) => setMapFocus({key: person})}/>
+                </BootstrapGrid.Column>
+              )}
             </BootstrapGrid.Row>
           </Flex>
         </BootstrapGrid.Column>
@@ -76,6 +92,7 @@ export default function HomeView() {
       <VacuumModal/>
       <ClimateModal/>
       <WeatherModal/>
+      <MapModal/>
     </Flex>
   )
 }

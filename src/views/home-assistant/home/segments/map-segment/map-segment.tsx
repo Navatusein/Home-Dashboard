@@ -3,14 +3,22 @@ import {mdiMapMarker} from "@mdi/js";
 import {MapCard} from "@/widgets/home-assistant-cards/map-card";
 import {EntityNamePerson} from "@/shared/types/ha-domains";
 
+type Props = {
+  focus?: {key: string};
+}
+
 const PERSONS: EntityNamePerson[] = ["person.bogdan", "person.iulia"];
 
-export default function MapSegment() {
+export default function MapSegment(props: Props) {
   return (
     <ResponsiveToggler breakpoint="sm" hide>
       <Flex gap="xs" vertical style={{height: "100%"}}>
         <SegmentHeader icon={mdiMapMarker} title="Map"/>
-        <MapCard persons={PERSONS}/>
+        <MapCard
+          persons={PERSONS}
+          focus={props.focus}
+          expandModal="map"
+        />
       </Flex>
     </ResponsiveToggler>
   )

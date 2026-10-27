@@ -4,6 +4,7 @@ import {EntityNamePerson} from "@/shared/types/ha-domains";
 
 type Props = {
   person: EntityNamePerson;
+  onClick?: () => void;
 }
 
 export default function PersonAvatar(props: Props) {
@@ -16,7 +17,12 @@ export default function PersonAvatar(props: Props) {
       alt={personEntity.attributes.friendly_name ?? "Img"}
       width={40}
       height={40}
-      style={{borderRadius: 12, filter: personEntity.state == "home" ? undefined : "grayscale(1) brightness(0.6)"}}
+      style={{
+        borderRadius: 12,
+        filter: personEntity.state == "home" ? undefined : "grayscale(1) brightness(0.6)",
+        cursor: props.onClick ? "pointer" : undefined,
+      }}
+      onClick={props.onClick}
       unoptimized
     />
   )

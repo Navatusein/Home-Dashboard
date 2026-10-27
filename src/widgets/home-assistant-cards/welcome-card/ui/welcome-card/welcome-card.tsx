@@ -7,6 +7,7 @@ import PersonAvatar from "../person-avatar/person-avatar";
 type Props = {
   persons: EntityNamePerson[];
   room: string;
+  onPersonClick?: (person: EntityNamePerson) => void;
 }
 
 export default function WelcomeCard(props: Props) {
@@ -20,7 +21,10 @@ export default function WelcomeCard(props: Props) {
       <Flex align="center" justify="space-between" gap="xs">
         <Flex align="center" gap="xs">
           {currentPerson && (
-            <PersonAvatar person={currentPerson}/>
+            <PersonAvatar
+              person={currentPerson}
+              onClick={props.onPersonClick && (() => props.onPersonClick?.(currentPerson))}
+            />
           )}
           <Flex vertical>
             <Typography.Text bold>
@@ -33,7 +37,11 @@ export default function WelcomeCard(props: Props) {
         </Flex>
         <Flex gap="xxs">
           {props.persons.filter((person) => person != currentPerson).map((person) => (
-            <PersonAvatar key={person} person={person}/>
+            <PersonAvatar
+              key={person}
+              person={person}
+              onClick={props.onPersonClick && (() => props.onPersonClick?.(person))}
+            />
           ))}
         </Flex>
       </Flex>

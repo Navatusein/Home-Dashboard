@@ -10,6 +10,7 @@ import {EntityNamePerson} from "@/shared/types/ha-domains";
 
 type Props = {
   personEntity: EntityNamePerson;
+  onClick?: () => void;
 }
 
 export default function PersonCard(props: Props) {
@@ -25,7 +26,12 @@ export default function PersonCard(props: Props) {
   const chargePercent = Math.ceil((deviceTrackerEntity?.attributes?.battery_level ?? 100) / 10);
 
   return (
-    <Card stackCount={1} padding="xs">
+    <Card
+      stackCount={1}
+      padding="xs"
+      clickable={props.onClick != null}
+      onClick={props.onClick}
+    >
       <Flex align="center" gap="xs" style={{height: "100%"}}>
         <Image
           src={joinHassUrl(personEntity.attributes.entity_picture ?? "")}

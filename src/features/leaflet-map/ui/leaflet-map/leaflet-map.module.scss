@@ -5,9 +5,10 @@
   height: 100%;
 
   :global(.leaflet-popup-content-wrapper), :global(.leaflet-popup-tip) {
-    background-color: var(--color-primary);
+    background-color: var(--color-secondary);
     color: var(--color-text-primary);
-    box-shadow: none;
+    border: 1px solid color-mix(in srgb, var(--color-text-primary) 15%, transparent);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 50%);
   }
 
   :global(.leaflet-popup-content-wrapper) {
@@ -15,10 +16,45 @@
   }
 
   :global(.leaflet-popup-content) {
-    margin: 8px 12px;
+    margin: 12px;
     font-family: inherit;
     font-size: 14px;
   }
+
+  .zone-label {
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-family: inherit;
+
+    &::before {
+      display: none;
+    }
+
+    .zone-chip {
+      --chips-background-color: var(--color-secondary);
+
+      border: 1px solid color-mix(in srgb, var(--color-text-primary) 15%, transparent);
+      box-shadow: 0 2px 8px rgb(0 0 0 / 40%);
+      white-space: nowrap;
+    }
+  }
+}
+
+.zone {
+  stroke: var(--color-green);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+  fill: var(--color-green);
+  fill-opacity: 0.1;
+}
+
+.accuracy {
+  stroke: var(--color-blue);
+  stroke-width: 1;
+  fill: var(--color-blue);
+  fill-opacity: 0.15;
 }
 
 .marker img {

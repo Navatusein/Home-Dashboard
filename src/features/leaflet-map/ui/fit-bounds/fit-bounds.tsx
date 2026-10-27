@@ -1,22 +1,20 @@
 "use client"
 
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useMap} from "react-leaflet";
 import {LatLngTuple} from "leaflet";
+import {fitPoints} from "../../helpers/fit-points";
 
 type Props = {
   points: LatLngTuple[];
 }
 
-const MAX_ZOOM = 19;
-const PADDING = 40;
-
 export default function FitBounds(props: Props) {
   const map = useMap();
-  const points = JSON.stringify(props.points);
+  const [points] = useState(props.points);
 
   useEffect(() => {
-    map.fitBounds(JSON.parse(points), {maxZoom: MAX_ZOOM, padding: [PADDING, PADDING]});
+    fitPoints(map, points);
   }, [map, points]);
 
   return null;

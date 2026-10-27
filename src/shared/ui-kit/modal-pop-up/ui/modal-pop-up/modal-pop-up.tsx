@@ -18,6 +18,10 @@ const variants = cva(
         bottom: styles["placement-bottom"],
         center: styles["placement-center"],
       },
+      size: {
+        default: null,
+        large: styles["size-large"],
+      },
     },
     defaultVariants: {
       placement: "bottom",
@@ -46,7 +50,7 @@ type Props = HTMLMotionProps<"div"> & VariantProps<typeof variants> & {
 }
 
 export default function ModalPopUp(props: Props) {
-  const {className, placement, isOpen, close, ...otherProps} = props;
+  const {className, placement, size, isOpen, close, ...otherProps} = props;
 
   const isClient = useSyncExternalStore(subscribe, () => true, () => false);
 
@@ -64,6 +68,7 @@ export default function ModalPopUp(props: Props) {
               data-slot="modal-pop-up-content"
               className={variants({
                 placement: placement,
+                size: size,
                 className: className
               })}
               onPointerUp={(e) => e.stopPropagation()}
