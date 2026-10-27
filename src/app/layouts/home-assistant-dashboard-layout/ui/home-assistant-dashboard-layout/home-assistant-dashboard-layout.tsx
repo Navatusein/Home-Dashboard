@@ -42,7 +42,7 @@ export default function HomeAssistantDashboardLayout(props: Props) {
             <GreetingCard/>
             <Flex gap="xs">
               <Chips
-                text={lightsOn.state}
+                text={lightsOn.state == "0" ? undefined : lightsOn.state}
                 icon={mdiLightbulbGroup}
                 iconColor="orange"
                 clickable

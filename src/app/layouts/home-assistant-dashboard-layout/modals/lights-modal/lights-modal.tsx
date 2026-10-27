@@ -27,40 +27,6 @@ export default function LightsModal() {
               entity="light.virtual_light_master"
             />
           </Grid>
-          <SegmentHeader icon={mdiSofa} title="Living Room" iconColor="yellow"/>
-          <Grid columns={2} gap="xs">
-            <LightCard
-              title="Left"
-              entity="light.virtual_living_room_light_left"
-            />
-            <LightCard
-              title="Right"
-              entity="light.virtual_living_room_light_right"
-            />
-            <LightCard
-              title="Christmas Tree"
-              icon={mdiPineTree}
-              entity="light.virtual_christmas_tree_lights"
-            />
-          </Grid>
-          <SegmentHeader icon={mdiSilverwareForkKnife} title="Kitchen" iconColor="yellow"/>
-          <Grid columns={1} gap="xs">
-            <LightCard
-              title="Main"
-              entity="light.virtual_kitchen_light"
-            />
-          </Grid>
-          <SegmentHeader icon={mdiBedKing} title="Large Bedroom" iconColor="yellow"/>
-          <Grid columns={2} gap="xs">
-            <LightCard
-              title="Left"
-              entity="light.virtual_large_bedroom_light_left"
-            />
-            <LightCard
-              title="Right"
-              entity="light.virtual_large_bedroom_light_right"
-            />
-          </Grid>
           <SegmentHeader icon={mdiBedQueen} title="Small Bedroom" iconColor="yellow"/>
           <Grid columns={2} gap="xs">
             <LightCard
@@ -75,6 +41,33 @@ export default function LightsModal() {
               title="Monitor Light Bar"
               icon={mdiDeskLamp}
               entity="light.yeelink_lamp22_1bc5_light"
+            />
+          </Grid>
+          <SegmentHeader icon={mdiBedKing} title="Large Bedroom" iconColor="yellow"/>
+          <Grid columns={2} gap="xs">
+            <LightCard
+              title="Left"
+              entity="light.virtual_large_bedroom_light_left"
+            />
+            <LightCard
+              title="Right"
+              entity="light.virtual_large_bedroom_light_right"
+            />
+          </Grid>
+          <SegmentHeader icon={mdiSofa} title="Living Room" iconColor="yellow"/>
+          <Grid columns={2} gap="xs">
+            <LightCard
+              title="Left"
+              entity="light.virtual_living_room_light_left"
+            />
+            <LightCard
+              title="Right"
+              entity="light.virtual_living_room_light_right"
+            />
+            <LightCard
+              title="Christmas Tree"
+              icon={mdiPineTree}
+              entity="light.virtual_christmas_tree_lights"
             />
           </Grid>
           <SegmentHeader icon={mdiShoePrint} title="Large Corridor" iconColor="yellow"/>
@@ -103,6 +96,13 @@ export default function LightsModal() {
             <LightCard
               title="Main"
               entity="light.virtual_restroom_light"
+            />
+          </Grid>
+          <SegmentHeader icon={mdiSilverwareForkKnife} title="Kitchen" iconColor="yellow"/>
+          <Grid columns={1} gap="xs">
+            <LightCard
+              title="Main"
+              entity="light.virtual_kitchen_light"
             />
           </Grid>
         </Flex>
