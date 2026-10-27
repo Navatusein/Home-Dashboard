@@ -4,8 +4,10 @@ import {Flex} from "@/shared/ui-kit";
 import {NavbarCard, NavbarCardItem} from "@/widgets/home-assistant-cards/navbar-card";
 import {Chips} from "@/shared/ui-kit/chips";
 import {
+  mdiDrone,
   mdiLightbulbGroup,
   mdiLockOpenVariant,
+  mdiRocketLaunch,
   mdiShieldHomeOutline,
   mdiTabletDashboard,
   mdiWindowOpenVariant
@@ -31,6 +33,8 @@ export default function HomeAssistantDashboardLayout(props: Props) {
   const searchParams = useSearchParams();
   const [fromTerminal] = useState(() => searchParams.has(TERMINAL_QUERY_PARAM));
   const lightsOn = useEntity("sensor.lights_on_count");
+  const airAlertRed = useEntity("binary_sensor.m_kiiv_air_red");
+  const airAlertYellow = useEntity("binary_sensor.m_kiiv_air_yellow");
 
   return (
     <Flex vertical className={styles["page-container"]}>
@@ -41,6 +45,13 @@ export default function HomeAssistantDashboardLayout(props: Props) {
           <Flex justify="space-between">
             <GreetingCard/>
             <Flex gap="xs">
+              {(airAlertRed.state == "on" || airAlertYellow.state == "on") && (
+                <Chips
+                  text="Air Raid"
+                  icon={airAlertRed.state == "on" ? mdiRocketLaunch : mdiDrone}
+                  color={airAlertRed.state == "on" ? "red" : "yellow"}
+                />
+              )}
               <Chips
                 text={lightsOn.state == "0" ? undefined : lightsOn.state}
                 icon={mdiLightbulbGroup}
