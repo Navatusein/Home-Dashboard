@@ -34,6 +34,10 @@ const variants = cva(
       outline: {
         true: styles["outline"],
         false: null
+      },
+      stacked: {
+        true: styles["stacked"],
+        false: null
       }
     },
     defaultVariants: {
@@ -66,7 +70,8 @@ export default function Card(props: Props) {
         color: color,
         padding: padding,
         clickable: clickable,
-        outline: outline
+        outline: outline,
+        stacked: stackCount != null
       })}
       {...otherProps}
     />

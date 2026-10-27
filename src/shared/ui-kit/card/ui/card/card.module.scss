@@ -9,8 +9,11 @@
   color: var(--card-color);
   background-color: var(--card-background-color);
   border-radius: variables.$border-radius-md;
-  height: calc((var(--card-stack-count) * #{variables.$card-stack-height}) + ((var(--card-stack-count) - 1) * 8px));
   z-index: 1;
+
+  &.stacked {
+    height: calc((var(--card-stack-count) * #{variables.$card-stack-height}) + ((var(--card-stack-count) - 1) * 8px));
+  }
 
   @each $name, $color in variables.$colors-map {
     &.color-#{$name} {
