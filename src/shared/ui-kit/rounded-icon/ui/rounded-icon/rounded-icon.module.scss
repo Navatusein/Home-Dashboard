@@ -13,6 +13,11 @@
   flex-shrink: 0;
   border-radius: variables.$border-radius-circle;
 
+  &.small {
+    height: 32px;
+    width: 32px;
+  }
+
   @each $name, $color in variables.$colors-map {
     &.color-#{$name} {
       --rounded-icon-color: var(--color-text-primary-dark);

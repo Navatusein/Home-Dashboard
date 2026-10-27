@@ -10,6 +10,8 @@ export default function RoundedIconPart() {
           <RoundedIcon path={mdiWindowOpenVariant}/>
           <RoundedIcon path={mdiSecurity} color="red"/>
           <RoundedIcon path={mdiLightbulbGroup} color="yellow"/>
+          <RoundedIcon path={mdiWindowOpenVariant} size="sm" small/>
+          <RoundedIcon path={mdiSecurity} size="sm" color="red" small/>
         </Space>
       </Card>
     </Flex>
