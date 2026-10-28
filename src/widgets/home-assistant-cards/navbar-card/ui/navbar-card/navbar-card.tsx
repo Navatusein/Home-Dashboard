@@ -31,7 +31,7 @@ export default function NavbarCard(props: Props) {
     });
 
   return (
-    <Card className={styles["nav-bar-card"]} padding="sm">
+    <Card className={styles["nav-bar-card"]} padding={isMobile ? "xs" : "sm"}>
       <Flex vertical gap="sm" className={styles["nav-bar-container"]}>
         {items.map((item, index) => (
           <NavbarItem
