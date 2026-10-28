@@ -20,3 +20,7 @@ export function mergeRanges(ranges: TimeRange[]): TimeRange[] {
       return result;
     }, []);
 }
+
+export function dropShortRanges(ranges: TimeRange[], minMinutes: number): TimeRange[] {
+  return ranges.filter(([from, to]) => to - from >= minMinutes * 60_000);
+}

@@ -18,7 +18,7 @@ import {TimeRange, useCalendarEvents} from "@/shared/hooks/use-calendar-events";
 import {useStateRanges} from "@/shared/hooks/use-state-ranges";
 import {formatDuration} from "@/shared/helpers/format-duration";
 import {formatTime} from "@/shared/helpers/format-time";
-import {clipRanges, mergeRanges} from "@/shared/helpers/time-ranges";
+import {clipRanges, dropShortRanges, mergeRanges} from "@/shared/helpers/time-ranges";
 import {OUTAGE_STATUS} from "../../constants/outage-status";
 
 const DAYS = [
@@ -46,7 +46,7 @@ export default function OutageModal() {
 
   const planned = useCalendarEvents("calendar.yasno_kiiv_vul_stusa_vasilia_9_planned_outages", todayStart, shiftDays(todayStart, 2), updatedOn.state);
   const probable = useCalendarEvents("calendar.yasno_kiiv_vul_stusa_vasilia_9_probable_outages", todayStart, shiftDays(todayStart, 2), updatedOn.state);
-  const actual = useStateRanges("sensor.gx_device_ac_active_input_source", "not_connected", shiftDays(todayStart, -1), now);
+  const actual = dropShortRanges(useStateRanges("sensor.gx_device_ac_active_input_source", "not_connected", shiftDays(todayStart, -1), now), 5);
   const schedule = useStateRanges("sensor.yasno_kiiv_vul_stusa_vasilia_9_electricity", "outage", shiftDays(todayStart, -1), now);
 
   const current = planned.find(([from, to]) => from <= now && to > now);
