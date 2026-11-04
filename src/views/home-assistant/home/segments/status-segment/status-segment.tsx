@@ -3,7 +3,12 @@ import {mdiFlash, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent} from "@mdi
 import {useEntity} from "@/shared/hooks/use-entity";
 import {usePathname, useRouter} from "next/navigation";
 import {DEFAULT_WEATHER_ICON, WEATHER_ICONS} from "@/shared/constants/weather-icons";
-import {BATTERY_PERCENT_CHARGING_ICONS, BATTERY_PERCENT_ICONS, BatteryPercentTokens} from "@/shared/constants/battery-percent-icons";
+import {
+  BATTERY_PERCENT_CHARGING_ICONS,
+  BATTERY_PERCENT_DISCHARGING_ICONS,
+  BATTERY_PERCENT_ICONS,
+  BatteryPercentTokens
+} from "@/shared/constants/battery-percent-icons";
 import {roundTextTransformer, numberFixedTextTransformerProvider} from "@/shared/text-transformers/number-text-transformer";
 import {pascalCaseTextTransformer} from "@/shared/text-transformers/case-text-transformer";
 import styles from "./status-segment.module.scss";
@@ -38,7 +43,9 @@ export default function StatusSegment() {
   const weather = WEATHER_ICONS[weatherIcon.state] ?? DEFAULT_WEATHER_ICON;
 
   const charge = Number(batteryCharge.state) || 0;
-  const batteryIcons = batteryState.state == "charging" ? BATTERY_PERCENT_CHARGING_ICONS : BATTERY_PERCENT_ICONS;
+  const batteryIcons = batteryState.state == "charging" ? BATTERY_PERCENT_CHARGING_ICONS
+    : batteryState.state == "discharging" ? BATTERY_PERCENT_DISCHARGING_ICONS
+      : BATTERY_PERCENT_ICONS;
 
   useEffect(() => {
     const status = statusRef.current!;
