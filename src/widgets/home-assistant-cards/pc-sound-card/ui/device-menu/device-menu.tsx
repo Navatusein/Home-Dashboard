@@ -1,5 +1,6 @@
 import {DropdownMenu, RoundedIcon} from "@/shared/ui-kit";
-import {isUnavailableState, useEntity} from "@hakit/core";
+import {isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameSelect} from "@/shared/types/ha-domains";
 import styles from "./device-menu.module.scss";
 

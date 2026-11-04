@@ -5,7 +5,7 @@ import {
   resolveStatefulVisuals,
 } from "@/widgets/terminal-buttons/base-button";
 import {EntityNameSelect} from "@/shared/types/ha-domains";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 
 type Props = BaseButtonSharedProps & BaseButtonStatefulVisualProps & {
   title?: string;

@@ -3,7 +3,7 @@
 import {EntityNameButton} from "@/shared/types/ha-domains";
 import {FC, SVGProps} from "react";
 import {BaseButton, BaseButtonColors, BaseButtonSharedProps} from "@/widgets/terminal-buttons/base-button";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 
 type Props = BaseButtonSharedProps & {
   entity: EntityNameButton;

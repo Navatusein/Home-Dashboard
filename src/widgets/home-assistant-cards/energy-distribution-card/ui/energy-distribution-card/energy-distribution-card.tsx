@@ -1,5 +1,5 @@
 import {Card, Icon, Typography} from "@/shared/ui-kit";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {mdiBattery, mdiHome, mdiTransmissionTower} from "@mdi/js";
 import {EntityNameSensor} from "@/shared/types/ha-domains";
 import {roundTextTransformer} from "@/shared/text-transformers/number-text-transformer";

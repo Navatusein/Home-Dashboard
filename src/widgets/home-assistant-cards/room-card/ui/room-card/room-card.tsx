@@ -5,7 +5,8 @@ import ClimateAction from "../climate-action/climate-action";
 import {useState} from "react";
 import styles from "./room-card.module.scss";
 import {EntityNameClimate, EntityNameLight, EntityNameSensor} from "@/shared/types/ha-domains";
-import {isOffState, useEntity} from "@hakit/core";
+import {isOffState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {roundTextTransformer} from "@/shared/text-transformers/number-text-transformer";
 import useGestures, {stopGestures} from "@/shared/hooks/use-gestures";
 

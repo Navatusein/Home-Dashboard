@@ -13,7 +13,7 @@ import {
   mdiSwitch,
   mdiWifi
 } from "@mdi/js";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {QueryModalControl} from "@/features/query-modal-control";
 import {EntityStateCard} from "@/widgets/home-assistant-cards/entity-state-card";
 import {SwitchCard} from "@/widgets/home-assistant-cards/switch-card";

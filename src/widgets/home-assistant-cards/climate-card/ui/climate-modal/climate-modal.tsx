@@ -2,7 +2,8 @@
 
 import {useState} from "react";
 import {ControlSliderCircular} from "@hakit/components";
-import {isOffState, isUnavailableState, useEntity} from "@hakit/core";
+import {isOffState, isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {Button, Flex, Grid, ModalPopUp, Select, Typography} from "@/shared/ui-kit";
 import {EntityNameClimate} from "@/shared/types/ha-domains";
 import {mdiArrowLeftRight, mdiArrowUpDown, mdiFan, mdiMinus, mdiPlus, mdiThermostat} from "@mdi/js";
@@ -44,7 +45,7 @@ export default function ClimateModal(props: Props) {
     icon: icon,
   }));
 
-  const hvacModeItems = (climateEntity.attributes.hvac_modes as string[])
+  const hvacModeItems = ((climateEntity.attributes.hvac_modes ?? []) as string[])
     .filter((mode) => mode in CLIMATE_MODES && !props.hiddenModes?.includes(mode))
     .map((mode) => ({
       key: mode,

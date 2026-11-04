@@ -1,7 +1,8 @@
 "use client"
 
 import {useEffect, useState} from "react";
-import {useEntity, useHass} from "@hakit/core";
+import {useHass} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import clsx from "clsx";
 import styles from "./valetudo-map.module.scss";
 import {EntityNameCamera} from "@/shared/types/ha-domains";

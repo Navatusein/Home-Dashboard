@@ -1,6 +1,7 @@
 import {Card, Flex, RoundedIcon, Typography} from "@/shared/ui-kit";
 import Image from "next/image";
-import {useEntity, useHass} from "@hakit/core";
+import {useHass} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {
   BATTERY_PERCENT_CHARGING_ICONS,
   BATTERY_PERCENT_ICONS,
@@ -16,10 +17,10 @@ type Props = {
 export default function PersonCard(props: Props) {
   const personEntity = useEntity(props.personEntity);
   const joinHassUrl = useHass((state) => state.helpers.joinHassUrl);
-  const deviceTrackerEntity = useEntity<"device_tracker.">(personEntity.attributes.source, {
+  const deviceTrackerEntity = useEntity<"device_tracker.">(personEntity.attributes.source ?? "", {
     returnNullIfNotFound: true,
   })
-  const zoneEntity = useEntity<"zone.">(personEntity.attributes.in_zones[0] ?? "", {
+  const zoneEntity = useEntity<"zone.">(personEntity.attributes.in_zones?.[0] ?? "", {
     returnNullIfNotFound: true,
   });
 

@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Card, Flex, RoundedIcon, Slider, Typography} from "@/shared/ui-kit";
-import {isUnavailableState, useEntity} from "@hakit/core";
+import {isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameNumber} from "@/shared/types/ha-domains";
 
 type Props = {

@@ -1,6 +1,6 @@
 import {StatusCard} from "@/widgets/home-assistant-cards/status-card";
 import {mdiFlash, mdiRobotVacuumOff, mdiThermometer, mdiWaterPercent} from "@mdi/js";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {usePathname, useRouter} from "next/navigation";
 import {DEFAULT_WEATHER_ICON, WEATHER_ICONS} from "@/shared/constants/weather-icons";
 import {BATTERY_PERCENT_CHARGING_ICONS, BATTERY_PERCENT_ICONS, BatteryPercentTokens} from "@/shared/constants/battery-percent-icons";

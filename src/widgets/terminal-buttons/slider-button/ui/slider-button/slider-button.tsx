@@ -5,7 +5,7 @@ import styles from "./slider-button.module.scss"
 import {ComponentProps, useContext} from "react";
 import {cva, VariantProps} from "class-variance-authority";
 import {EntityNameNumber} from "@/shared/types/ha-domains";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {DisabledContext} from "@/shared/contexts/disabled-context";
 
 const variants = cva(

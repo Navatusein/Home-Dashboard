@@ -16,7 +16,7 @@ import {
   mdiWrench
 } from "@mdi/js";
 import {useState} from "react";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {QueryModalControl} from "@/features/query-modal-control";
 import {ValetudoMap} from "@/features/valetudo-map";
 import {Chips} from "@/shared/ui-kit/chips";

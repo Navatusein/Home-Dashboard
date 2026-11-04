@@ -8,7 +8,7 @@ import {
   mdiWifi,
   mdiZigbee
 } from "@mdi/js";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityStateCard} from "@/widgets/home-assistant-cards/entity-state-card";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 import {ActionCard} from "@/widgets/home-assistant-cards/action-card";

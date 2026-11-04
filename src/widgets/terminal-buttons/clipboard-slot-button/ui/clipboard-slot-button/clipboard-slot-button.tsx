@@ -1,4 +1,4 @@
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {useState} from "react";
 import TrashIcon from "@public/icons/software-editors-and-uI/trash.svg";
 import ClipboardIcon from "@public/icons/software-editors-and-uI/clipboard.svg";

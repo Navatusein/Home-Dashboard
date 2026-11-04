@@ -1,5 +1,6 @@
 import {Card, Flex, RoundedIcon, Typography} from "@/shared/ui-kit";
-import {isUnavailableState, useEntity} from "@hakit/core";
+import {isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameSensor} from "@/shared/types/ha-domains";
 import {TextTransformer} from "@/shared/text-transformers/base-text-transformer";
 import {roundTextTransformer} from "@/shared/text-transformers/number-text-transformer";

@@ -2,7 +2,7 @@
 
 import {BaseButton, BaseButtonSharedProps} from "@/widgets/terminal-buttons/base-button";
 import {useEffect, useState} from "react";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {TerminalModal} from "@/features/terminal-modal";
 import {Grid} from "@/shared/ui-kit";
 import AlarmIcon from "@public/icons/date-and-time/alarm.svg"

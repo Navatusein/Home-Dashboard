@@ -1,6 +1,7 @@
 "use client"
 
-import {isOffState, useEntity} from "@hakit/core";
+import {isOffState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {mdiMicrophone, mdiMicrophoneOff} from "@mdi/js";
 import {Chips} from "@/shared/ui-kit/chips";
 import {useEntityOff} from "@/shared/hooks/use-entity-off";

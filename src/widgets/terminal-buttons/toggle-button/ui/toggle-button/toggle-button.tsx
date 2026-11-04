@@ -6,7 +6,8 @@ import {
   BaseButtonStatefulVisualProps,
   resolveStatefulVisuals,
 } from "@/widgets/terminal-buttons/base-button";
-import {HassEntityWithService, isOffState, useEntity} from "@hakit/core";
+import {HassEntityWithService, isOffState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameLight, EntityNameSwitch} from "@/shared/types/ha-domains";
 
 type Props = BaseButtonSharedProps & BaseButtonStatefulVisualProps & {

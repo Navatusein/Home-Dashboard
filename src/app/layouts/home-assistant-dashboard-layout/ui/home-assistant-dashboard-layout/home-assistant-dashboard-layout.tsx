@@ -19,7 +19,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {buildPath, TERMINAL_QUERY_PARAM} from "@/shared/helpers/terminal-path-builder";
 import {OrientationLock} from "@/features/orientation-lock";
 import {DiscordMuteChip} from "@/features/discord-mute-chip";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import LightsModal from "../../modals/lights-modal/lights-modal";
 
 type Props = {

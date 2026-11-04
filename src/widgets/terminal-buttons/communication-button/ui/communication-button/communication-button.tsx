@@ -1,6 +1,7 @@
 "use client"
 
-import {isOffState, useEntity} from "@hakit/core";
+import {isOffState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameBinarySensor, EntityNameSwitch} from "@/shared/types/ha-domains";
 import {FC, SVGProps} from "react";
 import {BaseButton, BaseButtonColors, BaseButtonSharedProps} from "@/widgets/terminal-buttons/base-button";

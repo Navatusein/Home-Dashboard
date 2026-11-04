@@ -1,7 +1,7 @@
 "use client"
 
 import {Grid} from "@/shared/ui-kit";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {BaseButton} from "@/widgets/terminal-buttons/base-button";
 import ArrowBarToUpIcon from "@public/icons/symbols/arrow-bar-to-up.svg";
 import ArrowBarToDownIcon from "@public/icons/symbols/arrow-bar-to-down.svg";

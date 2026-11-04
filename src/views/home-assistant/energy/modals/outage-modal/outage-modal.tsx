@@ -9,7 +9,8 @@ import {
   mdiFlashOff,
   mdiTransmissionTowerOff
 } from "@mdi/js";
-import {isUnavailableState, useEntity} from "@hakit/core";
+import {isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 import {QueryModalControl} from "@/features/query-modal-control";
 import {OutageTimelineCard} from "@/widgets/home-assistant-cards/outage-timeline-card";

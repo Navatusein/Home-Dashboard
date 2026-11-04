@@ -1,5 +1,6 @@
 import Image from "next/image";
-import {useEntity, useHass} from "@hakit/core";
+import {useHass} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNamePerson} from "@/shared/types/ha-domains";
 
 type Props = {

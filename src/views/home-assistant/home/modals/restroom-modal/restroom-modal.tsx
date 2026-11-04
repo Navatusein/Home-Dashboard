@@ -3,7 +3,8 @@ import {mdiLightbulbGroup, mdiMotionSensor, mdiPaperRoll} from "@mdi/js";
 import {QueryModalControl} from "@/features/query-modal-control";
 import {Chips} from "@/shared/ui-kit/chips";
 import {LightCard} from "@/widgets/home-assistant-cards/light-card";
-import {isOffState, useEntity} from "@hakit/core";
+import {isOffState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 
 export default function RestroomModal() {
   const presenceEntity = useEntity("binary_sensor.restroom_ts0601_presence");

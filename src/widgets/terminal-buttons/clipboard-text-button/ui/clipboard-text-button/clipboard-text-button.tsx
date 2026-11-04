@@ -1,7 +1,7 @@
 "use client"
 
 import {FC, SVGProps, useState} from "react";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {BaseButton, BaseButtonColors, BaseButtonSharedProps} from "@/widgets/terminal-buttons/base-button";
 import delay from "@/shared/helpers/delay";
 

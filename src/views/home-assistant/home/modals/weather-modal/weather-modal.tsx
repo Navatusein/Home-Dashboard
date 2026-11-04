@@ -10,7 +10,8 @@ import {
   mdiWeatherSunsetUp,
   mdiWeatherWindy
 } from "@mdi/js";
-import {useEntity, useWeather} from "@hakit/core";
+import {useWeather} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {QueryModalControl} from "@/features/query-modal-control";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 import {WeatherNowCard} from "@/widgets/home-assistant-cards/weather-now-card";

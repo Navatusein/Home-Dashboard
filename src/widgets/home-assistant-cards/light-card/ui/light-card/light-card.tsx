@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Card, Flex, RoundedIcon, Slider, Typography} from "@/shared/ui-kit";
-import {isOffState, isUnavailableState, useEntity} from "@hakit/core";
+import {isOffState, isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {mdiLightbulb} from "@mdi/js";
 import {EntityNameLight} from "@/shared/types/ha-domains";
 

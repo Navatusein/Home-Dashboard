@@ -1,4 +1,5 @@
-import {isUnavailableState, useEntity} from "@hakit/core";
+import {isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameBinarySensor, EntityNameButton, EntityNameSensor} from "@/shared/types/ha-domains";
 import {useEntityOff} from "@/shared/hooks/use-entity-off";
 import MediaCardLayout from "../media-card-layout/media-card-layout";

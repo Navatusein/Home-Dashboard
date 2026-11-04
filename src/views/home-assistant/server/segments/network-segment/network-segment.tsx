@@ -1,6 +1,6 @@
 import {Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
 import {mdiCloudOutline, mdiGoogle, mdiLan, mdiMicrosoft, mdiRouterNetwork, mdiRouterNetworkWireless, mdiWifi} from "@mdi/js";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {usePathname, useRouter} from "next/navigation";
 import {EntityStateCard} from "@/widgets/home-assistant-cards/entity-state-card";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";

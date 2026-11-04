@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import {Card} from "@/shared/ui-kit";
-import {useEntity, useHass} from "@hakit/core";
+import {useHass} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import styles from "./map-card.module.scss";
 import {LatLngTuple} from "leaflet";
 import type {LeafletMapMarker, LeafletMapZone} from "@/features/leaflet-map";

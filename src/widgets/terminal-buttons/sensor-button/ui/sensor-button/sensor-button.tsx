@@ -3,7 +3,8 @@
 import {EntityNameSensor} from "@/shared/types/ha-domains";
 import {FC, SVGProps} from "react";
 import {BaseButton, BaseButtonSharedProps} from "@/widgets/terminal-buttons/base-button";
-import {isUnavailableState, useEntity} from "@hakit/core";
+import {isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {TextTransformer} from "@/shared/text-transformers/base-text-transformer";
 import {roundTextTransformer} from "@/shared/text-transformers/number-text-transformer";
 

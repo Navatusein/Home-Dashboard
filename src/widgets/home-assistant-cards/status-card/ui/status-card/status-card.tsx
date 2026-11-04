@@ -1,6 +1,7 @@
 import {Card, Flex, Icon, Typography} from "@/shared/ui-kit";
 import {ColorToken} from "@/shared/constants/colors";
-import {EntityName, useEntity} from "@hakit/core";
+import {EntityName} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {baseTextTransformer, TextTransformer} from "@/shared/text-transformers/base-text-transformer";
 import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
 import styles from "./status-card.module.scss";

@@ -1,6 +1,6 @@
 import {Card, Typography} from "@/shared/ui-kit";
 import {useEffect, useState} from "react";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {roundTextTransformer} from "@/shared/text-transformers/number-text-transformer";
 
 export default function InfoCard() {

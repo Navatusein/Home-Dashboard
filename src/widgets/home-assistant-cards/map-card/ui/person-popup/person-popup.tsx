@@ -1,5 +1,6 @@
 import Image from "next/image";
-import {useEntity, useHass} from "@hakit/core";
+import {useHass} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {mdiCircleMedium, mdiClockOutline, mdiMapMarkerDistance, mdiMapMarkerOutline} from "@mdi/js";
 import {Flex, Icon, Typography} from "@/shared/ui-kit";
 import {
@@ -24,10 +25,10 @@ export default function PersonPopup(props: Props) {
   const joinHassUrl = useHass((state) => state.helpers.joinHassUrl);
   const personEntity = useEntity(props.personEntity);
   const homeEntity = useEntity("zone.home");
-  const deviceTrackerEntity = useEntity<"device_tracker.">(personEntity.attributes.source, {
+  const deviceTrackerEntity = useEntity<"device_tracker.">(personEntity.attributes.source ?? "", {
     returnNullIfNotFound: true,
   });
-  const zoneEntity = useEntity<"zone.">(personEntity.attributes.in_zones[0] ?? "", {
+  const zoneEntity = useEntity<"zone.">(personEntity.attributes.in_zones?.[0] ?? "", {
     returnNullIfNotFound: true,
   });
 

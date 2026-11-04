@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Button, Card, Flex, RoundedIcon, Select, Space, Typography} from "@/shared/ui-kit";
-import {isOffState, useEntity} from "@hakit/core";
+import {isOffState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameClimate} from "@/shared/types/ha-domains";
 import {mdiMinus, mdiPlus, mdiThermostat} from "@mdi/js";
 import {CLIMATE_MODES} from "../../types/types";
@@ -28,7 +29,7 @@ export default function ClimateCard(props: Props) {
 
   const currentMode = CLIMATE_MODES[climateEntity.state];
 
-  const modeItems = (climateEntity.attributes.hvac_modes as string[])
+  const modeItems = ((climateEntity.attributes.hvac_modes ?? []) as string[])
     .filter((mode) => mode in CLIMATE_MODES && !props.hiddenModes?.includes(mode))
     .map((mode) => ({
       key: mode,

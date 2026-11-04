@@ -12,7 +12,8 @@ import BatteryCharging5Icon from "@public/icons/devices-and-networks/battery-cha
 import BatteryCharging6Icon from "@public/icons/devices-and-networks/battery-charging-6.svg";
 import BatteryOffIcon from "@public/icons/devices-and-networks/battery-off.svg";
 import {EntityNameBinarySensor, EntityNameSensor} from "@/shared/types/ha-domains";
-import {isOffState, isUnavailableState, useEntity} from "@hakit/core";
+import {isOffState, isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {BaseButton, BaseButtonPosition} from "@/widgets/terminal-buttons/base-button";
 import {useState} from "react";
 

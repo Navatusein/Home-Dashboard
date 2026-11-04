@@ -1,5 +1,6 @@
 import {Card, Flex, RoundedIcon, Switch, Typography} from "@/shared/ui-kit";
-import {isOffState, isUnavailableState, useEntity} from "@hakit/core";
+import {isOffState, isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameSwitch} from "@/shared/types/ha-domains";
 import {ColorToken} from "@/shared/constants/colors";
 import {useConfirm} from "@/shared/hooks/use-confirm";

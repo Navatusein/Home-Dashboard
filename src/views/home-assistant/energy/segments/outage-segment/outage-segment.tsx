@@ -9,7 +9,8 @@ import {
   mdiTransmissionTowerImport,
   mdiTransmissionTowerOff
 } from "@mdi/js";
-import {isUnavailableState, useEntity} from "@hakit/core";
+import {isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 import {useNow} from "@/shared/hooks/use-now";
 import {formatDuration} from "@/shared/helpers/format-duration";

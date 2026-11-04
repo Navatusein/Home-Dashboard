@@ -1,4 +1,5 @@
-import {isUnavailableState, useEntity, useHass} from "@hakit/core";
+import {isUnavailableState, useHass} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {EntityNameMediaPlayer} from "@/shared/types/ha-domains";
 import MediaCardLayout from "../media-card-layout/media-card-layout";
 

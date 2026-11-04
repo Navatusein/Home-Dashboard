@@ -1,7 +1,7 @@
 "use client"
 
 import {Grid} from "@/shared/ui-kit";
-import {useEntity} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {BaseButton} from "@/widgets/terminal-buttons/base-button";
 import {ChargedButton} from "@/widgets/terminal-buttons/charged-button";
 import {SensorButton} from "@/widgets/terminal-buttons/sensor-button";

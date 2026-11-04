@@ -1,5 +1,6 @@
 import {Button, Card, Flex, RoundedIcon, Space, Typography} from "@/shared/ui-kit";
-import {isUnavailableState, useEntity} from "@hakit/core";
+import {isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {mdiArrowDown, mdiArrowUp, mdiRollerShade, mdiRollerShadeClosed, mdiStop} from "@mdi/js";
 import {EntityNameCover} from "@/shared/types/ha-domains";
 

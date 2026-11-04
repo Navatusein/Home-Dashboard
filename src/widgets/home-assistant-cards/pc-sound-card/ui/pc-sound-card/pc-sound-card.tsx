@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Card, Flex, RoundedIcon, Slider, Typography} from "@/shared/ui-kit";
-import {isOffState, isUnavailableState, useEntity} from "@hakit/core";
+import {isOffState, isUnavailableState} from "@hakit/core";
+import {useEntity} from "@/shared/hooks/use-entity";
 import {mdiMicrophone, mdiSpeaker, mdiVolumeHigh, mdiVolumeOff} from "@mdi/js";
 import {EntityNameNumber, EntityNameSelect, EntityNameSwitch} from "@/shared/types/ha-domains";
 import DeviceMenu from "../device-menu/device-menu";
