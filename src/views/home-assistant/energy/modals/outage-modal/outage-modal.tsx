@@ -17,6 +17,7 @@ import {OutageTimelineCard} from "@/widgets/home-assistant-cards/outage-timeline
 import {useNow} from "@/shared/hooks/use-now";
 import {TimeRange, useCalendarEvents} from "@/shared/hooks/use-calendar-events";
 import {useStateRanges} from "@/shared/hooks/use-state-ranges";
+import {useHistoryStates} from "@/shared/hooks/use-history-states";
 import {formatDuration} from "@/shared/helpers/format-duration";
 import {formatTime} from "@/shared/helpers/format-time";
 import {clipRanges, dropShortRanges, mergeRanges} from "@/shared/helpers/time-ranges";
@@ -47,8 +48,10 @@ export default function OutageModal() {
 
   const planned = useCalendarEvents("calendar.yasno_kiiv_vul_stusa_vasilia_9_planned_outages", todayStart, shiftDays(todayStart, 2), updatedOn.state);
   const probable = useCalendarEvents("calendar.yasno_kiiv_vul_stusa_vasilia_9_probable_outages", todayStart, shiftDays(todayStart, 2), updatedOn.state);
-  const actual = dropShortRanges(useStateRanges("sensor.gx_device_ac_active_input_source", "not_connected", shiftDays(todayStart, -1), now), 5);
+  const actual = dropShortRanges(mergeRanges(useStateRanges("sensor.gx_device_ac_active_input_source", "not_connected", shiftDays(todayStart, -1), now), 5), 5);
   const schedule = useStateRanges("sensor.yasno_kiiv_vul_stusa_vasilia_9_electricity", "outage", shiftDays(todayStart, -1), now);
+  const batteryHistory = useHistoryStates(["sensor.pylontech_battery_id_512_charge"], (now - shiftDays(todayStart, -1)) / 3_600_000);
+  const charging = dropShortRanges(mergeRanges(useStateRanges("sensor.gx_device_dc_battery_state", "charging", shiftDays(todayStart, -1), now), 5), 5);
 
   const current = planned.find(([from, to]) => from <= now && to > now);
   const next = planned.filter(([from]) => from > now).sort(([a], [b]) => a - b)[0];
@@ -113,6 +116,8 @@ export default function OutageModal() {
             now={now}
             pending={isPending}
             schedule={outagesSchedule}
+            charging={day == 1 ? undefined : charging}
+            batteryCharge={day == 1 ? undefined : batteryHistory["sensor.pylontech_battery_id_512_charge"]}
           />
           {!isYesterday && (
             <Grid columns={2} gap="xs">
@@ -132,9 +137,9 @@ export default function OutageModal() {
           )}
           <Typography.Text fontSize="sm" textColor="secondary" style={{textAlign: "center"}}>
             {isYesterday
-              ? "Bar: inverter · Lines under it: schedule"
+              ? "Line above: charging · Bar: inverter · Lines under it: schedule"
               : updatedTime != null
-                ? `${day == 0 ? "Before now: inverter · " : ""}Schedule updated ${updatedTime >= todayStart ? formatTime(new Date(updatedTime)) : formatDateTime(updatedTime)}`
+                ? `${day == 0 ? "Line above: charging · Before now: inverter · " : ""}Schedule updated ${updatedTime >= todayStart ? formatTime(new Date(updatedTime)) : formatDateTime(updatedTime)}`
                 : "Schedule update time unknown"}
           </Typography.Text>
         </Flex>

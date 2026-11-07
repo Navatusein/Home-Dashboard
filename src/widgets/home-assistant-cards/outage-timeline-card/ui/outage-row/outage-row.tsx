@@ -1,4 +1,4 @@
-import {mdiFlashAlert, mdiFlashOff} from "@mdi/js";
+import {mdiBatteryArrowDown, mdiBatteryCharging, mdiFlashAlert, mdiFlashOff} from "@mdi/js";
 import {Flex, RoundedIcon, Typography} from "@/shared/ui-kit";
 import {Chips} from "@/shared/ui-kit/chips";
 import {TimeRange} from "@/shared/hooks/use-calendar-events";
@@ -9,6 +9,9 @@ import {OutageSegment} from "../../types/types";
 type Props = {
   segment: OutageSegment;
   schedule?: TimeRange;
+  charged: number;
+  spent: number;
+  stacked?: boolean;
   dayEnd: number;
 }
 
@@ -31,28 +34,52 @@ export default function OutageRow(props: Props) {
     />
   );
 
+  const spent = props.spent > 0 && (
+    <Chips
+      text={`${props.spent}%`}
+      icon={mdiBatteryArrowDown}
+      iconColor="red"
+    />
+  );
+
+  const charged = props.charged > 0 && (
+    <Chips
+      text={formatDuration(props.charged)}
+      icon={mdiBatteryCharging}
+      iconColor="green"
+    />
+  );
+
+  const isStacked = props.schedule || props.stacked;
+
   return (
-    <Flex align="center" gap="xs">
+    <Flex align={isStacked ? "start" : "center"} gap="xs">
       <RoundedIcon
         path={isProbable ? mdiFlashAlert : mdiFlashOff}
         size="sm"
         color={isProbable ? "orange" : undefined}
         small
       />
-      {props.schedule ? (
+      {isStacked ? (
         <Flex vertical gap="xxs">
           {time}
           <Flex gap="xxs" wrap>
             {duration}
-            <Chips
-              text={`Plan ${formatRange(props.schedule)}`}
-            />
+            {props.schedule && (
+              <Chips
+                text={`Plan ${formatRange(props.schedule)}`}
+              />
+            )}
+            {spent}
+            {charged}
           </Flex>
         </Flex>
       ) : (
         <Flex align="center" gap="xs">
           {time}
           {duration}
+          {spent}
+          {charged}
         </Flex>
       )}
     </Flex>

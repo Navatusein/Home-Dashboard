@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {Flex, Typography} from "@/shared/ui-kit";
 import {TimeRange} from "@/shared/hooks/use-calendar-events";
 import {OutageSegment} from "../../types/types";
@@ -16,6 +17,7 @@ type Props = {
   dayEnd: number;
   segments: OutageSegment[];
   schedule?: TimeRange[];
+  charging?: TimeRange[];
   now: number;
   pending?: boolean;
 }
@@ -32,6 +34,17 @@ export default function OutageBar(props: Props) {
 
   return (
     <Flex vertical gap="xxs">
+      {props.charging && (
+        <div className={styles["schedule"]}>
+          {props.charging.map(([from, to]) => (
+            <div
+              key={from}
+              className={clsx(styles["schedule-mark"], styles["charging-mark"])}
+              style={{left: `${percent(from)}%`, right: `${100 - percent(to)}%`}}
+            />
+          ))}
+        </div>
+      )}
       <div className={styles["bar"]} style={{background: props.pending ? COLORS.outage : gradient}}>
         {props.now >= props.dayStart && props.now < props.dayEnd && (
           <div className={styles["now"]} style={{left: `${percent(props.now)}%`}}/>

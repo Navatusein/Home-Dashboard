@@ -6,13 +6,13 @@ export function clipRanges(ranges: TimeRange[], start: number, end: number): Tim
     .filter(([from, to]) => to > from);
 }
 
-export function mergeRanges(ranges: TimeRange[]): TimeRange[] {
+export function mergeRanges(ranges: TimeRange[], gapMinutes = 0): TimeRange[] {
   return ranges
     .toSorted(([a], [b]) => a - b)
     .reduce<TimeRange[]>((result, [from, to]) => {
       const last = result[result.length - 1];
 
-      if (last && from <= last[1])
+      if (last && from <= last[1] + gapMinutes * 60_000)
         last[1] = Math.max(last[1], to);
       else
         result.push([from, to]);
