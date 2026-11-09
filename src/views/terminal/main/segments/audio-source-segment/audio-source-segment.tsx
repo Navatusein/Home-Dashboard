@@ -37,7 +37,7 @@ export default function AudioSourceSegment() {
         <SelectButton
           entity="select.navatusein_pc_windows_output_device"
           state="Buds Pro"
-          title="Buts Pro"
+          title="Buds Pro"
           icon={DeviceAirpodsIcon}
           colorEnabled="blue"
         />

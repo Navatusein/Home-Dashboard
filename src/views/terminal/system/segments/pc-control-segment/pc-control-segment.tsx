@@ -37,14 +37,7 @@ export default function PcControlSegment() {
           iconEnabled={DeviceLaptopIcon}
           iconDisabled={DeviceLaptopOffIcon}
           colorEnabled="blue"
-          title="Power"
-        />
-        <ToggleButton
-          entity="switch.pc_nas_wr01b"
-          iconEnabled={DevicesPcIcon}
-          iconDisabled={DevicesPcOffIcon}
-          colorEnabled="blue"
-          title="PC"
+          title="Laptop"
         />
         <ToggleButton
           entity="switch.0xa4c138dd3f063ee4"
@@ -52,6 +45,13 @@ export default function PcControlSegment() {
           iconDisabled={DeviceDesktopOffIcon}
           colorEnabled="blue"
           title="Monitor"
+        />
+        <ToggleButton
+          entity="switch.pc_nas_wr01b"
+          iconEnabled={DevicesPcIcon}
+          iconDisabled={DevicesPcOffIcon}
+          colorEnabled="blue"
+          title="PC"
         />
       </Grid.Section>
     </>
