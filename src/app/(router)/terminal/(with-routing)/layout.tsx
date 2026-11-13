@@ -12,6 +12,8 @@ import MovieActionBoardIcon from "@public/icons/streaming-and-socials/movie-acti
 import Home2Icon from "@public/icons/home-automation-and-buildings/home-2.svg";
 import ReportAnalyticsIcon from "@public/icons/commerce/report-analytics.svg";
 import {useRouter} from "next/navigation";
+import {TerminalModeButton} from "@/widgets/terminal-buttons/terminal-mode-button";
+import {DiscordModeButton} from "@/widgets/terminal-buttons/discord-mode-button";
 
 type Props = {
   children: ReactNode;
@@ -36,8 +38,8 @@ export default function Layout(props: Props) {
         <BaseButton/>
         <BaseButton/>
         <BaseButton/>
-        <BaseButton/>
-        <BaseButton/>
+        <TerminalModeButton/>
+        <DiscordModeButton/>
       </Grid.Section>
       {props.children}
     </>

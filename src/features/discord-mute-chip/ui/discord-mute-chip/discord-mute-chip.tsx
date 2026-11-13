@@ -5,10 +5,13 @@ import {useEntity} from "@/shared/hooks/use-entity";
 import {mdiMicrophone, mdiMicrophoneOff} from "@mdi/js";
 import {Chips} from "@/shared/ui-kit/chips";
 import {useEntityOff} from "@/shared/hooks/use-entity-off";
+import {useDiscordDevice} from "@/shared/hooks/use-discord-device";
 
 export default function DiscordMuteChip() {
-  const muteEntity = useEntity("switch.navatusein_pc_discord_mute");
-  const isNotInVoice = useEntityOff("binary_sensor.navatusein_pc_discord_voice_channel");
+  const {device} = useDiscordDevice();
+
+  const muteEntity = useEntity(device.discordMute);
+  const isNotInVoice = useEntityOff(device.discordVoiceChannel);
 
   const isMicOn = isOffState(muteEntity.state);
 

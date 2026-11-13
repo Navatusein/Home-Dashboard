@@ -7,12 +7,12 @@ import PlayerSkipBackIcon from "@public/icons/media/player-skip-back.svg";
 import PlayerPlayIcon from "@public/icons/media/player-play.svg";
 import PlayPauseIcon from "@public/icons/media/player-pause.svg";
 import PlayerSkipForwardIcon from "@public/icons/media/player-skip-forward.svg";
-import BrandWindowsIcon from "@public/icons/brands/brand-windows.svg";
 import {isOffState} from "@hakit/core";
 import {useEntity} from "@/shared/hooks/use-entity";
 import useLocalStorage from "@/shared/hooks/use-local-storage";
 import {FC, SVGProps} from "react";
 import {AgentDisabledProvider} from "@/features/agent-disabled-provider";
+import {useTerminalDevice} from "@/shared/hooks/use-terminal-device";
 
 type Option = {
   title: string;
@@ -25,10 +25,7 @@ const LOCALSTORAGE_KEYS = "media-player-segment";
 const SPOTIFY_MODE = "spotify";
 const WINDOWS_MODE = "windows";
 
-const OPTIONS_BY_MODE: {[key: string]: Option} = {
-  [SPOTIFY_MODE]: {icon: BrandSpotifyIcon, title: "Spotify", color: "green"},
-  [WINDOWS_MODE]: {icon: BrandWindowsIcon, title: "Windows", color: "blue"},
-}
+const SPOTIFY_OPTION: Option = {icon: BrandSpotifyIcon, title: "Spotify", color: "green"};
 
 const MODES = [SPOTIFY_MODE, WINDOWS_MODE] as const;
 
@@ -45,11 +42,15 @@ export default function MediaPlayerSegment() {
 
   const spotifyMediaEntity = useEntity("media_player.spotify_navatusein");
 
-  const windowsNowPlayingSensor = useEntity("sensor.navatusein_pc_now_playing");
-  const windowsIsPlayingBinarySensor = useEntity("binary_sensor.navatusein_pc_media_playing");
-  const windowsNextTrackButton = useEntity("button.navatusein_pc_media_next_track");
-  const windowsPreviousTrackButton = useEntity("button.navatusein_pc_media_previous_track");
-  const windowsPlayPauseButton = useEntity("button.navatusein_pc_media_play_pause");
+  const {device} = useTerminalDevice();
+
+  const windowsNowPlayingSensor = useEntity(device.nowPlaying);
+  const windowsIsPlayingBinarySensor = useEntity(device.mediaPlaying);
+  const windowsNextTrackButton = useEntity(device.mediaNextTrack);
+  const windowsPreviousTrackButton = useEntity(device.mediaPreviousTrack);
+  const windowsPlayPauseButton = useEntity(device.mediaPlayPause);
+
+  const option: Option = mode == SPOTIFY_MODE ? SPOTIFY_OPTION : {icon: device.icon, title: device.title, color: "blue"};
 
   const windowsIsPlayingOff = isOffState(windowsIsPlayingBinarySensor.state);
 
@@ -66,9 +67,9 @@ export default function MediaPlayerSegment() {
     <>
       <Grid.Section rowStart={7} colStart={1} direction="horizontal">
         <BaseButton
-          title={OPTIONS_BY_MODE[mode].title}
-          icon={OPTIONS_BY_MODE[mode].icon}
-          color={OPTIONS_BY_MODE[mode].color}
+          title={option.title}
+          icon={option.icon}
+          color={option.color}
           onClickAction={() => switchToNextMode()}
         />
       </Grid.Section>
@@ -106,7 +107,7 @@ export default function MediaPlayerSegment() {
       )}
       {mode === WINDOWS_MODE && (
         <>
-          <AgentDisabledProvider>
+          <AgentDisabledProvider entity={device.agentRunning}>
             <Grid.Section rowStart={6} colStart={1} direction="horizontal">
               <BaseButton
                 colSpan={4}

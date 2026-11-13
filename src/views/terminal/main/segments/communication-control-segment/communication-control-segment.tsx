@@ -6,8 +6,12 @@ import Microphone2Icon from "@public/icons/media/microphone-2.svg";
 // import DeviceComputerCameraOffIcon from "@public/icons/streaming-and-socials/device-computer-camera-off.svg";
 import HeadphonesOffIcon from "@public/icons/media/headphones-off.svg";
 import HeadphonesIcon from "@public/icons/media/headphones.svg";
+import {useDiscordDevice} from "@/shared/hooks/use-discord-device";
+import {AgentDisabledProvider} from "@/features/agent-disabled-provider";
 
 export default function CommunicationControlSegment() {
+  const {device} = useDiscordDevice();
+
   return (
     <>
       {/*<Grid.Section rowStart={2} colStart={11} direction="vertical">*/}
@@ -34,30 +38,32 @@ export default function CommunicationControlSegment() {
       {/*    colorOff="default"*/}
       {/*  />*/}
       {/*</Grid.Section>*/}
-      <Grid.Section rowStart={2} colStart={12} direction="vertical">
-        <CommunicationButton
-          title="Discord"
-          switchEntity="switch.navatusein_pc_discord_mute"
-          isMeetingBinarySensor="binary_sensor.navatusein_pc_discord_voice_channel"
-          isApplicationActiveBinarySensor="binary_sensor.navatusein_pc_discord_plugin_status"
-          disabledIcon={Microphone2Icon}
-          iconOn={MicrophoneOff}
-          iconOff={Microphone2Icon}
-          colorOn="blue"
-          colorOff="default"
-        />
-        <CommunicationButton
-          title="Discord"
-          switchEntity="switch.navatusein_pc_discord_deafen"
-          isMeetingBinarySensor="binary_sensor.navatusein_pc_discord_voice_channel"
-          isApplicationActiveBinarySensor="binary_sensor.navatusein_pc_discord_plugin_status"
-          disabledIcon={HeadphonesIcon}
-          iconOn={HeadphonesOffIcon}
-          iconOff={HeadphonesIcon}
-          colorOn="blue"
-          colorOff="default"
-        />
-      </Grid.Section>
+      <AgentDisabledProvider entity={device.agentRunning}>
+        <Grid.Section rowStart={2} colStart={12} direction="vertical">
+          <CommunicationButton
+            title="Discord"
+            switchEntity={device.discordMute}
+            isMeetingBinarySensor={device.discordVoiceChannel}
+            isApplicationActiveBinarySensor={device.discordPluginStatus}
+            disabledIcon={Microphone2Icon}
+            iconOn={MicrophoneOff}
+            iconOff={Microphone2Icon}
+            colorOn="blue"
+            colorOff="default"
+          />
+          <CommunicationButton
+            title="Discord"
+            switchEntity={device.discordDeafen}
+            isMeetingBinarySensor={device.discordVoiceChannel}
+            isApplicationActiveBinarySensor={device.discordPluginStatus}
+            disabledIcon={HeadphonesIcon}
+            iconOn={HeadphonesOffIcon}
+            iconOff={HeadphonesIcon}
+            colorOn="blue"
+            colorOff="default"
+          />
+        </Grid.Section>
+      </AgentDisabledProvider>
     </>
   )
 }

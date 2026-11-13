@@ -9,18 +9,26 @@ import LightControlSegment from "../../segments/light-control-segment/light-cont
 import MomentActionSegment from "../../segments/moment-action-segment/moment-action-segment";
 import MediaPlayerSegment from "../../segments/media-player-segment/media-player-segment";
 import {AgentDisabledProvider} from "@/features/agent-disabled-provider";
+import {useTerminalDevice} from "@/shared/hooks/use-terminal-device";
 
 export default function MainView() {
+  const terminalDevice = useTerminalDevice();
+
   return (
     <>
-      <AgentDisabledProvider>
-        <FastLaunchSegment/>
-        <ClipboardSlotSegment/>
-        <CommunicationControlSegment/>
-        <AudioSourceSegment/>
+      <AgentDisabledProvider entity={terminalDevice.device.agentRunning}>
+        {terminalDevice.mode == "pc" && (
+          <>
+            <FastLaunchSegment/>
+            <ClipboardSlotSegment/>
+            <AudioSourceSegment/>
+            <MomentActionSegment/>
+          </>
+        )}
         <MediaSegment/>
-        <MomentActionSegment/>
       </AgentDisabledProvider>
+
+      <CommunicationControlSegment/>
 
       <MediaPlayerSegment/>
 
