@@ -66,7 +66,7 @@ Stick to this pattern when adding new components — pages, layouts, widgets, fe
 Routes use the `(router)` route group to keep `app/` tidy:
 
 - `/` — server redirect only: user agent containing `Quest 3` → `/terminal/main`; otherwise `/dev` if `DEV_INDEX_PAGE` is set, else `/home-assistant/home`.
-- `/(router)/home-assistant/{home,energy,music,security,server}` — wrapped by `HomeAssistantDashboardLayout` (sidebar `NavbarCard` + greeting + status chips header). The navbar item list is declared inline in `src/app/(router)/home-assistant/layout.tsx`; items support `modal`, `hideOnMobile`, and `forUsers` (matched against the HA user name).
+- `/(router)/home-assistant/{home,energy,music,security,server}` — wrapped by `HomeAssistantDashboardLayout` (sidebar `NavbarCard` + greeting + status chips header). The navbar item list is declared inline in `src/app/(router)/home-assistant/layout.tsx`; items support `modal`, `hideOnMobile`, `forUsers` (matched against the HA user name), and `onlyFromTerminal` (shown only when the dashboard was opened with `?from-terminal`).
 - `/(router)/terminal/(with-routing)/{main,system,light,record,faker}` — wrapped by `TerminalLayout`. The nested `(with-routing)` layout renders the top navigation row of the grid.
 - `/(router)/ui-kit` — component showcase for the shared UI kit; add a `*-part` there when adding a primitive.
 - `/(router)/dev` — dev index linking to the sections above.

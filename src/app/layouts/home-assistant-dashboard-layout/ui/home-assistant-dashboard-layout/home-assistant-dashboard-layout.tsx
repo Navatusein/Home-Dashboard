@@ -40,7 +40,7 @@ export default function HomeAssistantDashboardLayout(props: Props) {
     <Flex vertical className={styles["page-container"]}>
       <OrientationLock/>
       <Flex grow className={styles["page-content-container"]}>
-        <NavbarCard items={props.navbarItems}/>
+        <NavbarCard items={props.navbarItems} fromTerminal={fromTerminal}/>
         <Flex vertical gap="sm" grow className={styles["page-content"]}>
           <Flex justify="space-between">
             <GreetingCard/>

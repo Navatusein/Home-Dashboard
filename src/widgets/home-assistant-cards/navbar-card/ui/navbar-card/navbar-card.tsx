@@ -9,6 +9,7 @@ import {useUser} from "@hakit/core";
 
 type Props = {
   items: NavbarCardItem[];
+  fromTerminal?: boolean;
 }
 
 export default function NavbarCard(props: Props) {
@@ -19,6 +20,7 @@ export default function NavbarCard(props: Props) {
   
   const isVisible = (item: NavbarCardItemChild) => (
     (item.forUsers?.includes(user?.name ?? "default") ?? true) &&
+    (item.onlyFromTerminal != true || props.fromTerminal == true) &&
     ((isMobile && item.hideOnMobile != true) || !isMobile)
   );
 

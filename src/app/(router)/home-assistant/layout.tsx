@@ -24,7 +24,8 @@ const NavbarCardItems: NavbarCardItem[] = [
     color: "blue",
     icon: mdiTabletDashboard,
     hideOnMobile: true,
-    forUsers: ["Bohdan"]
+    forUsers: ["Bohdan"],
+    onlyFromTerminal: true
   },
   {
     title: "Home",

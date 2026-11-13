@@ -9,6 +9,7 @@ export type NavbarCardItem = {
   modal?: string;
   children?: NavbarCardItemChild[];
   forUsers?: string[];
+  onlyFromTerminal?: boolean;
 }
 
 export type NavbarCardItemChild = Omit<NavbarCardItem, "children">;
