@@ -73,6 +73,16 @@ const HOME: PowerFlowNode = {
           entity: "sensor.laptop_nas_wr01b_power",
           color: "blue",
         },
+        {
+          title: "Desktop Outlet",
+          entity: "sensor.desktop_outlet_nas_wr01b_power",
+          color: "red",
+        },
+        {
+          title: "Macbook",
+          entity: "sensor.macbook_nas_wr01b_power",
+          color: "yellow",
+        },
       ],
     },
     {
@@ -109,6 +119,11 @@ const HOME: PowerFlowNode = {
       title: "Masya Charging",
       entity: "sensor.masya_charging_nas_wr01b_power",
       color: "pink",
+    },
+    {
+      title: "Navatusein Charging",
+      entity: "sensor.navatusein_charging_nas_wr01b_power",
+      color: "purple",
     },
   ],
 }
