@@ -4,8 +4,9 @@ import {useHass} from "@hakit/core";
 import {ColorToken} from "@/shared/constants/colors";
 import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
 import {PowerFlowNode} from "../../types/types";
-import {buildFlow, FlowLink} from "../../helpers/build-flow";
+import {buildFlow, FlowLink, FlowNode} from "../../helpers/build-flow";
 import {layoutFlow} from "../../helpers/layout-flow";
+import {measureTextWidth} from "../../helpers/measure-text-width";
 
 type Props = {
   sources: PowerFlowNode[];
@@ -13,9 +14,12 @@ type Props = {
 }
 
 const NODE_GAP = 12;
+const LABEL_TITLE_FONT = "700 14px";
+const LABEL_VALUE_FONT = "500 12px";
+const LABEL_PADDING = 10;
 
-const HORIZONTAL_AREA = {left: 0, right: 150, top: 16, bottom: 16};
-const VERTICAL_AREA = {left: 8, right: 8, top: 8, bottom: 160};
+const HORIZONTAL_PADDING = {left: 0, top: 16, bottom: 16};
+const VERTICAL_PADDING = {left: 8, right: 8, top: 8};
 
 const PARENT_LABEL = {
   backgroundColor: "var(--color-secondary)",
@@ -35,6 +39,19 @@ const VERTICAL_LEAF_LABEL = {
   align: "left" as const,
   verticalAlign: "middle" as const,
   distance: 6,
+}
+
+function getLeafLabelWidth(nodes: FlowNode[], parents: Set<string>, fontFamily: string) {
+  const widths = nodes
+    .filter((node) => !parents.has(node.key))
+    .map((node) => {
+      const titleWidth = measureTextWidth(node.title, `${LABEL_TITLE_FONT} ${fontFamily}`);
+      const valueWidth = measureTextWidth(` ${Math.round(node.value)} W`, `${LABEL_VALUE_FONT} ${fontFamily}`);
+
+      return titleWidth + valueWidth;
+    });
+
+  return widths.length > 0 ? Math.max(...widths) : 0;
 }
 
 function collectEntities(node: PowerFlowNode): string[] {
@@ -71,7 +88,13 @@ export default function PowerFlowCard(props: Props) {
   const nodes = Object.fromEntries(flow.nodes.map((node) => [node.key, node]));
   const parents = new Set(flow.links.map((link) => link.source));
 
-  const area = isVertical ? VERTICAL_AREA : HORIZONTAL_AREA;
+  const fontFamily = cardRef.current ? getComputedStyle(cardRef.current).fontFamily : "";
+  const labelWidth = fontFamily ? getLeafLabelWidth(flow.nodes, parents, fontFamily) + LABEL_PADDING : 0;
+
+  const area = isVertical
+    ? {...VERTICAL_PADDING, bottom: labelWidth}
+    : {...HORIZONTAL_PADDING, right: labelWidth};
+
   const extent = isVertical ? size.width - area.left - area.right : size.height - area.top - area.bottom;
   const layout = extent > 0 ? layoutFlow(flow, extent, NODE_GAP) : null;
 
