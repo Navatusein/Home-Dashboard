@@ -11,6 +11,7 @@ import QueueModal from "../../modals/queue-modal/queue-modal";
 import TransferModal from "../../modals/transfer-modal/transfer-modal";
 import GroupModal from "../../modals/group-modal/group-modal";
 import CollectionModal from "../../modals/collection-modal/collection-modal";
+import PlayerSettingsModal from "../../modals/player-settings-modal/player-settings-modal";
 import {useMusicPlayers} from "../../hooks/use-music-players";
 
 type Props = {
@@ -55,6 +56,7 @@ export default function MusicView(props: Props) {
           <CollectionModal player={player}/>
         </>
       )}
+      <PlayerSettingsModal/>
     </Flex>
   )
 }

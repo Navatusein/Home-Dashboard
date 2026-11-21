@@ -24,3 +24,9 @@ export const TRACK_SORTS = [
   {key: "title", label: "Title A–Z", value: "title"},
   {key: "artist", label: "Artist A–Z", value: "artist"},
 ];
+
+export const NAVIDROME_QUALITIES = [
+  {key: "opus128", label: "Opus 128 kbps", value: "opus128"},
+  {key: "opus192", label: "Opus 192 kbps", value: "opus192"},
+  {key: "raw", label: "Original (FLAC)", value: "raw"},
+];

@@ -1,10 +1,11 @@
-import {Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
-import {mdiCastAudio, mdiMusic, mdiPlaylistPlay, mdiSpeakerMultiple} from "@mdi/js";
+import {Button, Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
+import {mdiCastAudio, mdiCog, mdiMusic, mdiPlaylistPlay, mdiSpeakerMultiple} from "@mdi/js";
 import {usePathname, useRouter} from "next/navigation";
 import {NowPlayingCard} from "@/widgets/home-assistant-cards/now-playing-card";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 import {useEntity} from "@/shared/hooks/use-entity";
 import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
+import {useIsNative} from "@/shared/hooks/use-is-native";
 import {EntityNameMediaPlayer} from "@/shared/types/ha-domains";
 import {useMusicQueue} from "../../hooks/use-music-queue";
 
@@ -17,6 +18,7 @@ export default function PlayerSegment(props: Props) {
   const pathname = usePathname();
   const entity = useEntity(props.player);
   const isMobile = useBreakpoint("sm");
+  const isNative = useIsNative();
   const queue = useMusicQueue(props.player);
 
   const members: string[] = entity.attributes.group_members ?? [];
@@ -33,7 +35,17 @@ export default function PlayerSegment(props: Props) {
 
   return (
     <Flex vertical gap="xs">
-      <SegmentHeader icon={mdiMusic} title="Player"/>
+      <SegmentHeader icon={mdiMusic} title="Player">
+        {isNative && (
+          <Button
+            outline
+            shape="round"
+            icon={mdiCog}
+            aria-label="Player settings"
+            onClick={() => router.push(`${pathname}?modal=player-settings`)}
+          />
+        )}
+      </SegmentHeader>
       <NowPlayingCard entity={props.player}/>
       <Grid columns={isMobile ? 2 : 3} gap="xs">
         {isMobile ? (

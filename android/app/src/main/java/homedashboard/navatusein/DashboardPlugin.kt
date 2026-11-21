@@ -27,6 +27,68 @@ class DashboardPlugin : Plugin() {
     }
 
     @PluginMethod
+    fun getServer(call: PluginCall) {
+        val settings = AppSettings(context)
+
+        call.resolve(
+            JSObject()
+                .put("dashboardUrl", settings.dashboardUrl)
+                .put("homeAssistantHost", settings.homeAssistantHost)
+        )
+    }
+
+    @PluginMethod
+    fun saveServer(call: PluginCall) {
+        val dashboardUrl = call.getString("dashboardUrl")
+
+        if (dashboardUrl.isNullOrBlank()) {
+            call.reject("dashboardUrl is required")
+            return
+        }
+
+        val settings = AppSettings(context)
+        settings.dashboardUrl = dashboardUrl.trim()
+        settings.homeAssistantHost = call.getString("homeAssistantHost")?.trim()
+        settings.isSetupRequested = false
+
+        call.resolve()
+        activity.runOnUiThread { activity.recreate() }
+    }
+
+    @PluginMethod
+    fun openSetup(call: PluginCall) {
+        AppSettings(context).isSetupRequested = true
+
+        call.resolve()
+        activity.runOnUiThread { activity.recreate() }
+    }
+
+    @PluginMethod
+    fun getNavidrome(call: PluginCall) {
+        val settings = AppSettings(context)
+
+        call.resolve(
+            JSObject()
+                .put("url", settings.navidromeUrl)
+                .put("username", settings.navidromeUsername)
+                .put("quality", settings.navidromeQuality)
+                .put("hasPassword", SecretStore(context).has(NAVIDROME_PASSWORD))
+        )
+    }
+
+    @PluginMethod
+    fun saveNavidrome(call: PluginCall) {
+        val settings = AppSettings(context)
+        settings.navidromeUrl = call.getString("url")?.trim()
+        settings.navidromeUsername = call.getString("username")?.trim()
+        settings.navidromeQuality = call.getString("quality") ?: settings.navidromeQuality
+
+        call.getString("password")?.takeIf { it.isNotEmpty() }?.let { SecretStore(context).set(NAVIDROME_PASSWORD, it) }
+
+        call.resolve()
+    }
+
+    @PluginMethod
     fun start(call: PluginCall) {
         withController(call) { player ->
             player.play()
@@ -72,6 +134,10 @@ class DashboardPlugin : Plugin() {
                 call.reject("Unable to connect to the playback service", error)
             }
         }, ContextCompat.getMainExecutor(context))
+    }
+
+    private companion object {
+        const val NAVIDROME_PASSWORD = "navidrome_password"
     }
 
     private fun state(player: Player) = JSObject()

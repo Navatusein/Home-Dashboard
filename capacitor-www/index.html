@@ -2,7 +2,146 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Home Dashboard</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #0b0d11;
+      --card: #161b24;
+      --control: #272e3b;
+      --text: #ffffff;
+      --secondary: #787a83;
+      --accent: #b385bf;
+      --danger: #ff918a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: var(--background);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      font-weight: 500;
+    }
+
+    form {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px;
+      background: var(--card);
+      border-radius: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--secondary);
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--secondary);
+    }
+
+    input {
+      height: 44px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--control);
+      color: var(--text);
+      font: inherit;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      outline: 1px solid var(--secondary);
+    }
+
+    button {
+      height: 44px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #000000;
+      font: inherit;
+      font-size: 16px;
+    }
+
+    #error {
+      color: var(--danger);
+      min-height: 1em;
+    }
+  </style>
 </head>
-<body></body>
+<body>
+  <form id="form">
+    <h1>Home Dashboard</h1>
+    <p>Where the app should open the dashboard.</p>
+    <label>
+      Dashboard address
+      <input id="dashboard-url" type="url" inputmode="url" placeholder="https://dashboard.example.com/home-assistant/home" required>
+    </label>
+    <label>
+      Home Assistant host
+      <input id="home-assistant-host" type="text" inputmode="url" autocapitalize="off" placeholder="homeassistant.example.com">
+    </label>
+    <p id="error"></p>
+    <button type="submit">Open dashboard</button>
+  </form>
+  <script>
+    const dashboard = window.Capacitor?.Plugins?.Dashboard;
+    const form = document.getElementById("form");
+    const dashboardUrl = document.getElementById("dashboard-url");
+    const homeAssistantHost = document.getElementById("home-assistant-host");
+    const error = document.getElementById("error");
+
+    dashboard?.getServer().then((server) => {
+      dashboardUrl.value = server.dashboardUrl ?? "";
+      homeAssistantHost.value = server.homeAssistantHost ?? "";
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      error.textContent = "";
+
+      let host = homeAssistantHost.value.trim();
+
+      try {
+        new URL(dashboardUrl.value);
+
+        if (host.includes("://"))
+          host = new URL(host).host;
+      }
+      catch {
+        error.textContent = "Enter a full address starting with https://";
+        return;
+      }
+
+      dashboard.saveServer({dashboardUrl: dashboardUrl.value, homeAssistantHost: host})
+        .catch((reason) => error.textContent = String(reason?.message ?? reason));
+    });
+  </script>
+</body>
 </html>
