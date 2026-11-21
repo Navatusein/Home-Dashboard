@@ -1,9 +1,12 @@
 package homedashboard.navatusein
 
 import android.content.ComponentName
+import android.content.Context
+import android.media.AudioManager
 import android.net.Uri
 import android.os.Looper
 import androidx.core.content.ContextCompat
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
@@ -141,6 +144,74 @@ class DashboardPlugin : Plugin() {
     }
 
     @PluginMethod
+    fun togglePlay(call: PluginCall) {
+        withController(call) { player ->
+            if (player.playWhenReady) player.pause() else player.play()
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
+    fun next(call: PluginCall) {
+        withController(call) { player ->
+            player.seekToNext()
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
+    fun previous(call: PluginCall) {
+        withController(call) { player ->
+            player.seekToPrevious()
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
+    fun seek(call: PluginCall) {
+        val position = call.getDouble("position") ?: return call.reject("position is required")
+
+        withController(call) { player ->
+            player.seekTo((position * 1000).toLong())
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
+    fun setShuffle(call: PluginCall) {
+        withController(call) { player ->
+            player.shuffleModeEnabled = call.getBoolean("shuffle") ?: false
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
+    fun setRepeat(call: PluginCall) {
+        withController(call) { player ->
+            player.repeatMode = when (call.getString("repeat")) {
+                "one" -> Player.REPEAT_MODE_ONE
+                "all" -> Player.REPEAT_MODE_ALL
+                else -> Player.REPEAT_MODE_OFF
+            }
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
+    fun setVolume(call: PluginCall) {
+        val volume = call.getInt("volume") ?: return call.reject("volume is required")
+        val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val max = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, Math.round(volume / 100f * max), 0)
+
+        withController(call) { player ->
+            notifyListeners("playerState", state(player))
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
     fun status(call: PluginCall) {
         withController(call) { player -> call.resolve(state(player)) }
     }
@@ -178,9 +249,26 @@ class DashboardPlugin : Plugin() {
         }, mainExecutor)
     }
 
-    private fun state(player: Player) = JSObject()
-        .put("playing", player.playWhenReady && player.playbackState != Player.STATE_IDLE)
-        .put("active", player.playbackState != Player.STATE_IDLE)
-        .put("title", player.mediaMetadata.title?.toString())
-        .put("artist", player.mediaMetadata.artist?.toString())
+    private fun state(player: Player): JSObject {
+        val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val metadata = player.mediaMetadata
+
+        return JSObject()
+            .put("playing", player.playWhenReady && player.playbackState != Player.STATE_IDLE)
+            .put("active", player.playbackState != Player.STATE_IDLE)
+            .put("title", metadata.title?.toString())
+            .put("artist", metadata.artist?.toString())
+            .put("album", metadata.albumTitle?.toString())
+            .put("image", metadata.artworkUri?.toString())
+            .put("position", player.currentPosition / 1000.0)
+            .put("positionAt", System.currentTimeMillis())
+            .put("duration", if (player.duration == C.TIME_UNSET) 0.0 else player.duration / 1000.0)
+            .put("shuffle", player.shuffleModeEnabled)
+            .put("repeat", when (player.repeatMode) {
+                Player.REPEAT_MODE_ONE -> "one"
+                Player.REPEAT_MODE_ALL -> "all"
+                else -> "off"
+            })
+            .put("volume", Math.round(audio.getStreamVolume(AudioManager.STREAM_MUSIC) * 100f / audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)))
+    }
 }

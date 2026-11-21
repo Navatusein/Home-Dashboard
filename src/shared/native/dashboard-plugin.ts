@@ -1,10 +1,20 @@
 import {PluginListenerHandle, registerPlugin} from "@capacitor/core";
 
+export type RepeatMode = "off" | "all" | "one";
+
 export type PlayerState = {
   playing: boolean;
   active: boolean;
   title?: string;
   artist?: string;
+  album?: string;
+  image?: string;
+  position: number;
+  positionAt: number;
+  duration: number;
+  shuffle: boolean;
+  repeat: RepeatMode;
+  volume: number;
 }
 
 export type NativeTrack = {
@@ -31,6 +41,13 @@ export interface DashboardPlugin {
   checkNavidrome(): Promise<{ok: boolean, error?: string}>;
   play(options: {tracks: NativeTrack[], startIndex: number}): Promise<void>;
   stop(): Promise<void>;
+  togglePlay(): Promise<void>;
+  next(): Promise<void>;
+  previous(): Promise<void>;
+  seek(options: {position: number}): Promise<void>;
+  setShuffle(options: {shuffle: boolean}): Promise<void>;
+  setRepeat(options: {repeat: RepeatMode}): Promise<void>;
+  setVolume(options: {volume: number}): Promise<void>;
   status(): Promise<PlayerState>;
   addListener(event: "playerState", listener: (state: PlayerState) => void): Promise<PluginListenerHandle>;
 }

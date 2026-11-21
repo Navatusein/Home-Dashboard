@@ -48,7 +48,7 @@ export function toMusicTrack(id: string, track: MusicAssistantTrack, musicAssist
     uri: track.uri,
     navidromeId: track.provider_mappings?.find((mapping) => mapping.provider_domain == "opensubsonic")?.item_id ?? null,
     title: track.name,
-    artist: [...new Set(track.artists?.map((artist) => artist.name))].join(", "),
+    artist: [...new Set(track.artists?.flatMap((artist) => artist.name.split(", ")))].join(", "),
     image: musicAssistantImageUrl(image, musicAssistantUrl),
   };
 }

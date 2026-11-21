@@ -1,11 +1,8 @@
 import {useEffect, useRef, useState} from "react";
 import clsx from "clsx";
 import {Button, Card, Flex, Icon, Typography} from "@/shared/ui-kit";
-import {isUnavailableState, useHass} from "@hakit/core";
-import {useEntity} from "@/shared/hooks/use-entity";
 import {useNow} from "@/shared/hooks/use-now";
 import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
-import {EntityNameButton, EntityNameMediaPlayer} from "@/shared/types/ha-domains";
 import {
   mdiHeartOutline,
   mdiMusic,
@@ -21,6 +18,7 @@ import {
   mdiVolumeHigh
 } from "@mdi/js";
 import {formatTrackTime} from "../../helpers/format-track-time";
+import {NowPlaying, NowPlayingActions} from "../../types/types";
 import Waveform from "../waveform/waveform";
 import VolumeSlider from "../volume-slider/volume-slider";
 import styles from "./now-playing-card.module.scss";
@@ -34,13 +32,12 @@ const SEEK_HOLD = 5000;
 const SEEK_TOLERANCE = 3;
 
 type Props = {
-  entity: EntityNameMediaPlayer,
+  player: NowPlaying,
+  actions: NowPlayingActions,
 }
 
 export default function NowPlayingCard(props: Props) {
-  const entity = useEntity(props.entity);
-  const favorite = useEntity(`button.${props.entity.split(".")[1]}_favorite_current_song` as EntityNameButton);
-  const hassUrl = useHass((state) => state.hassUrl);
+  const {player, actions} = props;
   const isMobile = useBreakpoint("sm");
   const now = useNow(1000);
 
@@ -53,8 +50,6 @@ export default function NowPlayingCard(props: Props) {
   const [coverOffset, setCoverOffset] = useState(0);
   const [isVolumeOpen, setIsVolumeOpen] = useState(false);
 
-  const attributes = entity.attributes;
-
   useEffect(() => {
     const observer = new ResizeObserver(() => {
       const cover = coverRef.current!;
@@ -65,22 +60,15 @@ export default function NowPlayingCard(props: Props) {
     return () => observer.disconnect();
   }, []);
 
-  const isUnavailable = isUnavailableState(entity.state);
-  const isPlaying = entity.state == "playing";
-  const hasMedia = !isUnavailable && attributes.media_title != null;
-
-  const picture = attributes.entity_picture_local ?? attributes.entity_picture;
-  const image = hasMedia && picture && hassUrl ? new URL(picture, hassUrl).href : undefined;
-
-  const duration = attributes.media_duration ?? 0;
-  const canSeek = hasMedia && (isPlaying || entity.state == "paused") && duration > 0;
-  const updatedAt = attributes.media_position_updated_at ? new Date(attributes.media_position_updated_at).getTime() : now;
-  const reportedPosition = (attributes.media_position ?? 0) + (isPlaying ? (now - updatedAt) / 1000 : 0);
+  const isUnavailable = !player.available;
+  const isPlaying = player.playing;
+  const duration = player.duration;
+  const reportedPosition = player.position + (isPlaying && player.positionAt ? Math.max(0, now - player.positionAt) / 1000 : 0);
   const seekPosition = seekTarget && seekTarget.position + (isPlaying ? Math.max(0, now - seekTarget.at) / 1000 : 0);
   const isSeekPending = seekPosition != null && now - seekTarget!.at < SEEK_HOLD && Math.abs(reportedPosition - seekPosition) > SEEK_TOLERANCE;
   const position = dragPosition ?? Math.min(duration, isSeekPending ? seekPosition : reportedPosition);
 
-  const volume = dragVolume ?? Math.round((attributes.volume_level ?? 0) * 100);
+  const volume = dragVolume ?? player.volume;
 
   useEffect(() => {
     if (!isVolumeOpen)
@@ -89,17 +77,17 @@ export default function NowPlayingCard(props: Props) {
     const timer = setTimeout(() => setIsVolumeOpen(false), VOLUME_HIDE_DELAY);
     return () => clearTimeout(timer);
   }, [isVolumeOpen, volume]);
-  const repeat = (attributes.repeat ?? "off") as keyof typeof NEXT_REPEAT;
+  const repeat = player.repeat;
 
   const seek = (value: number) => {
     setDragPosition(null);
     setSeekTarget({position: value, at: Date.now()});
-    entity.service.mediaSeek({serviceData: {seek_position: value}});
+    actions.seek(value);
   }
 
   const changeVolume = (value: number) => {
     setDragVolume(null);
-    entity.service.volumeSet({serviceData: {volume_level: value / 100}});
+    actions.setVolume(value);
   }
 
   const volumeSlider = (
@@ -122,10 +110,10 @@ export default function NowPlayingCard(props: Props) {
           className={isMobile ? styles["cover-mobile"] : styles["cover"]}
           style={{
             ["--cover-offset" as never]: `${coverOffset}px`,
-            ...(image && {backgroundImage: `url("${image}")`}),
+            ...(player.image && {backgroundImage: `url("${player.image}")`}),
           }}
         >
-          {!image && (
+          {!player.image && (
             <Icon path={mdiMusic} size="xl" color="secondary"/>
           )}
         </div>
@@ -133,10 +121,10 @@ export default function NowPlayingCard(props: Props) {
           <Flex align="center" justify="space-between" gap="xs">
             <Flex vertical grow className={styles["text"]}>
               <Typography.Text bold className={styles["title"]}>
-                {isUnavailable ? "--" : (attributes.media_title ?? "Nothing playing")}
+                {player.title}
               </Typography.Text>
               <Typography.Text fontSize="sm" textColor="secondary" className={styles["title"]}>
-                {[attributes.media_artist, attributes.media_album_name].filter(Boolean).join(" · ") || attributes.friendly_name}
+                {player.subtitle}
               </Typography.Text>
             </Flex>
             {isMobile && (
@@ -149,23 +137,25 @@ export default function NowPlayingCard(props: Props) {
                 onClick={() => setIsVolumeOpen(!isVolumeOpen)}
               />
             )}
-            <Button
-              outline
-              shape="round"
-              icon={mdiHeartOutline}
-              className={styles["control"]}
-              disabled={!hasMedia || isUnavailableState(favorite.state)}
-              onClick={() => favorite.service.press()}
-            />
+            {actions.favorite && (
+              <Button
+                outline
+                shape="round"
+                icon={mdiHeartOutline}
+                className={styles["control"]}
+                disabled={!actions.canFavorite}
+                onClick={actions.favorite}
+              />
+            )}
           </Flex>
           <Flex vertical gap="xxs">
             <Waveform
-              seed={attributes.media_title ?? ""}
+              seed={player.title}
               count={isMobile ? 44 : 72}
               value={position}
               max={duration}
               colored={isPlaying}
-              disabled={!canSeek}
+              disabled={!player.canSeek}
               onValueChange={setDragPosition}
               onValueCommit={seek}
             />
@@ -187,10 +177,10 @@ export default function NowPlayingCard(props: Props) {
               <Button
                 outline
                 shape="round"
-                icon={attributes.shuffle ? mdiShuffle : mdiShuffleDisabled}
+                icon={player.shuffle ? mdiShuffle : mdiShuffleDisabled}
                 className={styles["control"]}
                 disabled={isUnavailable}
-                onClick={() => entity.service.shuffleSet({serviceData: {shuffle: !attributes.shuffle}})}
+                onClick={() => actions.setShuffle(!player.shuffle)}
               />
               <Button
                 outline
@@ -198,14 +188,14 @@ export default function NowPlayingCard(props: Props) {
                 icon={mdiSkipPrevious}
                 className={clsx(styles["control"], styles["large"])}
                 disabled={isUnavailable}
-                onClick={() => entity.service.mediaPreviousTrack()}
+                onClick={actions.previous}
               />
               <Button
                 shape="round"
                 icon={isPlaying ? mdiPause : mdiPlay}
                 className={clsx(styles["play"], styles["large"])}
                 disabled={isUnavailable}
-                onClick={() => entity.service.mediaPlayPause()}
+                onClick={actions.togglePlay}
               />
               <Button
                 outline
@@ -213,7 +203,7 @@ export default function NowPlayingCard(props: Props) {
                 icon={mdiSkipNext}
                 className={clsx(styles["control"], styles["large"])}
                 disabled={isUnavailable}
-                onClick={() => entity.service.mediaNextTrack()}
+                onClick={actions.next}
               />
               <Button
                 outline
@@ -221,7 +211,7 @@ export default function NowPlayingCard(props: Props) {
                 icon={REPEAT_ICONS[repeat]}
                 className={styles["control"]}
                 disabled={isUnavailable}
-                onClick={() => entity.service.repeatSet({serviceData: {repeat: NEXT_REPEAT[repeat]}})}
+                onClick={() => actions.setRepeat(NEXT_REPEAT[repeat])}
               />
             </Flex>
           )}

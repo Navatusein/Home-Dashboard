@@ -1,3 +1,8 @@
+import {EntityNameMediaPlayer} from "@/shared/types/ha-domains";
+import {PHONE_PLAYER} from "../constants/music-assistant";
+
+export type MusicPlayerId = EntityNameMediaPlayer | typeof PHONE_PLAYER;
+
 export type LibraryMediaType = "playlist" | "album" | "artist";
 
 export type LibraryItem = {

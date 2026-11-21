@@ -1,7 +1,7 @@
 import {Button, Flex, Grid, SegmentHeader} from "@/shared/ui-kit";
 import {mdiCastAudio, mdiCog, mdiMusic, mdiPlaylistPlay, mdiSpeakerMultiple} from "@mdi/js";
 import {usePathname, useRouter} from "next/navigation";
-import {NowPlayingCard} from "@/widgets/home-assistant-cards/now-playing-card";
+import {EntityNowPlayingCard} from "@/widgets/home-assistant-cards/now-playing-card";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 import {useEntity} from "@/shared/hooks/use-entity";
 import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
@@ -56,7 +56,7 @@ export default function PlayerSegment(props: Props) {
             event.currentTarget.scrollIntoView({behavior: "smooth", block: "start"});
         }}
       >
-        <NowPlayingCard entity={props.player}/>
+        <EntityNowPlayingCard entity={props.player}/>
       </div>
       <Grid columns={isMobile ? 2 : 3} gap="xs">
         {isMobile ? (
