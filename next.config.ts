@@ -1,10 +1,16 @@
 import type {NextConfig} from "next";
 import path from "path";
 
+const buildId = Date.now().toString(36);
+
 const nextConfig: NextConfig = {
   output: "standalone",
   reactCompiler: true,
   reactStrictMode: false,
+  generateBuildId: () => buildId,
+  env: {
+    BUILD_ID: buildId,
+  },
   allowedDevOrigins: process.env.DEV_ALLOWED_ORIGINS?.split(","),
   sassOptions: {
     includePaths: [path.join(__dirname, "src")],

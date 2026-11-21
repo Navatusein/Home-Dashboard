@@ -1,0 +1,12 @@
+@use "@/shared/styles/variables" as variables;
+
+.banner {
+  position: fixed;
+  top: variables.$padding-xs;
+  left: 50%;
+  translate: -50% 0;
+  width: max-content;
+  max-width: calc(100% - 2 * #{variables.$padding-xs});
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
