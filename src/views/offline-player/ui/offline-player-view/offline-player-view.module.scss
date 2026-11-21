@@ -10,6 +10,10 @@
   margin: 0 auto;
 }
 
+.icon {
+  flex-shrink: 0;
+}
+
 .status {
   min-width: 0;
 }

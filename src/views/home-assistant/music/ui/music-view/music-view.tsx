@@ -14,6 +14,7 @@ import GroupModal from "../../modals/group-modal/group-modal";
 import CollectionModal from "../../modals/collection-modal/collection-modal";
 import PlayerSettingsModal from "../../modals/player-settings-modal/player-settings-modal";
 import PhoneQueueModal from "../../modals/phone-queue-modal/phone-queue-modal";
+import DownloadsModal from "../../modals/downloads-modal/downloads-modal";
 import {useMusicPlayers} from "../../hooks/use-music-players";
 import {NOW_PLAYING_ID, PHONE_PLAYER} from "../../constants/music-assistant";
 import {MusicPlayerId} from "../../types/types";
@@ -73,7 +74,10 @@ export default function MusicView(props: Props) {
         </>
       )}
       {isPhoneSelected && (
-        <PhoneQueueModal/>
+        <>
+          <PhoneQueueModal/>
+          <DownloadsModal/>
+        </>
       )}
       <PlayerSettingsModal/>
     </Flex>

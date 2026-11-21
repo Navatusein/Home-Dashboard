@@ -10,6 +10,9 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
+import androidx.media3.exoplayer.offline.DownloadManager
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.getcapacitor.JSArray
@@ -20,6 +23,7 @@ import com.getcapacitor.PluginMethod
 import com.getcapacitor.annotation.CapacitorPlugin
 import org.json.JSONObject
 
+@UnstableApi
 @CapacitorPlugin(name = "Dashboard")
 class DashboardPlugin : Plugin() {
     private var controller: MediaController? = null
@@ -28,6 +32,20 @@ class DashboardPlugin : Plugin() {
         override fun onEvents(player: Player, events: Player.Events) {
             notifyListeners("playerState", state(player))
         }
+    }
+
+    private val downloadListener = object : DownloadManager.Listener {
+        override fun onDownloadChanged(downloadManager: DownloadManager, download: Download, finalException: Exception?) {
+            notifyListeners("downloadsChanged", JSObject())
+        }
+
+        override fun onDownloadRemoved(downloadManager: DownloadManager, download: Download) {
+            notifyListeners("downloadsChanged", JSObject())
+        }
+    }
+
+    override fun load() {
+        ContextCompat.getMainExecutor(context).execute { Downloads.manager(context).addListener(downloadListener) }
     }
 
     @PluginMethod
@@ -245,11 +263,80 @@ class DashboardPlugin : Plugin() {
     }
 
     @PluginMethod
+    fun download(call: PluginCall) {
+        val id = call.getString("id") ?: return call.reject("id is required")
+        val tracks = call.getArray("tracks")?.toList<JSONObject>()
+
+        if (tracks.isNullOrEmpty())
+            return call.reject("tracks are required")
+
+        Thread {
+            try {
+                Downloads.save(context, id, call.getString("name"), tracks)
+                notifyListeners("downloadsChanged", JSObject())
+                call.resolve()
+            }
+            catch (error: Exception) {
+                call.reject(error.message ?: "Unable to download", error)
+            }
+        }.start()
+    }
+
+    @PluginMethod
+    fun removeDownload(call: PluginCall) {
+        val id = call.getString("id") ?: return call.reject("id is required")
+
+        Thread {
+            Downloads.remove(context, id)
+            notifyListeners("downloadsChanged", JSObject())
+            call.resolve()
+        }.start()
+    }
+
+    @PluginMethod
+    fun getDownloads(call: PluginCall) {
+        Thread {
+            val states = Downloads.states(context)
+            val collections = JSArray()
+
+            Downloads.collections(context).forEach { collection ->
+                val source = collection.getJSONArray("tracks")
+                val tracks = JSArray()
+
+                for (index in 0 until source.length()) {
+                    val track = source.getJSONObject(index)
+                    val image = if (track.isNull("image")) null else track.getString("image")
+
+                    tracks.put(
+                        JSObject()
+                            .put("id", track.getString("id"))
+                            .put("title", track.optString("title"))
+                            .put("artist", track.optString("artist"))
+                            .put("image", image)
+                            .put("cover", Downloads.cover(context, image)?.toString())
+                            .put("downloaded", states[track.getString("id")] == Download.STATE_COMPLETED)
+                    )
+                }
+
+                collections.put(
+                    JSObject()
+                        .put("id", collection.getString("id"))
+                        .put("name", collection.optString("name"))
+                        .put("tracks", tracks)
+                )
+            }
+
+            call.resolve(JSObject().put("collections", collections))
+        }.start()
+    }
+
+    @PluginMethod
     fun status(call: PluginCall) {
         withController(call) { player -> call.resolve(state(player)) }
     }
 
     override fun handleOnDestroy() {
+        ContextCompat.getMainExecutor(context).execute { Downloads.manager(context).removeListener(downloadListener) }
         controller?.release()
         controller = null
     }

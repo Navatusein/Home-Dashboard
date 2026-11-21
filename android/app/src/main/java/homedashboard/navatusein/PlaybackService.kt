@@ -25,8 +25,13 @@ class PlaybackService : MediaSessionService() {
         val navidrome = Navidrome(this)
 
         val dataSource = CacheDataSource.Factory()
-            .setCache(MediaCache.get(this))
-            .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
+            .setCache(Downloads.cache(this))
+            .setCacheWriteDataSinkFactory(null)
+            .setUpstreamDataSourceFactory(
+                CacheDataSource.Factory()
+                    .setCache(MediaCache.get(this))
+                    .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
+            )
 
         val player = ExoPlayer.Builder(this)
             .setMediaSourceFactory(DefaultMediaSourceFactory(dataSource))
@@ -56,9 +61,13 @@ class PlaybackService : MediaSessionService() {
                     mediaItems: MutableList<MediaItem>
                 ): ListenableFuture<MutableList<MediaItem>> = Futures.immediateFuture(
                     mediaItems.map { item ->
+                        val download = Downloads.completed(this@PlaybackService, item.mediaId)?.request
+                        val cover = Downloads.cover(this@PlaybackService, item.mediaMetadata.artworkUri?.toString())
+
                         item.buildUpon()
-                            .setUri(navidrome.streamUri(item.mediaId))
-                            .setCustomCacheKey(navidrome.cacheKey(item.mediaId))
+                            .setUri(download?.uri ?: navidrome.streamUri(item.mediaId))
+                            .setCustomCacheKey(download?.customCacheKey ?: navidrome.cacheKey(item.mediaId))
+                            .setMediaMetadata(item.mediaMetadata.buildUpon().setArtworkUri(cover ?: item.mediaMetadata.artworkUri).build())
                             .build()
                     }.toMutableList()
                 )

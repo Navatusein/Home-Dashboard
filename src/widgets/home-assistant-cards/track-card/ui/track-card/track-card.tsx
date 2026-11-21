@@ -1,3 +1,4 @@
+import {ReactNode} from "react";
 import {Card, Flex, RoundedIcon, Typography} from "@/shared/ui-kit";
 import {ColorToken} from "@/shared/constants/colors";
 import styles from "./track-card.module.scss";
@@ -8,6 +9,7 @@ type Props = {
   icon: string,
   image?: string | null,
   color?: ColorToken,
+  action?: ReactNode,
   onClick?: () => void,
 }
 
@@ -20,7 +22,7 @@ export default function TrackCard(props: Props) {
         ) : (
           <RoundedIcon path={props.icon}/>
         )}
-        <Flex vertical className={styles["text"]}>
+        <Flex vertical grow className={styles["text"]}>
           <Typography.Text bold className={styles["title"]}>
             {props.title}
           </Typography.Text>
@@ -28,6 +30,7 @@ export default function TrackCard(props: Props) {
             {props.subtitle}
           </Typography.Text>
         </Flex>
+        {props.action}
       </Flex>
     </Card>
   )

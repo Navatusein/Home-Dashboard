@@ -4,6 +4,7 @@ import {ReactNode, useEffect, useState} from "react";
 import {Button, Card, Flex, Icon, Typography} from "@/shared/ui-kit";
 import {mdiCloudOffOutline, mdiRefresh} from "@mdi/js";
 import {PhoneNowPlayingCard} from "@/widgets/home-assistant-cards/now-playing-card";
+import {DownloadsList} from "@/widgets/downloads-list";
 import styles from "./offline-player-view.module.scss";
 
 type Props = {
@@ -31,7 +32,7 @@ export default function OfflinePlayerView(props: Props) {
         <Card padding="xs">
           <Flex align="center" justify="space-between" gap="xs">
             <Flex align="center" gap="xs" className={styles["status"]}>
-              <Icon path={mdiCloudOffOutline} size="lg" color="secondary"/>
+              <Icon path={mdiCloudOffOutline} size="lg" color="secondary" className={styles["icon"]}/>
               <Flex vertical className={styles["status"]}>
                 <Typography.Text bold>
                   Home Assistant is unavailable
@@ -47,6 +48,7 @@ export default function OfflinePlayerView(props: Props) {
           </Flex>
         </Card>
         <PhoneNowPlayingCard/>
+        <DownloadsList/>
       </Flex>
     </div>
   )

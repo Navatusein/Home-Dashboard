@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Button, Flex, Input, ModalPopUp, Select, Typography} from "@/shared/ui-kit";
 import {useHass} from "@hakit/core";
-import {mdiMagnify, mdiMusic, mdiPlay} from "@mdi/js";
+import {mdiCheck, mdiDownload, mdiMagnify, mdiMusic, mdiPlay} from "@mdi/js";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {QueryModalControl} from "@/features/query-modal-control";
 import {TrackCard} from "@/widgets/home-assistant-cards/track-card";
@@ -10,6 +10,8 @@ import {LibraryMediaType, MusicPlayerId, MusicTrack} from "../../types/types";
 import {useCollectionTracks} from "../../hooks/use-collection-tracks";
 import {useInfiniteScroll} from "@/shared/hooks/use-infinite-scroll";
 import {Dashboard} from "@/shared/native/dashboard-plugin";
+import {useIsNative} from "@/shared/hooks/use-is-native";
+import {useDownloads} from "@/shared/hooks/use-downloads";
 import {filterTracks} from "../../helpers/filter-tracks";
 
 const PAGE_SIZE = 50;
@@ -29,6 +31,10 @@ export default function CollectionModal(props: Props) {
   const mediaType = (/^[^:]+:\/\/(\w+)\//.exec(uri ?? "")?.[1] ?? "playlist") as LibraryMediaType;
 
   const tracks = useCollectionTracks(uri);
+  const isNative = useIsNative();
+  const downloads = useDownloads();
+  const download = downloads?.find((collection) => collection.id == uri);
+  const downloadedCount = download?.tracks.filter((track) => track.downloaded).length ?? 0;
 
   const [filter, setFilter] = useState({uri: uri, search: "", sort: "original"});
   const {search, sort} = filter.uri == uri ? filter : {search: "", sort: "original"};
@@ -55,14 +61,13 @@ export default function CollectionModal(props: Props) {
     router.push(pathname);
   }
 
+  const playable = (tracks ?? []).filter((track) => track.navidromeId);
+  const nativeTracks = playable.map((track) => ({id: track.navidromeId!, title: track.title, artist: track.artist, image: track.image}));
+
   const playOnPhone = (start?: MusicTrack) => {
-    const playable = (tracks ?? []).filter((track) => track.navidromeId);
     const startIndex = start ? playable.findIndex((track) => track.id == start.id) : 0;
 
-    Dashboard.play({
-      tracks: playable.map((track) => ({id: track.navidromeId!, title: track.title, artist: track.artist, image: track.image})),
-      startIndex: Math.max(0, startIndex),
-    }).catch(console.error);
+    Dashboard.play({tracks: nativeTracks, startIndex: Math.max(0, startIndex)}).catch(console.error);
 
     router.push(pathname);
   }
@@ -87,10 +92,19 @@ export default function CollectionModal(props: Props) {
     <QueryModalControl modal="collection">
       <ModalPopUp.Header title={searchParams.get("name") ?? "Library"} icon={MEDIA_TYPE_ICONS[mediaType]}>
         <Flex vertical gap="xs">
-          <Flex justify="center">
+          <Flex justify="center" gap="xs">
             <Button color="purple" icon={mdiPlay} disabled={!uri} onClick={playAll}>
               Play All
             </Button>
+            {isNative && (
+              <Button
+                icon={download && downloadedCount == download.tracks.length ? mdiCheck : mdiDownload}
+                disabled={!nativeTracks.length}
+                onClick={() => Dashboard.download({id: uri!, name: searchParams.get("name") ?? "Library", tracks: nativeTracks}).catch(console.error)}
+              >
+                {download ? (downloadedCount == download.tracks.length ? "Downloaded" : `${downloadedCount} / ${download.tracks.length}`) : "Download"}
+              </Button>
+            )}
           </Flex>
           <Flex gap="xs">
             <Input

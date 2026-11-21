@@ -7,6 +7,7 @@ import {TrackCard} from "@/widgets/home-assistant-cards/track-card";
 import {usePhonePlayer} from "@/shared/hooks/use-phone-player";
 import {useInfiniteScroll} from "@/shared/hooks/use-infinite-scroll";
 import {Dashboard, PhoneQueueItem} from "@/shared/native/dashboard-plugin";
+import {nativeImage} from "@/shared/native/native-image";
 
 const PAGE_SIZE = 50;
 const TRACKS_BEFORE_CURRENT = 10;
@@ -66,7 +67,7 @@ export default function PhoneQueueModal() {
               title={item.title ?? "Unknown"}
               subtitle={item.artist ?? ""}
               icon={mdiMusic}
-              image={item.image}
+              image={nativeImage(item.image)}
               color={current.first + offset == queue?.index ? "purple" : undefined}
               onClick={() => Dashboard.playIndex({index: current.first + offset})}
             />

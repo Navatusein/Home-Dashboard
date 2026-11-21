@@ -33,6 +33,17 @@ export type NativeTrack = {
   image: string | null;
 }
 
+export type DownloadedTrack = NativeTrack & {
+  cover: string | null;
+  downloaded: boolean;
+}
+
+export type DownloadedCollection = {
+  id: string;
+  name: string;
+  tracks: DownloadedTrack[];
+}
+
 export type NavidromeSettings = {
   url?: string;
   username?: string;
@@ -59,8 +70,12 @@ export interface DashboardPlugin {
   setVolume(options: {volume: number}): Promise<void>;
   getQueue(): Promise<{items: PhoneQueueItem[], index: number}>;
   playIndex(options: {index: number}): Promise<void>;
+  download(options: {id: string, name: string, tracks: NativeTrack[]}): Promise<void>;
+  removeDownload(options: {id: string}): Promise<void>;
+  getDownloads(): Promise<{collections: DownloadedCollection[]}>;
   status(): Promise<PlayerState>;
   addListener(event: "playerState", listener: (state: PlayerState) => void): Promise<PluginListenerHandle>;
+  addListener(event: "downloadsChanged", listener: () => void): Promise<PluginListenerHandle>;
 }
 
 export const Dashboard = registerPlugin<DashboardPlugin>("Dashboard");

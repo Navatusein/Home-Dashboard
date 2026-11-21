@@ -19,7 +19,7 @@ self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  if (request.method !== "GET" || url.origin !== self.location.origin || url.pathname.startsWith("/api/") || request.headers.has("RSC"))
+  if (request.method !== "GET" || url.origin !== self.location.origin || url.pathname.startsWith("/api/") || url.pathname.startsWith("/_capacitor_") || request.headers.has("RSC"))
     return;
 
   if (url.pathname.startsWith("/_next/static/"))

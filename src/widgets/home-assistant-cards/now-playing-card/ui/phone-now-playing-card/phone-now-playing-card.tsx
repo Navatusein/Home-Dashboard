@@ -1,5 +1,6 @@
 import {usePhonePlayer} from "@/shared/hooks/use-phone-player";
 import {Dashboard} from "@/shared/native/dashboard-plugin";
+import {nativeImage} from "@/shared/native/native-image";
 import NowPlayingCard from "../now-playing-card/now-playing-card";
 
 export default function PhoneNowPlayingCard() {
@@ -15,7 +16,7 @@ export default function PhoneNowPlayingCard() {
         canSeek: hasMedia && state.duration > 0,
         title: hasMedia ? state.title! : "Nothing playing",
         subtitle: [state?.artist, state?.album].filter(Boolean).join(" · ") || "Phone",
-        image: hasMedia ? state.image : undefined,
+        image: hasMedia ? nativeImage(state.image) : undefined,
         position: state?.position ?? 0,
         positionAt: state?.positionAt ?? 0,
         duration: state?.duration ?? 0,
