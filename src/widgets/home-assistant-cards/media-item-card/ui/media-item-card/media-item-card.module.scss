@@ -1,0 +1,22 @@
+@use "@/shared/styles/variables" as variables;
+
+.card {
+  min-width: 0;
+}
+
+.cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: variables.$border-radius-sm;
+  background-color: var(--color-primary);
+  background-size: cover;
+  background-position: center;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

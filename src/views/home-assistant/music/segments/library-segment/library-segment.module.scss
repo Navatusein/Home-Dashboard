@@ -1,0 +1,11 @@
+@use "@/shared/styles/variables" as variables;
+
+.scroll {
+  max-height: calc(100svh - var(--library-grid-top) - #{variables.$padding-md});
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.search {
+  flex: 1;
+}
