@@ -112,7 +112,7 @@ No Redux/Zustand. State is React Context + local hooks. Shared contexts: `ModalC
 
 ### Android app (Capacitor)
 
-`android/` is a Capacitor 8 project (`appId` `homedashboard.navatusein`) that loads the deployed dashboard through `server.url` instead of bundling it; `capacitor-www/` is only the stub `webDir` Capacitor requires. Offline the pages come from the service worker cache, and the Capacitor bridge still works on them. Native code is Kotlin in `android/app/src/main/java/homedashboard/navatusein/` — plugins are registered in `MainActivity` and reached from JS as `window.Capacitor.Plugins.<Name>` (currently `Dashboard.getVersion()`). The plan for the native music player lives in `docs/music-player-context.md`.
+`android/` is a Capacitor 8 project (`appId` `homedashboard.navatusein`) that loads the deployed dashboard through `server.url` instead of bundling it; `capacitor-www/` is only the stub `webDir` Capacitor requires. Offline the pages come from the service worker cache, and the Capacitor bridge still works on them. Native code is Kotlin in `android/app/src/main/java/homedashboard/navatusein/` — plugins are registered in `MainActivity` and reached from JS as `window.Capacitor.Plugins.<Name>`. `Dashboard` exposes `getVersion()`, `start()`, `stop()`, `status()` and the `playerState` event; it drives `PlaybackService`, a Media3 `MediaSessionService` (foreground, `mediaPlayback` type) through a `MediaController`. The session's player is still `StubPlayer`, a silent `SimpleBasePlayer` placeholder until the real engines land. The plan for the native music player lives in `docs/music-player-context.md`.
 
 ## Path aliases
 
