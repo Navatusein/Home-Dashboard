@@ -8,6 +8,8 @@ import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
 import {useIsNative} from "@/shared/hooks/use-is-native";
 import {EntityNameMediaPlayer} from "@/shared/types/ha-domains";
 import {useMusicQueue} from "../../hooks/use-music-queue";
+import {NOW_PLAYING_ID} from "../../constants/music-assistant";
+import styles from "./player-segment.module.scss";
 
 type Props = {
   player: EntityNameMediaPlayer,
@@ -46,7 +48,9 @@ export default function PlayerSegment(props: Props) {
           />
         )}
       </SegmentHeader>
-      <NowPlayingCard entity={props.player}/>
+      <div id={NOW_PLAYING_ID} className={styles["card"]}>
+        <NowPlayingCard entity={props.player}/>
+      </div>
       <Grid columns={isMobile ? 2 : 3} gap="xs">
         {isMobile ? (
           <Grid.Element rowSpan={2}>
