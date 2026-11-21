@@ -28,6 +28,7 @@ export default function Waveform(props: Props) {
   return (
     <div
       ref={ref}
+      data-interactive
       className={clsx(styles["base"], props.colored && styles["colored"], props.disabled && styles["disabled"])}
       onPointerDown={(event) => {
         if (props.disabled)
