@@ -7,6 +7,11 @@ export default function ServiceWorker() {
     if (!("serviceWorker" in navigator))
       return;
 
+    if (process.env.NODE_ENV == "development") {
+      navigator.serviceWorker.getRegistrations().then((registrations) => registrations.forEach((registration) => registration.unregister()));
+      return;
+    }
+
     navigator.serviceWorker.register("/sw.js").catch(() => {});
   }, []);
 
