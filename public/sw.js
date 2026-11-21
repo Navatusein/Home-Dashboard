@@ -45,9 +45,9 @@ function precache() {
 }
 
 function store(request, response) {
-  if (response.ok && !response.redirected) {
-    const copy = response.clone();
-    caches.open(CACHE).then((cache) => cache.put(request, copy));
+  if (response.ok) {
+    const copy = response.redirected ? new Response(response.clone().body, response) : response.clone();
+    caches.open(CACHE).then((cache) => cache.put(response.redirected ? response.url : request, copy));
   }
 
   return response;

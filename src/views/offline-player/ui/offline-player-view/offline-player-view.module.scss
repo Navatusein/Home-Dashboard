@@ -1,0 +1,21 @@
+@use "@/shared/styles/variables" as variables;
+
+.page {
+  min-height: 100svh;
+  padding: variables.$padding-xs;
+}
+
+.content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.status {
+  min-width: 0;
+}
+
+.error {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

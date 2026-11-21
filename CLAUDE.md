@@ -76,7 +76,7 @@ Build terminal URLs with `buildPath()` / `buildHaPath()` from `src/shared/helper
 
 ### Home Assistant connection
 
-`BaseLayout` wraps the app in `HomeAssistantConnect`, which client-side dynamically imports `HassConnect` from `@hakit/core` with `ssr: false`. The HA URL comes from `process.env.HOME_ASSISTANT_URL`, read in the server component `BaseLayout` and passed down as a prop. The root layout is `force-dynamic` so the value is read at container runtime rather than baked in at build time — don't remove it.
+`BaseLayout` wraps the app in `HomeAssistantConnect`, which client-side dynamically imports `HassConnect` from `@hakit/core` with `ssr: false`. In the Android app it renders `OfflinePlayerView` (`views/offline-player`, phone player only, no HA hooks) on a connection error and after 5 s of loading; keep that import dynamic with `ssr: false` too — a static import pulls browser-only modules into SSR and every page returns 500. The HA URL comes from `process.env.HOME_ASSISTANT_URL`, read in the server component `BaseLayout` and passed down as a prop. The root layout is `force-dynamic` so the value is read at container runtime rather than baked in at build time — don't remove it.
 
 `src/shared/constants/development.ts` exports `DISABLE_HOME_ASSISTANT` (must be `false` when committed). Setting it to `true` skips the HA provider entirely; any component calling `@hakit/core` hooks will then throw, so it is only useful for pure UI-kit work.
 
