@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run build` — production build (`output: "standalone"`)
 - `npm start` — serve production build (requires prior `npm run build`)
 - `npm run lint` — ESLint over the whole repo (`eslint-config-next` Core Web Vitals + TypeScript rules); lint one file with `npx eslint <path>`
+- `npm run android:sync` — write `capacitor.config.ts` into the Android project; `npm run android:build` — sync + debug APK (`android/app/build/outputs/apk/debug/app-debug.apk`); `npm run android:run` — sync, build, install and launch on a connected device. Gradle needs **JDK 21** in `JAVA_HOME` (Gradle 8.14 does not run on JDK 25)
 
 There is no test runner configured.
 
@@ -107,7 +108,11 @@ No Redux/Zustand. State is React Context + local hooks. Shared contexts: `ModalC
 
 ### PWA
 
-`src/app/manifest.ts` plus `public/sw.js`, registered by the `ServiceWorker` feature in the root layout. The worker is network-first with a cache fallback for same-origin GETs, so it can serve stale pages when the dev server is down.
+`src/app/manifest.ts` plus `public/sw.js`, registered by the `ServiceWorker` feature in the root layout (production only; in `next dev` it unregisters itself, because dev chunks keep their URLs and cache-first would serve stale code). On install it precaches `/home-assistant/home` and `/home-assistant/music` with the `/_next/static/*` files their HTML references. `/_next/static/*` is cache-first, navigations are network-first with a 3 s timeout and fall back to the cached page or `/home-assistant/home`, RSC requests bypass the worker.
+
+### Android app (Capacitor)
+
+`android/` is a Capacitor 8 project (`appId` `homedashboard.navatusein`) that loads the deployed dashboard through `server.url` instead of bundling it; `capacitor-www/` is only the stub `webDir` Capacitor requires. Offline the pages come from the service worker cache, and the Capacitor bridge still works on them. Native code is Kotlin in `android/app/src/main/java/homedashboard/navatusein/` — plugins are registered in `MainActivity` and reached from JS as `window.Capacitor.Plugins.<Name>` (currently `Dashboard.getVersion()`). The plan for the native music player lives in `docs/music-player-context.md`.
 
 ## Path aliases
 
@@ -130,7 +135,9 @@ See `example.env`.
 
 - `HOME_ASSISTANT_URL` — required; base URL of the Home Assistant instance.
 - `MUSIC_ASSISTANT_URL` — public HTTPS URL of Music Assistant, read by the music page's server `page.tsx`. MA returns library images on its internal `http://` address; the host is swapped for this one. Unset: the library shows icons instead of covers.
-- `MUSIC_ASSISTANT_TOKEN` — Music Assistant long-lived token, server-only. Used by `src/app/api/music-assistant/queue/route.ts` (full queue for the music page's Queue modal), which first checks the caller's HA access token against `HOME_ASSISTANT_URL/api/` (cached for a minute) and only then calls MA. Never send it to the browser.
+- `MUSIC_ASSISTANT_TOKEN` — Music Assistant long-lived token, server-only. Used by the `src/app/api/music-assistant/*` routes (queue and collection tracks for the music page modals), which first check the caller's HA access token against `HOME_ASSISTANT_URL/api/` (cached for a minute) and only then calls MA. Never send it to the browser.
+- `CAPACITOR_SERVER_URL` — page the Android app opens on start, e.g. `https://<dashboard>/home-assistant/home`; written into the APK by `android:sync`/`android:build` (read from `.env` by `capacitor.config.ts`), so changing it needs a rebuild.
+- `CAPACITOR_ALLOW_NAVIGATION` — comma-separated hosts the app may open inside its WebView instead of the system browser; must include the Home Assistant host for the login redirect.
 - `DEV_ALLOWED_ORIGINS` — comma-separated list passed to `allowedDevOrigins` (needed to open the dev server from another device).
 - `DEV_INDEX_PAGE` — when set, `/` redirects to `/dev`. It is a truthiness check on the string, so `DEV_INDEX_PAGE=false` still enables it; leave it unset to disable.
 - `FAKER_CONFIG_PATH` — path to the JSON config of the terminal Faker page (profiles, field generators, buttons, templates), read server-side on each request; mounted from a ConfigMap in k8s. `faker.example.json` documents the format; the real `faker.json` is git-ignored.

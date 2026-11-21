@@ -150,10 +150,10 @@ NetworkMonitor — определяет, где мы, и переключает 
 
 ## Предлагаемый порядок работ
 
-1. UI управления MA на странице `/home-assistant/music` через `media_player.*` сущности MA в HA (`@hakit/core`). От Capacitor не зависит, можно делать сразу.
-2. ~~Доработать service worker: RSC, фолбэк, таймаут сети~~ (сделано). Осталось: precache и чистка устаревших чанков.
-3. Прототип Sendspin через `sendspin-js` (нужен `wss://` через reverse proxy) — проверить, что плеер появляется в MA и играет.
-4. Обернуть дашборд в Capacitor (Android, `server.url`). Проверить логин в HA и **мост Capacitor на странице из кеша SW без сети**.
+1. ~~UI управления MA на странице `/home-assistant/music`~~ (сделано): выбор плееров (динамически из реестра HA), карточка плеера с волной, очередь, перенос, группы, библиотека с поиском и сортировкой, модалки треков. Полная очередь и треки коллекций идут через серверные маршруты `/api/music-assistant/*` с токеном MA.
+2. ~~Service worker: RSC, фолбэк, таймаут сети, precache главной и музыки~~ (сделано). Осталось: чистка устаревших чанков.
+3. ~~Прототип Sendspin через `sendspin-js` в браузере~~ — пропущен: плеер нужен на телефоне, не в браузере. Проверено: `wss://music-assistant.navatuseinlab.uk/sendspin` доступен через тот же HTTPS-адрес (101), отдельный Ingress не нужен. В `sendspin-js` 6.x есть паринг клиента (pairing PSK / код) — учесть в нативном клиенте.
+4. ~~Capacitor (Android, `server.url`)~~ (сделано): `appId` `homedashboard.navatusein`, стартовая страница из `CAPACITOR_SERVER_URL`, логин HA проходит внутри WebView (`CAPACITOR_ALLOW_NAVIGATION`). Проверено на Galaxy S23: мост Capacitor и Kotlin-плагин `Dashboard.getVersion()` работают и на странице, отданной service worker без сети. Сборка — JDK 21.
 5. Нативный foreground service + MediaSession + Capacitor-плагин (с `getVersion()`).
 6. NavidromeEngine (ExoPlayer, кеш, транскодирование, офлайн-загрузки). Он проще и сразу даёт офлайн. Вместе с ним — компонент плеера без зависимостей от HA и `renderError` в `HassConnect`.
 7. Нативный SendspinEngine (по мотивам SendspinDroid).
