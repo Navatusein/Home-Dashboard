@@ -129,6 +129,8 @@ Two icon sources, by UI: the dashboard uses `@mdi/js` path strings; the terminal
 See `example.env`.
 
 - `HOME_ASSISTANT_URL` — required; base URL of the Home Assistant instance.
+- `MUSIC_ASSISTANT_URL` — public HTTPS URL of Music Assistant, read by the music page's server `page.tsx`. MA returns library images on its internal `http://` address; the host is swapped for this one. Unset: the library shows icons instead of covers.
+- `MUSIC_ASSISTANT_TOKEN` — Music Assistant long-lived token, server-only. Used by `src/app/api/music-assistant/queue/route.ts` (full queue for the music page's Queue modal), which first checks the caller's HA access token against `HOME_ASSISTANT_URL/api/` (cached for a minute) and only then calls MA. Never send it to the browser.
 - `DEV_ALLOWED_ORIGINS` — comma-separated list passed to `allowedDevOrigins` (needed to open the dev server from another device).
 - `DEV_INDEX_PAGE` — when set, `/` redirects to `/dev`. It is a truthiness check on the string, so `DEV_INDEX_PAGE=false` still enables it; leave it unset to disable.
 - `FAKER_CONFIG_PATH` — path to the JSON config of the terminal Faker page (profiles, field generators, buttons, templates), read server-side on each request; mounted from a ConfigMap in k8s. `faker.example.json` documents the format; the real `faker.json` is git-ignored.

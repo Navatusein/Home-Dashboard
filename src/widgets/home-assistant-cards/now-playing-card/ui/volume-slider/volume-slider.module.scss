@@ -1,0 +1,52 @@
+.base {
+  position: relative;
+}
+
+.slider {
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  translate: 0 -50%;
+  color: var(--color-text-primary-dark);
+  pointer-events: none;
+}
+
+.value {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  translate: 0 -50%;
+  pointer-events: none;
+}
+
+.colored .icon {
+  color: var(--color-text-primary-light);
+}
+
+.vertical {
+  width: 48px;
+  flex-shrink: 0;
+  align-self: stretch;
+
+  .slider {
+    height: 100%;
+  }
+
+  .icon {
+    top: auto;
+    bottom: 12px;
+    left: 50%;
+    translate: -50% 0;
+  }
+
+  .value {
+    top: 12px;
+    right: auto;
+    left: 50%;
+    translate: -50% 0;
+  }
+}

@@ -1,0 +1,13 @@
+@use "@/shared/styles/variables" as variables;
+
+.players {
+  display: flex;
+  justify-content: safe space-around;
+  gap: variables.$padding-xs;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  & > * {
+    flex-shrink: 0;
+  }
+}

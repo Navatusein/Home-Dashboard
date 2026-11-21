@@ -7,7 +7,7 @@ import {useBreakpoint} from "@/shared/hooks/use-breakpoint";
 import styles from "./status-card.module.scss";
 
 type Props = {
-  title: string,
+  title?: string,
   icon: string,
   iconColor?: ColorToken | 'secondary',
   entity: EntityName,
@@ -27,7 +27,7 @@ export default function StatusCard(props: Props) {
         <Icon className={styles["icon"]} path={props.icon} size={isMobile ? "lg" : "xl"} color={props.iconColor}/>
         <Flex vertical className={styles["content"]}>
           <Typography.Text className={styles["title"]} fontSize="sm" textColor={isMobile ? "secondary" : undefined}>
-            {props.title}
+            {props.title ?? entity.attributes.friendly_name}
           </Typography.Text>
           <Typography.Text bold>
             {transformer(entity.state)}{entity.attributes.unit_of_measurement}

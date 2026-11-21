@@ -1,0 +1,20 @@
+@use "@/shared/styles/variables" as variables;
+
+.cover {
+  width: variables.$control-height-default;
+  height: variables.$control-height-default;
+  flex-shrink: 0;
+  border-radius: variables.$border-radius-sm;
+  background-size: cover;
+  background-position: center;
+}
+
+.text {
+  min-width: 0;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

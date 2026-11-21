@@ -1,0 +1,71 @@
+@use "@/shared/styles/variables" as variables;
+
+%cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  border-radius: variables.$border-radius-sm;
+  background-color: var(--color-primary);
+  background-size: cover;
+  background-position: center;
+}
+
+.cover {
+  @extend %cover;
+  width: 280px;
+}
+
+.cover-mobile {
+  @extend %cover;
+  --cover-budget: calc(100svh - var(--cover-offset) - var(--page-bottom-inset, 0px) - #{variables.$padding-xs});
+  --cover-size: clamp(120px, calc(2 * var(--cover-budget) - 100%), 100%);
+  width: var(--cover-size);
+  margin-top: calc((100% - var(--cover-size)) / 2);
+  align-self: center;
+}
+
+.content {
+  min-width: 0;
+  padding: 4px;
+}
+
+.text {
+  min-width: 0;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.control {
+  --button-height: 44px;
+  width: 44px;
+  flex-shrink: 0;
+}
+
+.play {
+  --button-height: 64px;
+  width: 64px;
+  flex-shrink: 0;
+}
+
+.large svg[data-slot="icon"] {
+  width: variables.$icon-size-lg;
+  height: variables.$icon-size-lg;
+}
+
+.volume-row {
+  height: 64px;
+}
+
+.volume {
+  flex: 1;
+}
+
+.colored .control {
+  --button-color: var(--color-text-primary-dark);
+}

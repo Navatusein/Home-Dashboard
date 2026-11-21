@@ -15,8 +15,10 @@
   margin-left: calc(#{variables.$padding-md} + 100px);
 
   @include media.respond-below("sm") {
+    --page-bottom-inset: calc(#{variables.$padding-xs} + 75px);
+
     margin-left: unset;
-    margin-bottom: calc(#{variables.$padding-xs} + 75px);;
+    margin-bottom: var(--page-bottom-inset);
   }
 }
 
