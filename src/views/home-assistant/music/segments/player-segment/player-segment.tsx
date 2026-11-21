@@ -36,7 +36,11 @@ export default function PlayerSegment(props: Props) {
   return (
     <Flex vertical gap="xs">
       <SegmentHeader icon={mdiMusic} title="Player"/>
-      <div id={NOW_PLAYING_ID} className={styles["card"]}>
+      <div
+        id={NOW_PLAYING_ID}
+        className={styles["card"]}
+        onClick={(event) => event.currentTarget.scrollIntoView({behavior: "smooth", block: "start"})}
+      >
         <NowPlayingCard entity={props.player}/>
       </div>
       <Grid columns={isMobile ? 2 : 3} gap="xs">
