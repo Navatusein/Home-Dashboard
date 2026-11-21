@@ -30,6 +30,8 @@ const NEXT_REPEAT = {off: "all", all: "one", one: "off"} as const;
 const REPEAT_ICONS = {off: mdiRepeatOff, all: mdiRepeat, one: mdiRepeatOnce};
 
 const VOLUME_HIDE_DELAY = 4000;
+const SEEK_HOLD = 5000;
+const SEEK_TOLERANCE = 3;
 
 type Props = {
   entity: EntityNameMediaPlayer,
@@ -46,7 +48,7 @@ export default function NowPlayingCard(props: Props) {
   const coverRef = useRef<HTMLDivElement>(null);
 
   const [dragPosition, setDragPosition] = useState<number | null>(null);
-  const [seekTarget, setSeekTarget] = useState<{position: number, at: number, updatedAt: unknown} | null>(null);
+  const [seekTarget, setSeekTarget] = useState<{position: number, at: number} | null>(null);
   const [dragVolume, setDragVolume] = useState<number | null>(null);
   const [coverOffset, setCoverOffset] = useState(0);
   const [isVolumeOpen, setIsVolumeOpen] = useState(false);
@@ -73,11 +75,10 @@ export default function NowPlayingCard(props: Props) {
   const duration = attributes.media_duration ?? 0;
   const canSeek = hasMedia && (isPlaying || entity.state == "paused") && duration > 0;
   const updatedAt = attributes.media_position_updated_at ? new Date(attributes.media_position_updated_at).getTime() : now;
-  const pendingSeek = seekTarget?.updatedAt === attributes.media_position_updated_at ? seekTarget : null;
-  const reportedPosition = pendingSeek
-    ? pendingSeek.position + (isPlaying ? (now - pendingSeek.at) / 1000 : 0)
-    : (attributes.media_position ?? 0) + (isPlaying ? (now - updatedAt) / 1000 : 0);
-  const position = dragPosition ?? Math.min(duration, reportedPosition);
+  const reportedPosition = (attributes.media_position ?? 0) + (isPlaying ? (now - updatedAt) / 1000 : 0);
+  const seekPosition = seekTarget && seekTarget.position + (isPlaying ? Math.max(0, now - seekTarget.at) / 1000 : 0);
+  const isSeekPending = seekPosition != null && now - seekTarget!.at < SEEK_HOLD && Math.abs(reportedPosition - seekPosition) > SEEK_TOLERANCE;
+  const position = dragPosition ?? Math.min(duration, isSeekPending ? seekPosition : reportedPosition);
 
   const volume = dragVolume ?? Math.round((attributes.volume_level ?? 0) * 100);
 
@@ -92,7 +93,7 @@ export default function NowPlayingCard(props: Props) {
 
   const seek = (value: number) => {
     setDragPosition(null);
-    setSeekTarget({position: value, at: Date.now(), updatedAt: attributes.media_position_updated_at});
+    setSeekTarget({position: value, at: Date.now()});
     entity.service.mediaSeek({serviceData: {seek_position: value}});
   }
 
