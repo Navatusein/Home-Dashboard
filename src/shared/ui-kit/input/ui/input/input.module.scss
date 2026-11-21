@@ -1,0 +1,55 @@
+@use "@/shared/styles/variables" as variables;
+
+.base {
+  --input-border-radius: #{variables.$control-border-radius-sm};
+
+  display: flex;
+  align-items: center;
+  gap: variables.$control-padding-default;
+
+  height: variables.$control-height-default;
+  padding: 0 variables.$control-padding-default;
+
+  color: var(--color-text-primary);
+  background-color: var(--color-primary);
+  border-radius: var(--input-border-radius);
+
+  &.shape-round {
+    --input-border-radius: #{variables.$border-radius-rounded};
+  }
+
+  &:focus-within {
+    outline: 1px solid var(--color-text-secondary);
+  }
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+
+  font: inherit;
+  font-size: var(--font-size-md);
+  color: inherit;
+  background: transparent;
+  border: 0;
+  outline: 0;
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+  }
+}
+
+.clear {
+  display: flex;
+  flex-shrink: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}

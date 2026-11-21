@@ -17,6 +17,7 @@ import {Select} from "./select";
 import {Switch} from "./switch";
 import {Chart, ChartOption} from "./chart";
 import {Segmented, SegmentedOption} from "./segmented";
+import {Input} from "./input";
 
 export {
   BootstrapGrid,
@@ -37,7 +38,8 @@ export {
   Select,
   Switch,
   Chart,
-  Segmented
+  Segmented,
+  Input
 };
 
 export type {ChartOption, SegmentedOption};
