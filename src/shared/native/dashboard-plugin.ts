@@ -14,7 +14,16 @@ export type PlayerState = {
   duration: number;
   shuffle: boolean;
   repeat: RepeatMode;
+  index: number;
+  count: number;
   volume: number;
+}
+
+export type PhoneQueueItem = {
+  id: string;
+  title?: string;
+  artist?: string;
+  image?: string;
 }
 
 export type NativeTrack = {
@@ -48,6 +57,8 @@ export interface DashboardPlugin {
   setShuffle(options: {shuffle: boolean}): Promise<void>;
   setRepeat(options: {repeat: RepeatMode}): Promise<void>;
   setVolume(options: {volume: number}): Promise<void>;
+  getQueue(): Promise<{items: PhoneQueueItem[], index: number}>;
+  playIndex(options: {index: number}): Promise<void>;
   status(): Promise<PlayerState>;
   addListener(event: "playerState", listener: (state: PlayerState) => void): Promise<PluginListenerHandle>;
 }

@@ -1,13 +1,16 @@
 import {Button, Flex, SegmentHeader} from "@/shared/ui-kit";
-import {mdiCog, mdiMusic} from "@mdi/js";
+import {mdiCog, mdiMusic, mdiPlaylistPlay} from "@mdi/js";
 import {usePathname, useRouter} from "next/navigation";
 import {PhoneNowPlayingCard} from "@/widgets/home-assistant-cards/now-playing-card";
+import {StateCard} from "@/widgets/home-assistant-cards/state-card";
+import {usePhonePlayer} from "@/shared/hooks/use-phone-player";
 import {NOW_PLAYING_ID} from "../../constants/music-assistant";
 import styles from "./phone-player-segment.module.scss";
 
 export default function PhonePlayerSegment() {
   const router = useRouter();
   const pathname = usePathname();
+  const state = usePhonePlayer();
 
   return (
     <Flex vertical gap="xs">
@@ -30,6 +33,12 @@ export default function PhonePlayerSegment() {
       >
         <PhoneNowPlayingCard/>
       </div>
+      <StateCard
+        title="Queue"
+        text={state?.count ? `${state.index + 1} / ${state.count}` : "Empty"}
+        icon={mdiPlaylistPlay}
+        onClick={() => router.push(`${pathname}?modal=phone-queue`)}
+      />
     </Flex>
   )
 }

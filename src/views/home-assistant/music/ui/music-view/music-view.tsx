@@ -13,6 +13,7 @@ import TransferModal from "../../modals/transfer-modal/transfer-modal";
 import GroupModal from "../../modals/group-modal/group-modal";
 import CollectionModal from "../../modals/collection-modal/collection-modal";
 import PlayerSettingsModal from "../../modals/player-settings-modal/player-settings-modal";
+import PhoneQueueModal from "../../modals/phone-queue-modal/phone-queue-modal";
 import {useMusicPlayers} from "../../hooks/use-music-players";
 import {NOW_PLAYING_ID, PHONE_PLAYER} from "../../constants/music-assistant";
 import {MusicPlayerId} from "../../types/types";
@@ -70,6 +71,9 @@ export default function MusicView(props: Props) {
           <TransferModal player={entityPlayer} onPlayerChange={setPlayer}/>
           <GroupModal player={entityPlayer}/>
         </>
+      )}
+      {isPhoneSelected && (
+        <PhoneQueueModal/>
       )}
       <PlayerSettingsModal/>
     </Flex>

@@ -12,6 +12,7 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
@@ -212,6 +213,38 @@ class DashboardPlugin : Plugin() {
     }
 
     @PluginMethod
+    fun getQueue(call: PluginCall) {
+        withController(call) { player ->
+            val items = JSArray()
+
+            for (index in 0 until player.mediaItemCount) {
+                val item = player.getMediaItemAt(index)
+
+                items.put(
+                    JSObject()
+                        .put("id", item.mediaId)
+                        .put("title", item.mediaMetadata.title?.toString())
+                        .put("artist", item.mediaMetadata.artist?.toString())
+                        .put("image", item.mediaMetadata.artworkUri?.toString())
+                )
+            }
+
+            call.resolve(JSObject().put("items", items).put("index", player.currentMediaItemIndex))
+        }
+    }
+
+    @PluginMethod
+    fun playIndex(call: PluginCall) {
+        val index = call.getInt("index") ?: return call.reject("index is required")
+
+        withController(call) { player ->
+            player.seekTo(index, 0)
+            player.play()
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
     fun status(call: PluginCall) {
         withController(call) { player -> call.resolve(state(player)) }
     }
@@ -269,6 +302,8 @@ class DashboardPlugin : Plugin() {
                 Player.REPEAT_MODE_ALL -> "all"
                 else -> "off"
             })
+            .put("index", player.currentMediaItemIndex)
+            .put("count", player.mediaItemCount)
             .put("volume", Math.round(audio.getStreamVolume(AudioManager.STREAM_MUSIC) * 100f / audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)))
     }
 }
