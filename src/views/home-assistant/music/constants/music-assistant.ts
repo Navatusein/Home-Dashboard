@@ -1,5 +1,7 @@
 import {mdiAccountMusic, mdiAlbum, mdiPlaylistMusic} from "@mdi/js";
 
+export const NOW_PLAYING_ID = "now-playing";
+
 export const MUSIC_ASSISTANT_CONFIG_ENTRY = "01M7G3VE9J4CXGTB7VVB9K6M1P";
 
 export const MEDIA_TYPE_ICONS = {playlist: mdiPlaylistMusic, album: mdiAlbum, artist: mdiAccountMusic};

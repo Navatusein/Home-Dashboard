@@ -12,6 +12,7 @@ import TransferModal from "../../modals/transfer-modal/transfer-modal";
 import GroupModal from "../../modals/group-modal/group-modal";
 import CollectionModal from "../../modals/collection-modal/collection-modal";
 import {useMusicPlayers} from "../../hooks/use-music-players";
+import {NOW_PLAYING_ID} from "../../constants/music-assistant";
 
 type Props = {
   musicAssistantUrl?: string,
@@ -23,6 +24,11 @@ export default function MusicView(props: Props) {
 
   const player = storedPlayer && players.includes(storedPlayer) ? storedPlayer : players.at(0);
 
+  const selectPlayer = (selected: EntityNameMediaPlayer) => {
+    setPlayer(selected);
+    document.getElementById(NOW_PLAYING_ID)?.scrollIntoView({behavior: "smooth", block: "start"});
+  }
+
   return (
     <Flex vertical gap="sm">
       <BootstrapGrid.Row verticalGutter="sm" horizontalGutter="sm">
@@ -32,7 +38,7 @@ export default function MusicView(props: Props) {
               <InfoCard/>
             </ResponsiveToggler>
             {player && (
-              <PlayersSegment players={players} player={player} onPlayerChange={setPlayer}/>
+              <PlayersSegment players={players} player={player} onPlayerChange={selectPlayer}/>
             )}
           </Flex>
         </BootstrapGrid.Column>
