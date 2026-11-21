@@ -1,8 +1,11 @@
 const CACHE = "home-dashboard-v2";
 const FALLBACK_PAGE = "/home-assistant/home";
+const PRECACHE_PAGES = [FALLBACK_PAGE, "/home-assistant/music"];
 const NAVIGATION_TIMEOUT = 3000;
 
-self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("install", (event) => {
+  event.waitUntil(precache().catch(() => {}).then(() => self.skipWaiting()));
+});
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
@@ -26,6 +29,20 @@ self.addEventListener("fetch", (event) => {
   else
     event.respondWith(networkFirst(request));
 });
+
+function precache() {
+  return caches.open(CACHE).then((cache) => Promise.all(PRECACHE_PAGES.map((page) =>
+    fetch(page).then((response) => {
+      if (!response.ok || response.redirected)
+        return;
+
+      return response.clone().text().then((html) => {
+        const assets = new Set(html.match(/\/_next\/static\/[^"'\s)\\]+/g));
+        return Promise.all([cache.put(page, response), cache.addAll([...assets])]);
+      });
+    })
+  )));
+}
 
 function store(request, response) {
   if (response.ok && !response.redirected) {
