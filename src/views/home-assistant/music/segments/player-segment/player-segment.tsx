@@ -39,7 +39,10 @@ export default function PlayerSegment(props: Props) {
       <div
         id={NOW_PLAYING_ID}
         className={styles["card"]}
-        onClick={(event) => event.currentTarget.scrollIntoView({behavior: "smooth", block: "start"})}
+        onClick={(event) => {
+          if (!(event.target as Element).closest("button, [data-slot='slider'], [data-interactive]"))
+            event.currentTarget.scrollIntoView({behavior: "smooth", block: "start"});
+        }}
       >
         <NowPlayingCard entity={props.player}/>
       </div>
