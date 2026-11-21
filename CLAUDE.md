@@ -108,7 +108,9 @@ No Redux/Zustand. State is React Context + local hooks. Shared contexts: `ModalC
 
 ### PWA
 
-`src/app/manifest.ts` plus `public/sw.js`, registered by the `ServiceWorker` feature in the root layout (production only; in `next dev` it unregisters itself, because dev chunks keep their URLs and cache-first would serve stale code). On install it precaches `/home-assistant/home` and `/home-assistant/music` with the `/_next/static/*` files their HTML references. `/_next/static/*` is cache-first, navigations are network-first with a 3 s timeout and fall back to the cached page or `/home-assistant/home`, RSC requests bypass the worker.
+`src/app/manifest.ts` plus `public/sw.js`, registered by the `ServiceWorker` feature in the root layout (production only; in `next dev` it unregisters itself, because dev chunks keep their URLs and cache-first would serve stale code). On install it precaches `/home-assistant/home` and `/home-assistant/music` with the `/_next/static/*` files their HTML references. `/_next/static/*` is cache-first, navigations are network-first with a 3 s timeout and fall back to the cached page or `/home-assistant/home`, RSC and `/api/*` requests bypass the worker.
+
+Open pages (especially the Android app, which never reloads by itself) learn about a new deploy from the `VersionCheck` feature in the root layout: `next.config.ts` generates a build id per build and inlines it as `process.env.BUILD_ID`, `/api/version` returns the running server's id, and the feature compares them every minute and when the page becomes visible, showing a "New version available / Update" banner that reloads the page.
 
 ### Android app (Capacitor)
 

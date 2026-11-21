@@ -5,6 +5,7 @@ import type {Metadata, Viewport} from "next";
 import {ReactNode} from "react";
 import {BaseLayout} from "@/app/layouts/base-layout";
 import {ServiceWorker} from "@/features/service-worker";
+import {VersionCheck} from "@/features/version-check";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,7 @@ export default function Layout(props: Props) {
     <html lang="en" data-lt-installed={true} suppressHydrationWarning={true} data-color-theme="dark">
     <body>
         <ServiceWorker/>
+        <VersionCheck/>
         <BaseLayout>
           {props.children}
         </BaseLayout>
