@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     {queue_id: queueId, limit: limit, offset: offset},
     (items, musicAssistantUrl) => items.map((item) => item.media_item
       ? toMusicTrack(item.queue_item_id, {...item.media_item, image: item.image ?? item.media_item.image}, musicAssistantUrl)
-      : {id: item.queue_item_id, uri: "", title: item.name, artist: "", image: musicAssistantImageUrl(item.image, musicAssistantUrl)}
+      : {id: item.queue_item_id, uri: "", navidromeId: null, title: item.name, artist: "", image: musicAssistantImageUrl(item.image, musicAssistantUrl)}
     ),
   );
 }

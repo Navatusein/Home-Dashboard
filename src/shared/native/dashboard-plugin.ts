@@ -4,6 +4,14 @@ export type PlayerState = {
   playing: boolean;
   active: boolean;
   title?: string;
+  artist?: string;
+}
+
+export type NativeTrack = {
+  id: string;
+  title: string;
+  artist: string;
+  image: string | null;
 }
 
 export type NavidromeSettings = {
@@ -20,7 +28,8 @@ export interface DashboardPlugin {
   openSetup(): Promise<void>;
   getNavidrome(): Promise<NavidromeSettings>;
   saveNavidrome(options: {url: string, username: string, password?: string, quality: string}): Promise<void>;
-  start(): Promise<void>;
+  checkNavidrome(): Promise<{ok: boolean, error?: string}>;
+  play(options: {tracks: NativeTrack[], startIndex: number}): Promise<void>;
   stop(): Promise<void>;
   status(): Promise<PlayerState>;
   addListener(event: "playerState", listener: (state: PlayerState) => void): Promise<PluginListenerHandle>;

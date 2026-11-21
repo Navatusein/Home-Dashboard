@@ -19,6 +19,7 @@ export type QueueItem = {
 export type MusicTrack = {
   id: string,
   uri: string,
+  navidromeId: string | null,
   title: string,
   artist: string,
   image: string | null,

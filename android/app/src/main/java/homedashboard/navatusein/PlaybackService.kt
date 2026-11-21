@@ -2,10 +2,18 @@ package homedashboard.navatusein
 
 import android.app.PendingIntent
 import android.content.Intent
-import android.os.Looper
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
+import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.cache.CacheDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
+import com.google.common.util.concurrent.Futures
+import com.google.common.util.concurrent.ListenableFuture
 
 @UnstableApi
 class PlaybackService : MediaSessionService() {
@@ -14,6 +22,24 @@ class PlaybackService : MediaSessionService() {
     override fun onCreate() {
         super.onCreate()
 
+        val navidrome = Navidrome(this)
+
+        val dataSource = CacheDataSource.Factory()
+            .setCache(MediaCache.get(this))
+            .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
+
+        val player = ExoPlayer.Builder(this)
+            .setMediaSourceFactory(DefaultMediaSourceFactory(dataSource))
+            .setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setUsage(C.USAGE_MEDIA)
+                    .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                    .build(),
+                true
+            )
+            .setHandleAudioBecomingNoisy(true)
+            .build()
+
         val activity = PendingIntent.getActivity(
             this,
             0,
@@ -21,8 +47,22 @@ class PlaybackService : MediaSessionService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        session = MediaSession.Builder(this, StubPlayer(Looper.getMainLooper()))
+        session = MediaSession.Builder(this, player)
             .setSessionActivity(activity)
+            .setCallback(object : MediaSession.Callback {
+                override fun onAddMediaItems(
+                    mediaSession: MediaSession,
+                    controller: MediaSession.ControllerInfo,
+                    mediaItems: MutableList<MediaItem>
+                ): ListenableFuture<MutableList<MediaItem>> = Futures.immediateFuture(
+                    mediaItems.map { item ->
+                        item.buildUpon()
+                            .setUri(navidrome.streamUri(item.mediaId))
+                            .setCustomCacheKey(navidrome.cacheKey(item.mediaId))
+                            .build()
+                    }.toMutableList()
+                )
+            })
             .build()
     }
 

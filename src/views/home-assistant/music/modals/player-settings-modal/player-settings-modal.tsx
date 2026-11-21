@@ -40,8 +40,10 @@ export default function PlayerSettingsModal() {
       .then(() => {
         setSettings({...settings, hasPassword: settings.hasPassword || !!password});
         setPassword("");
-        setStatus("Saved");
+        setStatus("Checking connection…");
+        return Dashboard.checkNavidrome();
       })
+      .then((result) => result && setStatus(result.ok ? "Connected" : `Saved, but ${result.error}`))
       .catch((error) => setStatus(String(error?.message ?? error)));
   }
 
@@ -73,19 +75,21 @@ export default function PlayerSettingsModal() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
-            <Select
-              items={NAVIDROME_QUALITIES}
-              value={settings?.quality}
-              onValueChange={(quality) => settings && setSettings({...settings, quality: quality})}
-            />
             <Flex align="center" justify="space-between" gap="xs">
-              <Typography.Text fontSize="sm" textColor="secondary" style={{padding: "0 4px"}}>
-                {status}
-              </Typography.Text>
+              <Select
+                items={NAVIDROME_QUALITIES}
+                value={settings?.quality}
+                onValueChange={(quality) => settings && setSettings({...settings, quality: quality})}
+              />
               <Button color="purple" disabled={!settings} onClick={save}>
                 Save
               </Button>
             </Flex>
+            {status && (
+              <Typography.Text fontSize="sm" textColor="secondary" style={{padding: "0 4px"}}>
+                {status}
+              </Typography.Text>
+            )}
           </Flex>
           <SegmentHeader icon={mdiCellphoneCog} title="App"/>
           <Button icon={mdiWeb} onClick={() => Dashboard.openSetup()}>

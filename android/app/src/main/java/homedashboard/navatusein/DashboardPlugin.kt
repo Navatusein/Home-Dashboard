@@ -1,7 +1,11 @@
 package homedashboard.navatusein
 
 import android.content.ComponentName
+import android.net.Uri
+import android.os.Looper
 import androidx.core.content.ContextCompat
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
@@ -10,6 +14,7 @@ import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
 import com.getcapacitor.annotation.CapacitorPlugin
+import org.json.JSONObject
 
 @CapacitorPlugin(name = "Dashboard")
 class DashboardPlugin : Plugin() {
@@ -72,7 +77,7 @@ class DashboardPlugin : Plugin() {
                 .put("url", settings.navidromeUrl)
                 .put("username", settings.navidromeUsername)
                 .put("quality", settings.navidromeQuality)
-                .put("hasPassword", SecretStore(context).has(NAVIDROME_PASSWORD))
+                .put("hasPassword", SecretStore(context).has(Navidrome.PASSWORD_KEY))
         )
     }
 
@@ -83,14 +88,44 @@ class DashboardPlugin : Plugin() {
         settings.navidromeUsername = call.getString("username")?.trim()
         settings.navidromeQuality = call.getString("quality") ?: settings.navidromeQuality
 
-        call.getString("password")?.takeIf { it.isNotEmpty() }?.let { SecretStore(context).set(NAVIDROME_PASSWORD, it) }
+        call.getString("password")?.takeIf { it.isNotEmpty() }?.let { SecretStore(context).set(Navidrome.PASSWORD_KEY, it) }
 
         call.resolve()
     }
 
     @PluginMethod
-    fun start(call: PluginCall) {
+    fun checkNavidrome(call: PluginCall) {
+        Thread {
+            val error = Navidrome(context).ping()
+            call.resolve(JSObject().put("ok", error == null).put("error", error))
+        }.start()
+    }
+
+    @PluginMethod
+    fun play(call: PluginCall) {
+        val tracks = call.getArray("tracks")?.toList<JSONObject>()
+
+        if (tracks.isNullOrEmpty()) {
+            call.reject("tracks are required")
+            return
+        }
+
+        val items = tracks.map { track ->
+            MediaItem.Builder()
+                .setMediaId(track.getString("id"))
+                .setMediaMetadata(
+                    MediaMetadata.Builder()
+                        .setTitle(track.optString("title"))
+                        .setArtist(track.optString("artist"))
+                        .setArtworkUri(if (track.isNull("image")) null else Uri.parse(track.getString("image")))
+                        .build()
+                )
+                .build()
+        }
+
         withController(call) { player ->
+            player.setMediaItems(items, call.getInt("startIndex") ?: 0, 0)
+            player.prepare()
             player.play()
             call.resolve()
         }
@@ -100,6 +135,7 @@ class DashboardPlugin : Plugin() {
     fun stop(call: PluginCall) {
         withController(call) { player ->
             player.stop()
+            player.clearMediaItems()
             call.resolve()
         }
     }
@@ -115,33 +151,36 @@ class DashboardPlugin : Plugin() {
     }
 
     private fun withController(call: PluginCall, action: (MediaController) -> Unit) {
+        val mainExecutor = ContextCompat.getMainExecutor(context)
+
         controller?.let {
-            action(it)
+            mainExecutor.execute { action(it) }
             return
         }
 
         val token = SessionToken(context, ComponentName(context, PlaybackService::class.java))
-        val future = MediaController.Builder(context, token).buildAsync()
+        val future = MediaController.Builder(context, token)
+            .setApplicationLooper(Looper.getMainLooper())
+            .buildAsync()
 
         future.addListener({
-            try {
-                val created = future.get()
-                created.addListener(listener)
-                controller = created
-                action(created)
+            val created = try {
+                future.get()
             }
             catch (error: Exception) {
                 call.reject("Unable to connect to the playback service", error)
+                return@addListener
             }
-        }, ContextCompat.getMainExecutor(context))
-    }
 
-    private companion object {
-        const val NAVIDROME_PASSWORD = "navidrome_password"
+            created.addListener(listener)
+            controller = created
+            action(created)
+        }, mainExecutor)
     }
 
     private fun state(player: Player) = JSObject()
-        .put("playing", player.playWhenReady)
+        .put("playing", player.playWhenReady && player.playbackState != Player.STATE_IDLE)
         .put("active", player.playbackState != Player.STATE_IDLE)
         .put("title", player.mediaMetadata.title?.toString())
+        .put("artist", player.mediaMetadata.artist?.toString())
 }

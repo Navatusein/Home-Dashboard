@@ -11,6 +11,7 @@ export type MusicAssistantTrack = {
   artists?: {name: string}[],
   album?: {image?: MusicAssistantImage} | null,
   metadata?: {images?: MusicAssistantImage[] | null},
+  provider_mappings?: {provider_domain: string, item_id: string}[],
 }
 
 export async function musicAssistantRequest<T>(request: NextRequest, command: string, args: object, map: (result: T, musicAssistantUrl: string) => unknown) {
@@ -45,6 +46,7 @@ export function toMusicTrack(id: string, track: MusicAssistantTrack, musicAssist
   return {
     id: id,
     uri: track.uri,
+    navidromeId: track.provider_mappings?.find((mapping) => mapping.provider_domain == "opensubsonic")?.item_id ?? null,
     title: track.name,
     artist: [...new Set(track.artists?.map((artist) => artist.name))].join(", "),
     image: musicAssistantImageUrl(image, musicAssistantUrl),
