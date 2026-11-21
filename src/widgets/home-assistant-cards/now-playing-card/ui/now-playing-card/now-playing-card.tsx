@@ -46,6 +46,7 @@ export default function NowPlayingCard(props: Props) {
   const coverRef = useRef<HTMLDivElement>(null);
 
   const [dragPosition, setDragPosition] = useState<number | null>(null);
+  const [seekTarget, setSeekTarget] = useState<{position: number, at: number, updatedAt: unknown} | null>(null);
   const [dragVolume, setDragVolume] = useState<number | null>(null);
   const [coverOffset, setCoverOffset] = useState(0);
   const [isVolumeOpen, setIsVolumeOpen] = useState(false);
@@ -72,7 +73,11 @@ export default function NowPlayingCard(props: Props) {
   const duration = attributes.media_duration ?? 0;
   const canSeek = hasMedia && (isPlaying || entity.state == "paused") && duration > 0;
   const updatedAt = attributes.media_position_updated_at ? new Date(attributes.media_position_updated_at).getTime() : now;
-  const position = dragPosition ?? Math.min(duration, (attributes.media_position ?? 0) + (isPlaying ? (now - updatedAt) / 1000 : 0));
+  const pendingSeek = seekTarget?.updatedAt === attributes.media_position_updated_at ? seekTarget : null;
+  const reportedPosition = pendingSeek
+    ? pendingSeek.position + (isPlaying ? (now - pendingSeek.at) / 1000 : 0)
+    : (attributes.media_position ?? 0) + (isPlaying ? (now - updatedAt) / 1000 : 0);
+  const position = dragPosition ?? Math.min(duration, reportedPosition);
 
   const volume = dragVolume ?? Math.round((attributes.volume_level ?? 0) * 100);
 
@@ -87,6 +92,7 @@ export default function NowPlayingCard(props: Props) {
 
   const seek = (value: number) => {
     setDragPosition(null);
+    setSeekTarget({position: value, at: Date.now(), updatedAt: attributes.media_position_updated_at});
     entity.service.mediaSeek({serviceData: {seek_position: value}});
   }
 
