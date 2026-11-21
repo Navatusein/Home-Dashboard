@@ -1,11 +1,12 @@
 @use "@/shared/styles/variables" as variables;
+@use "@/shared/styles/mixins/scrollbar" as scrollbar;
 
 .players {
   display: flex;
   justify-content: safe space-around;
   gap: variables.$padding-xs;
   overflow-x: auto;
-  scrollbar-width: none;
+  @include scrollbar.hidden;
 
   & > * {
     flex-shrink: 0;

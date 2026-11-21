@@ -1,5 +1,6 @@
 @use "@/shared/styles/variables" as variables;
 @use "@/shared/styles/mixins/media" as media;
+@use "@/shared/styles/mixins/scrollbar" as scrollbar;
 
 .status {
   display: flex;
@@ -13,7 +14,7 @@
     contain: inline-size;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+    @include scrollbar.hidden;
 
     > * {
       display: flex;
