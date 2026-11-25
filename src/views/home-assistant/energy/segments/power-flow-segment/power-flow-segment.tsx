@@ -32,9 +32,26 @@ const HOME: PowerFlowNode = {
           color: "pink",
           children: [
             {
-              title: "PC",
-              entity: "sensor.pc_nas_wr01b_power",
+              title: "PC Group",
+              entity: "sensor.pc_group_nas_wr01b_power",
               color: "green",
+              children: [
+                {
+                  title: "PC",
+                  entity: "sensor.pc_nas_wr01b_power",
+                  color: "teal",
+                },
+                {
+                  title: "Left Monitor",
+                  entity: "sensor.monitor_left_nas_wr01b_power",
+                  color: "blue",
+                },
+                {
+                  title: "Central Monitor",
+                  entity: "sensor.monitor_sentral_nas_wr01b_power",
+                  color: "purple",
+                },
+              ],
             },
             {
               title: "Orion",
@@ -64,8 +81,8 @@ const HOME: PowerFlowNode = {
           ],
         },
         {
-          title: "Monitor",
-          entity: "sensor.0xa4c138dd3f063ee4_power",
+          title: "Right Monitor",
+          entity: "sensor.monitor_right_nas_wr01b_power",
           color: "teal",
         },
         {
