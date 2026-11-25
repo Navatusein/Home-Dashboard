@@ -1,14 +1,16 @@
 import {Card, Flex, RoundedIcon, Switch, Typography} from "@/shared/ui-kit";
 import {isOffState, isUnavailableState} from "@hakit/core";
 import {useEntity} from "@/shared/hooks/use-entity";
-import {EntityNameSwitch} from "@/shared/types/ha-domains";
+import {EntityNameSensor, EntityNameSwitch} from "@/shared/types/ha-domains";
 import {ColorToken} from "@/shared/constants/colors";
 import {useConfirm} from "@/shared/hooks/use-confirm";
+import {roundTextTransformer} from "@/shared/text-transformers/number-text-transformer";
 
 type Props = {
   title: string,
   icon: string,
   entity: EntityNameSwitch,
+  powerEntity?: EntityNameSensor,
   color?: ColorToken,
   confirmOn?: boolean,
   confirmOff?: boolean,
@@ -17,9 +19,11 @@ type Props = {
 
 export default function SwitchCard(props: Props) {
   const entity = useEntity(props.entity);
+  const power = useEntity(props.powerEntity ?? "unknown", {returnNullIfNotFound: true});
 
   const isUnavailable = isUnavailableState(entity.state);
   const isOn = !isOffState(entity.state);
+  const isPowerShown = isOn && power != null && !isUnavailableState(power.state);
 
   const toggleEntity = () => isOn ? entity.service.turnOff() : entity.service.turnOn();
 
@@ -51,7 +55,12 @@ export default function SwitchCard(props: Props) {
           </Flex>
           <Flex vertical style={{padding: "0 4px 4px"}}>
             <Typography.Text bold>
-              {isUnavailable ? "--" : (isOn ? "On" : "Off")}
+              {isUnavailable ? "--" : (isPowerShown ? roundTextTransformer(power.state) : (isOn ? "On" : "Off"))}
+              {!isUnavailable && isPowerShown && (
+                <Typography.Text fontSize="xs" textColor="secondary">
+                  {` ${power.attributes.unit_of_measurement ?? ""}`}
+                </Typography.Text>
+              )}
             </Typography.Text>
             <Typography.Text fontSize="sm" textColor="secondary">
               {isConfirming ? "Tap to confirm" : props.title}
@@ -75,7 +84,12 @@ export default function SwitchCard(props: Props) {
           <RoundedIcon path={props.icon}/>
           <Flex vertical>
             <Typography.Text bold>
-              {isUnavailable ? "--" : (isOn ? "On" : "Off")}
+              {isUnavailable ? "--" : (isPowerShown ? roundTextTransformer(power.state) : (isOn ? "On" : "Off"))}
+              {!isUnavailable && isPowerShown && (
+                <Typography.Text fontSize="xs" textColor="secondary">
+                  {` ${power.attributes.unit_of_measurement ?? ""}`}
+                </Typography.Text>
+              )}
             </Typography.Text>
             <Typography.Text fontSize="sm" textColor="secondary">
               {isConfirming ? "Tap to confirm" : props.title}
