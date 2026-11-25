@@ -30,6 +30,8 @@ const REPEAT_ICONS = {off: mdiRepeatOff, all: mdiRepeat, one: mdiRepeatOnce};
 const VOLUME_HIDE_DELAY = 4000;
 const SEEK_HOLD = 5000;
 const SEEK_TOLERANCE = 3;
+const VOLUME_HOLD = 5000;
+const VOLUME_TOLERANCE = 1;
 
 type Props = {
   player: NowPlaying,
@@ -47,6 +49,7 @@ export default function NowPlayingCard(props: Props) {
   const [dragPosition, setDragPosition] = useState<number | null>(null);
   const [seekTarget, setSeekTarget] = useState<{position: number, at: number} | null>(null);
   const [dragVolume, setDragVolume] = useState<number | null>(null);
+  const [volumeTarget, setVolumeTarget] = useState<{volume: number, at: number} | null>(null);
   const [coverOffset, setCoverOffset] = useState(0);
   const [isVolumeOpen, setIsVolumeOpen] = useState(false);
 
@@ -68,7 +71,8 @@ export default function NowPlayingCard(props: Props) {
   const isSeekPending = seekPosition != null && now - seekTarget!.at < SEEK_HOLD && Math.abs(reportedPosition - seekPosition) > SEEK_TOLERANCE;
   const position = dragPosition ?? Math.min(duration, isSeekPending ? seekPosition : reportedPosition);
 
-  const volume = dragVolume ?? player.volume;
+  const isVolumePending = volumeTarget != null && now - volumeTarget.at < VOLUME_HOLD && Math.abs(player.volume - volumeTarget.volume) > VOLUME_TOLERANCE;
+  const volume = dragVolume ?? (isVolumePending ? volumeTarget.volume : player.volume);
 
   useEffect(() => {
     if (!isVolumeOpen)
@@ -87,6 +91,7 @@ export default function NowPlayingCard(props: Props) {
 
   const changeVolume = (value: number) => {
     setDragVolume(null);
+    setVolumeTarget({volume: value, at: Date.now()});
     actions.setVolume(value);
   }
 
