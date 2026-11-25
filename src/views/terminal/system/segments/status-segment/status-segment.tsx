@@ -8,7 +8,7 @@ export default function StatusSegment() {
   return (
     <>
       <AgentDisabledProvider>
-        <Grid.Section rowStart={2} colStart={1} direction="horizontal">
+        <Grid.Section rowStart={2} colStart={5} direction="horizontal">
           <ChargedButton
             title="Mouse"
             chargeSensor="sensor.navatusein_pc_g_pro_mouse_battery"
