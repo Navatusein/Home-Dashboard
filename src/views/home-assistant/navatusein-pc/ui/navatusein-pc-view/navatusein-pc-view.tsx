@@ -4,6 +4,8 @@ import {BootstrapGrid, Flex, ResponsiveToggler} from "@/shared/ui-kit";
 import {useUser} from "@hakit/core";
 import {InfoCard} from "@/widgets/home-assistant-cards/info-card";
 import PowerSegment from "../../segments/power-segment/power-segment";
+import SocketsSegment from "../../segments/sockets-segment/sockets-segment";
+import MonitorsSegment from "../../segments/monitors-segment/monitors-segment";
 import SoundSegment from "../../segments/sound-segment/sound-segment";
 import MediaSegment from "../../segments/media-segment/media-segment";
 import DiscordSegment from "../../segments/discord-segment/discord-segment";
@@ -29,6 +31,8 @@ export default function NavatuseinPcView() {
         <BootstrapGrid.Column span={8} lg={12} md={24}>
           <Flex vertical gap="sm">
             <PowerSegment/>
+            <SocketsSegment/>
+            <MonitorsSegment/>
             <DiscordSegment/>
           </Flex>
         </BootstrapGrid.Column>
