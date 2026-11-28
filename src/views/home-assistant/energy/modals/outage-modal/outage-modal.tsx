@@ -22,6 +22,7 @@ import {formatDuration} from "@/shared/helpers/format-duration";
 import {formatTime} from "@/shared/helpers/format-time";
 import {clipRanges, dropShortRanges, mergeRanges} from "@/shared/helpers/time-ranges";
 import {OUTAGE_STATUS} from "../../constants/outage-status";
+import {getDayStatus} from "../../helpers/day-status";
 
 const DAYS = [
   {value: -1, text: "Yesterday"},
@@ -36,9 +37,8 @@ export default function OutageModal() {
   const [day, setDay] = useState(0);
   const now = useNow(60_000);
 
-  const updatedOn = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_schedule_updated_on");
-  const statusToday = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_status_today");
-  const statusTomorrow = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_status_tomorrow");
+  const updatedOn = useEntity("sensor.vul_stusa_vasilia_9_schedule_updated_on");
+  const dataChangedOn = useEntity("sensor.vul_stusa_vasilia_9_schedule_data_changed_on");
   const batteryRuntime = useEntity("sensor.victron_battery_runtime");
   const batteryChargeTime = useEntity("sensor.victron_battery_charge_time");
   const batteryCharge = useEntity("sensor.pylontech_battery_id_512_charge");
@@ -46,19 +46,19 @@ export default function OutageModal() {
   const todayStart = new Date(now).setHours(0, 0, 0, 0);
   const dayStart = shiftDays(todayStart, day);
 
-  const planned = useCalendarEvents("calendar.yasno_kiiv_vul_stusa_vasilia_9_planned_outages", todayStart, shiftDays(todayStart, 2), updatedOn.state);
-  const probable = useCalendarEvents("calendar.yasno_kiiv_vul_stusa_vasilia_9_probable_outages", todayStart, shiftDays(todayStart, 2), updatedOn.state);
+  const planned = useCalendarEvents("calendar.vul_stusa_vasilia_9_planned_outages", todayStart, shiftDays(todayStart, 2), dataChangedOn.state);
+  const scheduled = useCalendarEvents("calendar.vul_stusa_vasilia_9_scheduled_outages", todayStart, shiftDays(todayStart, 2), dataChangedOn.state);
   const actual = dropShortRanges(mergeRanges(useStateRanges("sensor.gx_device_ac_active_input_source", "not_connected", shiftDays(todayStart, -1), now), 5), 5);
-  const schedule = useStateRanges("sensor.yasno_kiiv_vul_stusa_vasilia_9_electricity", "outage", shiftDays(todayStart, -1), now);
+  const schedule = useStateRanges("sensor.vul_stusa_vasilia_9_electricity", "planned_outage", shiftDays(todayStart, -1), now);
   const batteryHistory = useHistoryStates(["sensor.pylontech_battery_id_512_charge"], (now - shiftDays(todayStart, -1)) / 3_600_000);
   const charging = dropShortRanges(mergeRanges(useStateRanges("sensor.gx_device_dc_battery_state", "charging", shiftDays(todayStart, -1), now), 5), 5);
 
   const current = planned.find(([from, to]) => from <= now && to > now);
   const next = planned.filter(([from]) => from > now).sort(([a], [b]) => a - b)[0];
   const isYesterday = day == -1;
-  const status = isYesterday ? null : (day == 0 ? statusToday : statusTomorrow).state;
-  const isPending = status == "waiting_for_schedule";
   const dayEnd = shiftDays(dayStart, 1);
+  const status = isYesterday ? null : getDayStatus(planned, scheduled, dayStart, dayEnd);
+  const isPending = status == "waiting_for_schedule";
   const dayMinutes = (dayEnd - dayStart) / 60_000;
   const runtime = isUnavailableState(batteryRuntime.state) ? null : Number(batteryRuntime.state) * 60;
   const chargeTime = isUnavailableState(batteryChargeTime.state) ? null : Number(batteryChargeTime.state);
@@ -112,9 +112,8 @@ export default function OutageModal() {
             dayStart={dayStart}
             dayEnd={dayEnd}
             outages={outages}
-            probable={isYesterday ? [] : probable}
+            probable={isYesterday ? [] : scheduled}
             now={now}
-            pending={isPending}
             schedule={outagesSchedule}
             charging={day == 1 ? undefined : charging}
             batteryCharge={day == 1 ? undefined : batteryHistory["sensor.pylontech_battery_id_512_charge"]}

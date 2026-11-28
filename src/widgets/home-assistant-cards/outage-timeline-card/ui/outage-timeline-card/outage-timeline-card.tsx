@@ -16,7 +16,6 @@ type Props = {
   charging?: TimeRange[];
   batteryCharge?: HistoryPoint[];
   now: number;
-  pending?: boolean;
 }
 
 export default function OutageTimelineCard(props: Props) {
@@ -59,11 +58,10 @@ export default function OutageTimelineCard(props: Props) {
           schedule={schedule}
           charging={charging}
           now={props.now}
-          pending={props.pending}
         />
-        {props.pending || segments.length == 0 ? (
+        {segments.length == 0 ? (
           <Typography.Text textColor="secondary">
-            {props.pending ? "Schedule not published yet" : "No outages"}
+            No outages
           </Typography.Text>
         ) : (
           <Flex vertical gap={hasScheduleRows || isMobile ? "sm" : "xs"}>

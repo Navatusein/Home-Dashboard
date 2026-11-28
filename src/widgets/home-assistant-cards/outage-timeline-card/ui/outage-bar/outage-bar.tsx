@@ -19,7 +19,6 @@ type Props = {
   schedule?: TimeRange[];
   charging?: TimeRange[];
   now: number;
-  pending?: boolean;
 }
 
 export default function OutageBar(props: Props) {
@@ -45,7 +44,7 @@ export default function OutageBar(props: Props) {
           ))}
         </div>
       )}
-      <div className={styles["bar"]} style={{background: props.pending ? COLORS.outage : gradient}}>
+      <div className={styles["bar"]} style={{background: gradient}}>
         {props.now >= props.dayStart && props.now < props.dayEnd && (
           <div className={styles["now"]} style={{left: `${percent(props.now)}%`}}/>
         )}

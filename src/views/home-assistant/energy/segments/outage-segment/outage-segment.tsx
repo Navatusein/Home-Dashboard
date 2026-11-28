@@ -13,9 +13,11 @@ import {isUnavailableState} from "@hakit/core";
 import {useEntity} from "@/shared/hooks/use-entity";
 import {StateCard} from "@/widgets/home-assistant-cards/state-card";
 import {useNow} from "@/shared/hooks/use-now";
+import {useCalendarEvents} from "@/shared/hooks/use-calendar-events";
 import {formatDuration} from "@/shared/helpers/format-duration";
 import {usePathname, useRouter} from "next/navigation";
 import {OUTAGE_STATUS} from "../../constants/outage-status";
+import {getDayStatus} from "../../helpers/day-status";
 
 export default function OutageSegment() {
   const now = useNow(30_000);
@@ -23,18 +25,23 @@ export default function OutageSegment() {
   const pathname = usePathname();
 
   const inputSource = useEntity("sensor.gx_device_ac_active_input_source");
-  const nextPlanned = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_next_planned_outage");
-  const nextProbable = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_next_probable_outage");
-  const nextConnectivity = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_next_connectivity");
-  const statusTomorrow = useEntity("sensor.yasno_kiiv_vul_stusa_vasilia_9_status_tomorrow");
+  const nextPlanned = useEntity("sensor.vul_stusa_vasilia_9_next_planned_outage");
+  const nextScheduled = useEntity("sensor.vul_stusa_vasilia_9_next_scheduled_outage");
+  const nextConnectivity = useEntity("sensor.vul_stusa_vasilia_9_next_connectivity");
+  const dataChangedOn = useEntity("sensor.vul_stusa_vasilia_9_schedule_data_changed_on");
   const batteryRuntime = useEntity("sensor.victron_battery_runtime");
   const batteryChargeTime = useEntity("sensor.victron_battery_charge_time");
+
+  const tomorrowStart = new Date(now).setHours(24, 0, 0, 0);
+  const tomorrowEnd = new Date(tomorrowStart).setHours(24, 0, 0, 0);
+  const planned = useCalendarEvents("calendar.vul_stusa_vasilia_9_planned_outages", tomorrowStart, tomorrowEnd, dataChangedOn.state);
+  const scheduled = useCalendarEvents("calendar.vul_stusa_vasilia_9_scheduled_outages", tomorrowStart, tomorrowEnd, dataChangedOn.state);
 
   const minutesUntil = (state: string) => isUnavailableState(state) ? null : (Date.parse(state) - now) / 60_000;
 
   const isGrid = inputSource.state == "grid";
   const plannedIn = minutesUntil(nextPlanned.state);
-  const probableIn = minutesUntil(nextProbable.state);
+  const probableIn = minutesUntil(nextScheduled.state);
   const connectivityIn = minutesUntil(nextConnectivity.state);
   const runtime = isUnavailableState(batteryRuntime.state) ? null : Number(batteryRuntime.state) * 60;
   const chargeTime = isUnavailableState(batteryChargeTime.state) ? null : Number(batteryChargeTime.state);
@@ -69,7 +76,7 @@ export default function OutageSegment() {
           ) : (
             <StateCard
               title="Tomorrow"
-              text={OUTAGE_STATUS[statusTomorrow.state] ?? "Unknown"}
+              text={OUTAGE_STATUS[getDayStatus(planned, scheduled, tomorrowStart, tomorrowEnd)]}
               icon={mdiCalendarClock}
             />
           )}
